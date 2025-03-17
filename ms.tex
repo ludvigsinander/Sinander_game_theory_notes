@@ -1,0 +1,667 @@
+% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+%                                   _     _
+%    _ __  _ __ ___  __ _ _ __ ___ | |__ | | ___
+%   | '_ \| '__/ _ \/ _` | '_ ` _ \| '_ \| |/ _ \
+%   | |_) | | |  __/ (_| | |  | | | | |_) | |  __/
+%   | .__/|_|  \___|\__,_|_| |_| |_|_.__/|_|\___|
+%   |_|
+
+
+%%% bug catcher
+\RequirePackage[l2tabu,orthodox]{nag}
+
+%%% document class
+\documentclass[11pt,letterpaper,reqno,oneside]{book}
+
+%%% settings
+\input{preamble.tex}
+
+%%% for \widthof
+\usepackage{calc}
+
+% break DOIs in bibliography
+\setcounter{biburlnumpenalty}{100}
+
+% raise hypertargets above baseline
+\makeatletter
+	\newcommand{\hyperdest}[1]{\Hy@raisedlink{\hypertarget{#1}{}}}
+\makeatother
+
+% watermark on every page (for version control)
+% \usepackage[anchor=ll,pos={0.1cm,0.5cm},fontsize=0.2cm,angle=0,alignment=l]{draftwatermark}
+% \SetWatermarkText{\normalfont\hspace{0.37em}version:\\\normalfont {\datestyle\today}\\\normalfont\hspace{0.37em}at {\currenttime}}
+
+
+%%% bibliography
+\addbibresource{bibl.bib}
+
+
+%______________________________________________________________________________
+
+
+
+
+%    _____ _ _   _
+%   |_   _(_) |_| | ___
+%     | | | | __| |/ _ \
+%     | | | | |_| |  __/
+%     |_| |_|\__|_|\___|
+
+
+\title{\scshape Advanced game theory}
+
+\author{Ludvig Sinander \\
+University of Oxford}
+
+\date{\small This version: 17 March 2025}
+
+% \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
+
+\makeatletter
+	\AtBeginDocument{ \hypersetup{
+		pdftitle = {Game theory},
+		pdfauthor = {Ludvig Sinander}
+		} }
+\makeatother
+
+
+
+%______________________________________________________________________________
+
+
+
+
+%    ____                                        _
+%   |  _ \  ___   ___ _   _ _ __ ___   ___ _ __ | |_
+%   | | | |/ _ \ / __| | | | '_ ` _ \ / _ \ '_ \| __|
+%   | |_| | (_) | (__| |_| | | | | | |  __/ | | | |_
+%   |____/ \___/ \___|\__,_|_| |_| |_|\___|_| |_|\__|
+
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\hspace{1pt}\vfill
+\noindent
+Copyright \copyright{} 2025 Carl Martin Ludvig Sinander.
+
+\begin{quotation}
+\noindent
+Permission is granted to copy, distribute and/or modify this document under the terms of the \href{https://www.gnu.org/licenses/fdl}{GNU Free Documentation License}, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled `GNU
+Free Documentation License'.
+\end{quotation}
+
+\noindent
+This is a `copyleft' licence.
+Visit \href{https://www.gnu.org/licenses/copyleft}{gnu.org/licenses/copyleft} to learn more.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Preface}
+\label{preface}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+These are the notes for the game theory component of the first-year graduate microeconomics sequence at Oxford, which I first taught in winter 2025.
+Thanks to Sami Petersen for exceptionally perceptive proofreading, and to Matteo Escudé, Alexis Ghersengorin, Sanjari Kalantri, Malayvardhan Prajapati, Augustus Smith, Alex Teytelboym, Runhuan Wang and Sally Yang for comments.
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+% Table of contents
+\pagebreak
+\microtypesetup{protrusion=false}
+\setcounter{tocdepth}{1}
+\tableofcontents
+\microtypesetup{protrusion=true}
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+
+
+
+\setcounter{chapter}{-1}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+\label{ch0}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+These notes cover a number of topics in game theory which are standard and important, but typically not covered in undergraduate courses. These are dominance and rationalisability (including Pearce's lemma), Tarski's fixed-point theorem, comparative statics, games of strategic complements, the one-shot deviation principle, and the APS \parencite{AbreuPearceStacchetti1990} technique.
+
+The mathematical prerequisites are relatively slight: some basic real analysis (limits, continuity, integrals) is presumed, as well as the separating hyperplane theorem. Some useful mathematical background is reviewed in \cref{math}.
+
+The notes also assume a working knowledge of basic topics in game theory, including normal-form games, incomplete-information/Bayesian games, and extensive-form games, and the basic solution concepts for these: Nash equilibrium, Bayes--Nash equilibrium, backward induction, subgame-perfect (Nash) equilibrium, and (some version of) perfect Bayesian equilibrium and/or sequential equilibrium. We now tersely recap these. For more, consult one of the classics \parencite{OsborneRubinstein1994,FudenbergTirole1991book,Myerson1991}, or try out a textbook from the new generation \parencite{MaschlerSolanZamir2020,Kreps2023,BattigalliCatoniniDevito2024}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recap: normal-form games}
+\label{ch0:normal}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A normal-form game is a formalism for describing a strategic situation in which players take actions in ignorance of which actions the other players have chosen; that is, moves are (epistemologically) simultaneous, not sequential.
+
+A \emph{normal-form game} (also called a `strategic-form game') is a triplet $\left( I, (A_i, u_i)_{i \in I} \right)$, where $I$ is a non-empty set, and for each $j \in I$, $A_j$ is a non-empty set and $u_j$ is a function $\prod_{i \in I} A_i \to \R$.%
+	\footnote{See \cref{math:set} for a review of (Cartesian) product sets.}
+The interpretation is that $I$ is the set of players, that each player $j \in I$ has a set $A_j$ of actions available to her, and that her payoff is $u_j(a)$ if actions $a=(a_i)_{i \in I} \in \prod_{i \in I} A_i$ are played. The game is called \emph{finite} iff the player set $I$ and action sets $A_i$ (for each $i \in I$) are finite.%
+	\footnote{A technicality: in case the game is \emph{not} finite, it is often necessary to augment the triplet $\left( I, (A_i, u_i)_{i \in I} \right)$ with measurable structure.}
+
+In case the game is finite and has only $\abs*{I}=2$ players, it may be represented by a \emph{payoff matrix:} enumerate player~1's actions as $A_1 \equiv \{a_1,\dots,a_{\abs*{A_1}}\}$ and player~2's as $A_2 \equiv \{b_1,\dots,b_{\abs*{A_2}}\}$, and summarise $u_1$ and $u_2$ by the $\abs*{A_1} \times \abs*{A_2}$ matrix whose $(k,\ell)$ entry is $\left( u_1\left( a_k, b_\ell \right), u_2\left( a_k, b_\ell \right) \right)$.
+
+We write $A \coloneqq \prod_{i \in I} A_i$ for the set of \emph{action profiles.} For any action profile $a = (a_i)_{i \in I}$ and player $j \in I$, we write $a_{-j} = (a_i)_{i \in I \setminus \{j\}} \in \prod_{i \in I \setminus \{j\}} A_i \eqqcolon A_{-j}$ for the actions of all players but $j$, and and interpret $(a_j,a_{-j}) \equiv a \in A \equiv A_j \times A_{-j}$. In particular, we frequently write a player~$j$'s payoff from action profile $a = (a_i)_{i \in I} \in A$ as $u_j(a_j,a_{-j})$.
+
+A \emph{mixed action} by player $i \in I$ is a probability distribution $\alpha_i \in \Delta(A_i)$ over $i$'s actions $A_i$, capturing random choice by player~$i$.%
+	\footnote{Here `$\Delta(A_i)$' denotes all probability distributions over $A_i$. In case $A_i$ is finite or countably infinite, this simply means all those vectors $(p_a)_{a \in A}$ such that $p_a \in [0,1]$ for every $a \in A$ and $\sum_{a \in A} p_a = 1$. In case $A_i$ is uncountable, a $\sigma$-algebra $\mathcal{A}_i$ must be specified, and `$\Delta(A_i)$' denotes all probability measures on $(A_i,\mathcal{A}_i)$.}
+We sometimes call actions `pure actions' when we wish clearly to distinguish them from mixed actions. Pure actions can be thought of as special mixed actions, namely those that assign probability 1 to a single (pure) action.
+
+We may similarly consider mixed action profiles $\alpha \in \Delta(A)$ and mixed profiles $\alpha_{-i} \in \Delta(A_{-i})$ of actions of all players but $i$. Note that the concept of a mixed action profile (of the other players) allows for the possibility that different players' actions are correlated. The term \emph{pure action profile} refers to an action profile that is not mixed, i.e. is deterministic.
+
+We often consider \emph{profiles $(\alpha_i)_{i \in I} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions.} In this case, we implicitly assume that different players' randomisation is statistically independent (\emph{not} correlated). In other words, we identify each profile $(\alpha_i)_{i \in I} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions with the `product-of-marginals' mixed action profile $\alpha \in \Delta(A)$ given by $\alpha((a_i)_{i \in I}) = \prod_{i \in I} \alpha_i(a_i)$ for each $a_i \in A_i$ and $i \in I$.%
+	\footnote{This formula is for finite games; the general version is $\alpha( (B_i)_{i \in I} ) = \prod_{i \in I} \alpha_i(B_i)$ for any collection $(B_i)_{i \in I}$ such that $B_i$ is a measurable subset of $A_i$ for each $i \in I$.} 
+
+We assume throughout that all players have an expected-utility attitude to risk, meaning that for each player $i \in I$, there exists a map $v_i : A \to \R$ such that $i$ prefers a mixed action profile $\alpha \in \Delta(A)$ to another mixed action profile $\beta \in \Delta(A)$ iff $\E_{a \sim \alpha}( v_i(a) ) \geq \E_{a \sim \beta}( v_i(a) )$.%
+	\footnote{Such a map $v_i$ is called a \emph{Bernoulli utility index.} The von Neumann--Morgenstern (\citeyear{VonneumannMorgenstern1947}) expected-utility theorem describes conditions on choice behaviour which are necessary and sufficient for the existence of a Bernoulli utility index, and furthermore asserts that such an index is (if it exists) unique up to positive affine transformations (that is, if $v$ and $w_i$ are both Bernoulli utility indices, then $v = A w + B$ for constants $A,B \in \R$ such that $A>0$).}
+We assume furthermore that the `payoff function $u_i$' specified in the triplet $\left( I, (A_i, u_i)_{i \in I} \right)$ is such a map (i.e. $u_i=v_i$). Given the expected-utility assumption, it is convenient linearly to extend each player~$i$'s payoff function $u_i$ to $\Delta(A)$: that is, for each mixed action profile $\alpha \in \Delta(A)$, we write $u_i(\alpha) \coloneqq \E_{a \sim \alpha}\left( u_i(a) \right)$.
+
+For a player $i \in I$ and a mixed action profile $\alpha_{-i} \in \Delta(A_{-i})$ of the other players, a \emph{best reply} (of $i$ to $\alpha_{-i}$) is an action $a_i \in A_i$ such that $u_i(a_i,\alpha_{-i}) \geq u_i(b_i,\alpha_{-i})$ for every $b_i \in A_i$.
+That is, $a_i$ is better against $\alpha_{-i}$ than every (other) $b_i \in A_i$.%
+	\footnote{Note that this is equivalent to $a_i$ being better against $\alpha_{-i}$ than every \emph{mixed} action $\beta_i \in \Delta(A_i)$, i.e. $u_i(a_i,\alpha_{-i}) \geq u_i(\beta_i,\alpha_{-i})$.}
+More generally, we say that a mixed action $\alpha_i \in \Delta(A_i)$ is a best reply (of $i$ to $\alpha_{-i}$) iff every (pure) action in its support $\supp \alpha_i$ is a best reply; equivalently, iff $u_i(\alpha_i,\alpha_{-i}) \geq u_i(b_i,\alpha_{-i})$ for every $b_i \in A_i$.
+
+A \emph{Nash equilibrium} is a collection $(\alpha_i)_{i \in I}$ of mixed actions, one for each player, such that for each player~$i$, $\alpha_i$ is a best reply to $\alpha_{-i}$. A \emph{pure-strategy Nash equilibrium} is a Nash equilibrium $(a_i)_{i \in I}$ that is also a pure action profile. Nash's (\citeyear{Nash1950,Nash1951}) existence theorem asserts that every finite game admits a Nash equilibrium (not necessarily pure). The proof is via Brouwer's fixed-point theorem (as extended to correspondences by Kakutani).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recap: Bayesian games}
+\label{ch0:incomplete}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+An \emph{incomplete-information game} is a strategic situation in which players are unsure of each others' payoffs. In other words, some normal-form game $\left( I, (A_i,u_i)_{i \in I} \right)$ is being played, but at least some players are unsure about which game. Such uncertainty matters because a player who does not know the other players' preferences is less able to predict their action choices.
+
+The standard way of modelling an incomplete-information game, due to \textcite{Harsanyi1967,Harsanyi1968a,Harsanyi1968b}, is as a \emph{Bayesian game.}%
+	\footnote{The conceptual step from incomplete-information games to Bayesian games is big and important. There is a good discussion of this in the first of the three original papers \parencite{Harsanyi1967}. A subsequent literature sought to formalise the sense in which this conceptual step is `without loss of generality' \parencite[e.g.][]{ArmbrusterBoge1979,BogeEisele1979,MertensZamir1985,BrandenburgerDekel1993}; you can find some lecture notes on this from a course by Eddie Dekel at \href{https://ludvigsinander.net/lecture_notes.html}{ludvigsinander.net/lecture\_notes}.}
+A Bayesian game is a tuple $\left( I, (A_i,T_i,u_i,\mu_i)_{i \in I} \right)$, where $I$ is a non-empty set and for each $i \in I$, $A_i$ and $T_i$ are non-empty sets, $u_i$ is a map $A \times T \to \R$ where $T \coloneqq \prod_{i \in I} T_i$, and $\mu_i$ is a map $T_i \to \Delta(T_{-i})$ where `$\Delta(T_{-i})$' denotes the set of all probability distributions over $T_{-i} \coloneqq \prod_{j \in I \setminus \{i\}} T_j$. The interpretation is as follows. Each player $i \in I$ starts with a \emph{type} $t_i \in T_i$ which summarises all of her private information. In particular, $i$'s type determines \emph{both} all of her payoff-relevant knowledge (pertaining both to her own payoffs and to those of other players, since each player~$j$'s payoff $u_j(a,t) = u_j((a_k,t_k)_{k \in I})$ depends on $i$'s type $t_i$), \emph{and} her belief $\mu_i(t_i) \in \Delta(T_{-i})$ about what the other players' types might be.
+
+It is (importantly) assumed that all of the elements $\left( I, (A_i,T_i,u_i,\mu_i)_{i \in I} \right)$ are common knowledge among the players (that is, every player~$i$ knows, every player~$i$ knows that every other player~$j$ knows, every player~$i$ knows that every other player~$j$ knows that every other player~$k$ knows, and so on \emph{ad infinitum.}) In other words, a player's type really does capture \emph{everything} that she privately knows.
+
+An easy way of interpreting Bayesian games is to imagine a (perhaps fictional) `ex ante' stage at which all players' types $(t_i)_{i \in I}$ are drawn from a commonly-known joint distribution $p \in \Delta(T)$, and then privately revealed to the respective players, who then form posterior beliefs about the other players' types (updating from the commonly-known prior $p$) using Bayes's rule: that is, $[\mu_i(t_i)](t_{-i}) = p(t_i,t_{-i}) / \sum_{t_{-i}' \in T_{-i}} p(t_i,t_{-i}')$ for every $i \in I$ and all $(t_i,t_{-i}) \in T$. The description of a Bayesian game does \emph{not} require there to exist such a joint distribution $p \in \Delta(T)$, note. If such a distribution does exist, we call it a \emph{common prior} for the game.
+
+Some terminology: `ex ante' refers to the (perhaps fictional) initial stage at which no player has learned her type, `interim' refers to the (definitely real) stage at which every player has learned her own type but not those of the other players, and `ex post' refers to the (again possibly fictional) later stage at which all players have learned each others' types.
+
+It sometimes matters whether or not there is a common prior, but often it does not matter for results, only for interpretation. Some authors (fewer and fewer) like to impose the common-prior assumption as a matter of course; I don't. It does clearly make sense for modelling some situations, such as in a card game in which a player's type is the hand she drew from a deck. For most economic environments, however, there is no `ex ante' stage, so there is no reason at all why players should hold beliefs about each others' types which are `as if' they had all updated from a common prior at a fictional `ex ante' stage. The definition above of a Bayesian game therefore avoids assuming a common prior, instead treating the interim stage as primitive/fundamental, taking no stance on whether or not there is an `ex ante' stage.
+
+A \emph{pure strategy} of player $i \in I$ is a map $s_i : T_i \to A_i$, specifying an action for each type of player~$i$. A \emph{(mixed) strategy} is a map $\sigma_i : T_i \to \Delta(A_i)$, specifying a mixed action for each type. A pure strategy may be interpreted as a mixed strategy that, for each type $t_i \in T_i$, assigns probability 1 to a single action.
+
+Since player~$i$ only has one type at the interim stage, she does not really choose a strategy: rather, she chooses an \emph{action,} informed by her knowledge of type $t_i$ (and nothing else). A strategy thus describes not only what action player~$i$ chooses, but also what she \emph{would have} chosen if her type had been different. (Hence we may, and will, treat each type of $i$ as effectively a different player, with beliefs and preferences of her own.) The main reason why $i$'s entire strategy (not just her chosen action) matters is because for other players $j \neq i$ to reason about what action to take, they need to consider what action $i$ might take without knowing $i$'s type, which requires them to predict $i$'s choice of action as a function of her type $t_i$---in other words, other players must reason about what \emph{strategy} $i$ might be using.
+
+The significance of the belief $\mu_i(t_i) \in \Delta(T_{-i})$ of type $t_i \in T_i$ of player $i \in I$ in the description of a Bayesian game is, of course, that player~$i$ uses it compute her payoffs. In particular, if (type $t_i$ of player~$i$ conjectures that) the other players play strategy profile $s_{-i} : T_{-i} \to A_{-i}$, then $i$'s payoff from action $a_i \in A_i$ is $\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(a_i,s_{-i}(t_{-i}),t_i,t_{-i}) \right)$.
+
+For a type $t_i \in T_i$ of a player $i \in I$, an action $a_i \in A_i$ is a \emph{best reply} to a profile $s_{-i} = (s_j)_{j \in I \setminus \{i\}}$ of pure strategies $s_j : T_j \to A_j$ of the other players iff
+%
+\begin{align*}
+	{}&\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(a_i,s_{-i}(t_{-i}),t_i,t_{-i}) \right)
+	\\
+	\geq{} &\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(b_i,s_{-i}(t_{-i}),t_i,t_{-i}) \right)
+	\quad \text{for every $b_i \in A_i$.}
+\end{align*}
+%
+More generally, an action $a_i \in A_i$ is a best reply for type $t_i \in T_i$ (of player $i \in I$) to a profile $\sigma_{-i} = (\sigma_j)_{j \in I \setminus \{i\}}$ of \emph{mixed} strategies $\sigma_j : T_j \to \Delta(A_j)$ of the other players iff
+%
+\begin{align*}
+	{}&\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(a_i,\sigma_{-i}(t_{-i}),t_i,t_{-i}) \right)
+	\\
+	\geq{} &\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(b_i,\sigma_{-i}(t_{-i}),t_i,t_{-i}) \right)
+	\quad \text{for every $b_i \in A_i$,}
+\end{align*}
+%
+where $\sigma_{-i}(t_{-i})$ denotes the `product of marginals', i.e. (in case of finite action sets) $[\sigma_{-i}(t_{-i})]((a_j)_{j \in I \setminus \{i\}}) \coloneqq \prod_{j \in I \setminus \{i\}} [\sigma_j(t_j)](a_j)$ for each profile $(a_j)_{j \in I \setminus \{i\}} \in A_{-i}$.
+
+A pure strategy $s_i : T_i \to A_i$ of player $i \in I$ is called a \emph{best reply} to a profile $\sigma_{-i} = (\sigma_j)_{j \in I \setminus \{i\}}$ of mixed strategies $\sigma_j : T_j \to \Delta(A_j)$ of the other players iff for each type $t_i \in T_i$ of player~$i$, $s_i(t_i)$ is a best reply for type $t_i$ against $\sigma_{-i}$. A mixed strategy $\sigma_i : T_i \to \Delta(A_i)$ of player~$i$ is called a best reply to $\sigma_{-i} = (\sigma_j)_{j \in I \setminus \{i\}}$ iff for every type $t_i \in T_i$, the support of $\sigma_i(t_i)$, $\supp \sigma_i(t_i) \subseteq A_i$, comprises only (pure) best replies to $\sigma_{-i}$.
+
+A \emph{Bayes--Nash equilibrium} is a collection $(\sigma_i)_{i \in I}$ of strategies, one for each player, such that for each player $i \in I$, $\sigma_i$ is a best reply to $\sigma_{-i}$. If we (quite reasonably) think of each type of each player as a player in its own right (so there are $\sum_{i \in I} \abs*{T_i}$ players), then a Bayes--Nash equilibrium is exactly a Nash equilibrium. The Bayes--Nash equilibrium concept is due to \textcite{Harsanyi1967,Harsanyi1968a,Harsanyi1968b}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recap: extensive-form games}
+\label{ch0:extensive}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To define an extensive-form game, begin with some concepts. For a non-empty set $\mathcal{A}$ and two (possibly infinite) sequences $h = (a_n)_{n=1}^N$ and $h' = (b_n)_{n=1}^M$ in $\mathcal{A}$, where $N,M \in \N \union \{\infty\}$, we say that $h$ is a \emph{truncation} of $h'$ iff $N \leq M$ and $a_n = b_n$ for every $n \leq N$. Given a set $H$ of sequences in $\mathcal{A}$, we call $h \in H$ \emph{terminal} iff there is no $h' \neq h$ in $H$ such that $h$ is a truncation of $h'$.
+
+An \emph{extensive-form game} is a tuple $(I,\mathcal{A},H,P,A,\mathcal{S},(u_i)_{i \in I},\pi)$, where
+
+\begin{itemize}
+
+	\item $I$ and $\mathcal{A}$ are non-empty sets,
+
+	\item $H$ is a set of sequences in $\mathcal{A}$ that contains the empty sequence $\varnothing$ and is closed under truncation (that is, if $h$ is a truncation of $h' \in H$ then $h \in H$), where we write $Z$ for the set of terminal elements of $H$,
+
+	\item $P$ is a map $H \setminus Z \to I \union \{\text{Nature}\}$ such that $P(H \setminus Z) \supseteq I$,%
+		\footnote{Here $P(H \setminus Z) \equiv \Union_{h \in H \setminus Z} P(h)$.}
+
+	\item $A$ is a map $H \setminus Z \to 2^\mathcal{A} \setminus \{\varnothing\}$ such that $A(H \setminus Z) = \mathcal{A}$,
+
+	\item $\mathcal{S}$ is a partition of $H \setminus Z$ (i.e. a set of subsets of $H \setminus Z$ such that $\Union_{S \in \mathcal{S}} S = H \setminus Z$ and $S \cap S' = \varnothing$ for any $S \neq S'$ in $\mathcal{S}$) which is measurable with respect to $P$ and $A$ (that is, if $h,h' \in S \in \mathcal{S}$, then $P(h)=P(h')$ and $A(h)=A(h')$),
+
+	\item for each $i \in I$, $u_i$ is a map $Z \to \R$, and
+
+	\item for each $h \in H \setminus Z$ such that $P(h) = \text{Nature}$, $\pi(h)$ is a full-support probability distribution over $A(h)$ (that is, an element of $\Delta(A(h))$).%
+		\footnote{Thus, explicitly, $\pi$ is a map $P^{-1}(\text{Nature}) \to \Union_{h \in P^{-1}(\text{Nature})} \Delta(A(h))$ such that for each $h \in P^{-1}(\text{Nature})$ and $a \in \Union_{h \in P^{-1}(\text{Nature})} A(h)$, $\pi(h)(a)>0$ iff $a \in A(h)$, where $P^{-1}(\text{Nature}) \equiv \{ h \in H \setminus Z : P(h) = \text{Nature} \}$.}
+
+\end{itemize}
+%
+The interpretation is that $I$ is the set of players, $\mathcal{A}$ is the set of all actions, $H$ is the set of histories (possible action sequences), and the functions $P$ and $A$ specify which player moves at each history and what actions are then available. The elements of the partition $\mathcal{S}$ are called \emph{information sets.} These describe what players observe: the player $P(h)$ who moves at history $h \in H \setminus Z$ observes which information set $S \in \mathcal{S}$ the history $h$ belongs to, but does not observe any more than that. The functions $(u_i)_{i \in I}$ are agents' payoff functions, defined on terminal histories (meaning that payoffs can in general depend on the entire history of play). Finally, it may be that at some histories $h \in H \setminus Z$, the move is made by $P(h) = \text{Nature}$, who chooses an action from $A(h)$ according to an exogenous commonly-known full-support probability distribution $\pi(h) \in \Delta(A(h))$. (`Nature' is not a strategic player, just a device for modelling chance moves.)
+
+There are other ways of describing an extensive form. A common one uses the language of directed graphs (vertices/nodes, edges/links, etc.). 
+
+\begin{remark}[technical]
+	%
+	\label{remark:conts_time}
+	%
+	Our definition of histories as \emph{sequences} implicitly assumes that histories can be at most countable in length, which rules out continuous-time games in which players act uncountably often. Of course the definition can be amended to accommodate such games, if and when required. (There are conceptual issues with games in continuous time, though, so be careful.)
+	%
+\end{remark}
+
+Normal-form games are a special case, in which players move in sequence but do not observe previous moves: formally, $\mathcal{S}$ is maximally coarse in the sense that every player has only one information set, i.e. for every player $i \in I$, there is an information set $S \in \mathcal{S}$ such that all
+histories $h,h' \in H \setminus Z$ at which $i$ moves (that is, $P(h)=i=P(h')$) belong to $S$. Bayesian games with a common prior are also a special case: similar to normal-form games, except with an initial move by Nature in which types are drawn, and information sets such that players know their own types but not the types or action choices of other players.
+
+An extensive-form game has \emph{perfect recall} iff each player remembers everything she once knew: she remembers her own past moves, and if she previously observed another player's move (including moves of Nature), then she remembers that, too. The formal definition is a little gruesome; see \textcite[][section~11.1.3]{OsborneRubinstein1994}. Perfect recall is nearly always assumed in economic applications of game theory. (A real-world example of a situation with \emph{imperfect} recall is the one-player game `did I lock my car?'.)
+
+A \emph{strategy} is a complete contingent plan of action for a player. Formally, a pure strategy $\sigma_i$ of player $i \in I$ specifies, for each non-terminal history $h \in H \setminus Z$ at which $i$ moves ($P(h)=i$), an available action $\sigma_i(h) \in A(h)$, with the restriction that the same action must be taken at all histories which belong to the same information set (if $h,h' \in S \in \mathcal{S}$ and $P(h)=i=P(h')$ then $\sigma_i(h)=\sigma_i(h')$).%
+	\footnote{Thus explicitly, a pure strategy is a map $\sigma_i : P^{-1}(i) \to \Union_{h \in P^{-1}(i)} A(h)$ that is measurable with respect to the partition $\mathcal{S}$ and which satisfies $\sigma_i(h) \in A(h)$ for each $h \in P^{-1}(i)$, where $P^{-1}(i) \equiv \{ h \in H \setminus Z : P(h) = i \}$.}
+A \emph{behavioural strategy} is the same thing, except it specifies a probability distribution $\sigma_i(h) \in \Delta(A(h))$ over the available actions. One can also consider \emph{mixed strategies,} meaning randomisations over pure strategies. Kuhn's (\citeyear{Kuhn1950,Kuhn1953}) theorem asserts that in games of perfect recall, all payoffs attainable with mixed strategies are also attainable with behavioural strategies, and vice-versa;%
+	\footnote{The `vice-versa' part is due to \textcite{Isbell1954,Isbell1957}, not Kuhn.}
+thus only behavioural strategies need be considered.
+One typically works with behavioural strategies.
+
+An extensive-form game has \emph{perfect information} iff all information sets are singletons (for any $h,h' \in H \setminus Z$, $\mathcal{S} \ni S \ni h \neq h' \in S' \in \mathcal{S}$ implies $S \neq S'$). In other words, each player fully observes (and remembers) all previous moves before having to make any move herself (as in, for example, chess).
+
+A \emph{subgame} is the game obtained by reaching some history $h \in H \setminus Z$ that belongs to a singleton information set ($S = \{h\}$ for some $S \in \mathcal{S}$) and looking forward. Formally, a subgame of $(I,\mathcal{A},H,P,A,\mathcal{S},(u_i)_{i \in I},\pi)$ is an extensive-form game $(I',\mathcal{A}',H',P',A',\mathcal{S}',(u_i')_{i \in I},\pi')$ such that for some $h_0 \in H \setminus Z$,
+%
+\begin{itemize}
+
+	\item $H' = \left\{ h' \in H : \text{$h_0$ is a truncation of $h'$} \right\}$, and we write $Z'$ for the set of terminal elements of $H'$,
+
+	\item $I' = P'\left( H' \setminus Z' \right) \setminus \{\text{Nature}\}$ and $\mathcal{A'} = A'\left( H' \setminus Z' \right)$,%
+		\footnote{Here $P'\left( H' \setminus Z' \right) \equiv \Union_{h' \in H' \setminus Z'} P'(h')$ and $A'\left( H' \setminus Z' \right) \equiv \Union_{h' \in H' \setminus Z'} A'(h')$.}
+
+	\item $P'$ equals the restriction of $P$ to $H' \setminus Z'$,
+
+	\item $A'$ equals the restriction of $A$ to $H' \setminus Z'$,
+
+	\item $\mathcal{S}'$ is the (unique) partition of $H' \setminus Z'$ that refines $\mathcal{S}$ (i.e. $\mathcal{S}' \subseteq \mathcal{S}$),
+
+	\item for each $i \in I$, $u_i'$ equals the restriction of $u_i$ to $Z'$, and
+
+	\item $\pi'$ is the restriction of $\pi$ to $(P')^{-1}(\text{Nature}) \equiv \{ h' \in H' \setminus Z' : P'(h') = \text{Nature} \}$.
+
+\end{itemize}
+%
+Evidently a subgame is an extensive-form game in its own right, with $h_0$ playing the role of the empty/initial history (previously called $\varnothing$). Every game is a subgame of itself. A subgame that is not equal to the game itself is called a \emph{proper subgame.}
+
+Given a strategy $\sigma_i$ of a player $i \in I$, the \emph{continuation strategy} in a subgame is the strategy $\sigma_i'$ in the subgame which agrees with $\sigma_i$ (that is, $\sigma_i'(h') = \sigma_i(h')$ for any $h' \in H' \setminus Z'$ such that $P'(h') = i$).
+
+A \emph{(behavioural) strategy profile} is a collection $\sigma = (\sigma_i)_{i \in I}$ of behavioural strategies, one for each player. (Similarly for pure strategy profiles.) Best replies are defined as in the normal form, and so is Nash equilibrium. At a non-terminal history $h \in H \setminus Z$ at which $P(h)=i$ moves, it is natural to write $\sigma(h) \coloneqq \sigma_i(h)$ for the move specified by the strategy profile $\sigma$ at history $h$. It is convenient to abuse notation by writing $\sigma(S)$ for the action specified at information set $S \in \mathcal{S}$; formally what we mean is `$\sigma(h)$ for a(ny) $h \in S$'.
+
+A \emph{subgame-perfect Nash equilibrium (SPNE)} is a strategy profile such that each subgame's continuation strategy profile is a Nash equilibrium of that subgame. This definition is due to \textcite{Selten1965}. Alternative terminology (adjective rather than noun): we call a strategy profile \emph{subgame-perfect} iff it is a SPNE.
+
+In a game of perfect information that is finite ($I$ and $\mathcal{A}$ are finite, and there is a $T \in \N$ such that no sequence $h \in H$ has length exceeding $T$), the backward-induction algorithm (with some tie-breaking rule) always terminates at a SPNE, and conversely every SPNE can be found via backward induction (with some tie-breaking rule). It follows in particular that every finite perfect-information extensive-form game admits at least one SPNE, and that there is a unique (and pure) SPNE in any generic game, where `generic' means that $u_i(z) \neq u_i(z')$ for all $i \in I$ and all distinct $z,z' \in Z$.
+
+A \emph{belief system} is a map $\mu$ that assigns to each information set $S \in \mathcal{S}$ a probability distribution $\mu(S) \in \Delta(S)$ over the histories belonging to that information set. The interpretation is that the player $P(h)=i$ who moves at $h$ has a probabilistic belief about how she ended up at this information set $S$.
+
+An \emph{assessment} is a pair $(\sigma,\mu)$ comprising a (behavioural) strategy profile $\sigma$ and a belief system $\mu$. An assessment $(\sigma,\mu)$ is called \emph{sequentially rational} iff at every information set $S \in \mathcal{S}$, every action in the support of $\sigma(S)$ maximises the expected utility of the player $i = P(h)$ who moves at $h$, taking into account the continuation strategy $\sigma$ and averaging payoffs over different histories belonging to the information set $S \ni h$ according to the probability distribution $\mu(S)$. (In other words, $\sigma(S)$ is a best reply to the continuation of $\sigma$, given the belief $\mu(S)$.)
+
+A history $h \in H$ is \emph{on the path} of a strategy profile $\sigma$ iff when players follow $\sigma$, $h$ is reached with positive probability. An information set $S$ is on the path iff at least one history $h \in S$ is on the path. For any strategy profile $\sigma$ and any on-path information set $S \in \mathcal{S}$, the relative probabilities of the various histories comprising $S$ may be calculated from the strategy profile $\sigma$ using Bayes's rule. An assessment $(\sigma,\mu)$ is said to satisfy \emph{Bayes's rule on the path} iff the belief $\mu(S)$ at any on-path information set $S \in \mathcal{S}$ is computed from $\sigma$ via Bayes's rule.
+
+An assessment $(\sigma,\mu)$ that satisfies both sequential rationality and Bayes's rule on the path is called a \emph{weak perfect Bayesian equilibrium (weak PBE).} Weak PBE really is too weak to be a reasonable solution concept, e.g. if $(\sigma,\mu)$ is a weak PBE it does not follow that $\sigma$ is a SPNE.%
+	\footnote{\label{footnote:wpbe_spne}See e.g. Example~9.C.5 in \textcite[][p.~289]{MascolellWhinstonGreen1995}.}
+
+A \emph{perfect Bayesian equilibrium (PBE)} is a weak PBE that satisfies natural additional restrictions on $\mu$ even at some off-path information sets $S \in \mathcal{S}$. First, Bayes's rule on the path is strengthened to \emph{Bayes's rule wherever possible,} to cover cases in which it is clear that Bayes's rule could be used at an off-path information set.%
+	\footnote{In the example mentioned in \cref{footnote:wpbe_spne}, it is clear that when Bayes's rule is required also at the off-path information set, sequential rationality implies subgame-perfection.}
+Secondly, for games with three or more players, a requirement called \emph{no signalling what you don't know} is added, which requires that a deviation (taking us off the path) by player~$i$ should not change the belief of player~$j$ about player~$k$ if $i \neq j \neq k \neq i$.
+Formally defining PBE is a little thorny; the original definition \parencite{FudenbergTirole1991} is for a particular class of games. A practical and more generally applicable definition may be found in \textcite{Watson2017}.
+
+A closely related solution concept is Kreps and Wilson's (\citeyear{KrepsWilson1982}) \emph{sequential equilibrium.} It is defined only for \emph{finite} extensive-form games, but the definition is simple. Say that a strategy profile $\sigma$ is \emph{fully mixed} iff at every information set, every available action is played with strictly positive probability (that is, $[\sigma(S)](h) > 0$ for all $h \in S \in \mathcal{S}$). If $\sigma$ is fully mixed, then \emph{every} information set is on the path, so Bayes's rule on the path has bite at every information set. We call an assessment $(\sigma,\mu)$ \emph{(Kreps--Wilson) consistent} iff there exists a sequence $(\sigma^n)_{n \in \N}$ of fully mixed strategy profiles converging to $\sigma$ such that the (unique) sequence $(\mu^n)_{n \in \N}$ of belief systems such that $(\sigma^n,\mu^n)$ satisfies Bayes's rule on the path for each $n \in \N$ converges to $\mu$. A \emph{sequential equilibrium} is an assessment that is both sequentially rational and consistent.
+
+Every sequential equilibrium is a PBE, and there is a sense in which the converse is generically true, at least on some natural (and fairly large) domains of games. Thus in finite games, the difference is mainly one of perspective (though many people do feel strongly in favour of the one or the other). However, PBE is much more frequently used in practice because unlike sequential equilibrium, it applies straightforwardly in infinite games. (In particular, although defining PBE in general is thorny, it is typically straightforward to define PBE in a given game of interest.)
+
+Every finite game has a sequential equilibrium \parencite{KrepsWilson1982}. Hence every finite game has a PBE.
+
+There are many refinements of PBE / sequential equilibrium, meaning solution concepts which make sharper predictions. One flavour of refinement requires robustness to perturbations (e.g. trembling-hand perfection, properness, stability). Another flavour requires off-path beliefs to be computed via so-called `forward induction' reasoning where possible (e.g. the Intuitive Criterion and Divinity refinements for signalling games, or extensive-form rationalisability). There is some overlap (e.g. stability implies a form of forward induction). The quest for a `master refinement' suitable for all games has now been mostly abandoned in economics. Instead, the typical thing is to impose, separately in each given context/application/model, whatever \emph{ad hoc} refinements seem economically well-motivated.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Dominance and rationalisability}
+\label{ch_dom}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_dom}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Tarski's fixed-point theorem}
+\label{ch_tar}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_tar}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Comparative statics}
+\label{ch_mcs}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_mcs}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Games of strategic complements}
+\label{ch_spm}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_spm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{The one-shot deviation principle}
+\label{ch_osdp}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_osdp}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{APS}
+\label{ch_aps}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\input{ch_aps}
+
+
+
+%______________________________________________________________________________
+
+
+
+
+%       _                               _ _
+%      / \   _ __  _ __   ___ _ __   __| (_) ___ ___  ___
+%     / _ \ | '_ \| '_ \ / _ \ '_ \ / _` | |/ __/ _ \/ __|
+%    / ___ \| |_) | |_) |  __/ | | | (_| | | (_|  __/\__ \
+%   /_/   \_\ .__/| .__/ \___|_| |_|\__,_|_|\___\___||___/
+%           |_|   |_|
+
+
+\begin{appendices}
+
+\crefalias{chapter}{appsec}
+\crefalias{section}{appsec}
+\crefalias{subsection}{appsec}
+\crefalias{subsubsection}{appsec}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Mathematical background}
+\label{math}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+In this appendix chapter, I review some mathematical concepts that are useful for understanding the main text.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sets and functions}
+\label{math:set}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+$\N = \{1,2,3,\dots\}$ denotes the natural numbers, $\R$ denotes the real numbers, and for $n \in \N$, $\R^n$ denotes the set of all length-$n$ vectors of real numbers. $\R_+$ denotes the set of non-negative real numbers, $\R_{++}$ those that are strictly positive, i.e. $\R_{++} \coloneqq \R_+ \setminus \{0\}$, and similarly $\R_-$ ($\R_{--}$) denotes the non-positive (strictly negative) reals.
+
+Given non-empty sets $X$, $Y$ and $Z$ and functions $f : X \to Y$ and $g : Y \to Z$, the \emph{composition} of $f$ and $g$ is the function $f \circ g : X \to Z$ defined by $(f \circ g)(x) \coloneqq f(g(x))$ for each $x \in X$. Given non-empty sets $X$, $Y$ and $Z$ such that $X \supseteq Y$ and a function $f : X \to Z$, the \emph{restriction of $f$ to $Y$,} often denoted by `$f|_Y$', is the function $g : Y \to Z$ defined by $g(y) \coloneqq f(y)$ for every $y \in Y$.
+
+For any set $S$, $2^S$ denotes the set of all subsets of $S$ (including the empty set $\varnothing$). For any nested sets $S \subseteq X$, the indicator function $\1_S : X \to \R$ is defined by $\1_S(x) \coloneqq 1$ if $x \in S$ and $\1_S(x) \coloneqq 0$ otherwise.
+
+The \emph{Cartesian product} of two sets $S$ and $R$, denoted $S \times R$, is the set of all pairs $(s,r)$ such that $s \in S$ and $r \in R$. By extension, the Cartesian product of a collection $(S_\iota)_{\iota \in \mathcal{I}}$ of sets (where $\mathcal{I}$ is a non-empty [`index'] set), is defined
+%
+\begin{equation*}
+	\prod_{\iota \in \mathcal{I}} S_\iota
+	\coloneqq \left\{
+	(s_\iota)_{\iota \in \mathcal{I}} : 
+	\text{$s_\iota \in S_\iota$ for each $\iota \in \mathcal{I}$}
+	\right\} .
+\end{equation*}
+%
+A set $S$ that may be written as a Cartesian product, i.e. $S = \prod_{\iota \in \mathcal{I}} S_\iota$ where $\abs*{\mathcal{I}} \geq 2$, is called a \emph{product set.}
+
+If $S_\iota = R$ for every $\iota \in \mathcal{I}$ and $\mathcal{I}$ is finite or countable, then we use the simpler notation $R^{\abs*{\mathcal{I}}} \equiv \prod_{\iota \in \mathcal{I}} S_\iota$.
+(An example is $\R^n$, the set of real vectors of length $n$; it is exactly the $n$-fold Cartesian product of the real line $\R$.)
+A more general notation, which is used also when $\mathcal{I}$ is uncountable, is $R^\mathcal{I} \equiv \prod_{\iota \in \mathcal{I}} S_\iota$.%
+	\footnote{This explains why we write `$2^S$' for the set of all subsets of a set $S$. Any subset $R \subseteq S$ may be identified with the \emph{inclusion map} $f : S \to \{\text{in},\text{out}\}$ where $f(s)=\text{in}$ iff $s \in R$, for each $s \in S$. Hence the set of all subsets of $S$ may be identified with the set of all such inclusion maps, i.e. all maps $S \to \{\text{in},\text{out}\}$; this is the set $\{\text{in},\text{out}\}^S$. Of course what matters about the set $\{\text{in},\text{out}\}$ is not the labels `in' and `out', but merely the fact that the set has two elements; so we shorten `$\{\text{in},\text{out}\}^S$' to `$2^S$'.}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proofs}
+\label{math:pf}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+`Iff' is shorthand for `if and only if'. `$x \coloneqq y$' means `I hereby define $x$: it is equal to $y$'.
+
+For any entailment claim, i.e. a claim of the form `$A$ implies $B$', the \emph{contra-positive} claim is `{``}not $B$'' implies ``not $A${''}'. Every entailment claim is logically equivalent to its contra-positive. It is common, when wishing to prove a claim, to instead prove its contra-positive.
+
+Any claim that is implied by a collection of true claims must itself be true. Thus if we can show that a certain collection of claims entails a falsehood (a claim which \emph{contradicts} things we know to be true, such as the fact that $2+2=4$ or that $\R$ is uncountable), then we may conclude that at least one claim in the collection is false. This principle is also frequently used in proofs: to show that a claim $A$ is true, I show that the claim `not $A$' together with other known facts (e.g. facts proved earlier, or well-known facts like $2+2=4$) implies a falsehood---more specifically, that they entail a claim which contradicts claims known to be true (like the fact that $\R$ is uncountable). This proof technique is called \emph{proof by contradiction.}
+
+\emph{Mathematical induction} is the following logical principle. Suppose we are interested in a collection $(C_t)_{t=0}^\infty$ of claims; that is, for each $t \in \{0,1,2,\dots\}$, $C_t$ has the form `such-and-such is true when $T=t$'. The principle of mathematical induction is this: in order to prove that $C_t$ is true for every $t \in \{0,1,2,\dots\}$, it suffices to prove both of the following:
+
+\begin{itemize}
+
+	\item The `base case': $C_0$ is true.
+
+	\item The `induction step': for any $t \in \N$, if $C_{t-1}$ is true, then $C_t$ is true.
+
+\end{itemize}
+%
+In the induction step, the hypothesis `$C_{t-1}$ is true' is called the \emph{induction hypothesis.}
+A slightly stronger principle of induction (sometimes called `complete' or `strong' induction) is this: in order to prove that $C_t$ is true for every $t \in \{0,1,2,\dots\}$, it suffices to prove both of the following:
+
+\begin{itemize}
+
+	\item The `base case': $C_0$ is true.
+
+	\item The `(strong) induction step': for any $t \in \N$, if $C_{s-1}$ is true for every $s \in \{1,2,\dots,t\}$, then $C_t$ is true.
+
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Measure and integral}
+\label{math:meas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The theory of measure and (Lebesgue) integration are the foundation of modern real analysis, which is in turn the backbone of economic theory.
+You do not need to know it to take this course.
+But it helps to know some of the basic \emph{language} of measure theory; that's what I'll cover here.
+
+(If you'd like to pursue research in economic theory, then I would advise you to learn basic measure theory.
+I taught myself from \textcite{Rosenthal2006}; this book is very accessible, except that chapter~2 is harder than it needs to be, so don't get stuck there! I now prefer the first few chapters of \textcite{Folland1999}, a very beautiful book for first-year graduate students in maths. There are lots of other standard books. Efe Ok has a `measure and probability' manuscript on his website that is specifically aimed at economists.)
+
+
+Let $X$ be a non-empty set.
+A \emph{$\sigma$-algebra} on $X$ is a collection of subsets of $X$ satisfying certain properties.%
+	\footnote{The properties are closedness under complement and closedness under countable union.}
+If $\mathcal{X}$ is a $\sigma$-algebra, we call $(X,\mathcal{X})$ a \emph{measurable space,} and call the elements of $\mathcal{X}$ the \emph{measurable subsets} of $X$.
+Often the $\sigma$-algebra $\mathcal{X}$ is left partly or entirely implicit, by the way.
+
+A \emph{measure} on a measurable space $(X,\mathcal{X})$ is a map $\mu : \mathcal{X} \to [0,\infty]$ that is countably additive:
+for any countable collection $A_1,A_2,\dots$ of pairwise disjoint measurable subsets of $X$,
+we have $\mu\left( \Union_{n \in \N} A_n \right) = \sum_{n \in \N} \mu(A_n)$.
+The triple $(X,\mathcal{X},\mu)$ is called a \emph{measure space.}
+
+A measurable set $A \subseteq X$ is called \emph{$\mu$-null} iff $\mu(A)=0$. If a property holds at every $x \in X$, except possibly for $x$ belonging to a null set $A$, then that property is said to hold \emph{($\mu$-)almost everywhere,} or `($\mu$-)a.e.'.
+
+\begin{example}
+	%
+	\label{example:lebesgue_measure}
+	%
+	The most commonly-used measure on $X=\R$ is the \emph{Lebesgue measure,}
+	which is the unique measure $\lambda$ with the property that
+	$\lambda([a,b]) = b-a$ for all $a<b$.
+	That is, it captures the common-sense notion of \emph{length.}
+
+	Analogously, there's Lebesgue measure on $\R^2$, which captures \emph{area,} and Lebesgue measure on $\R^3$, which captures \emph{volume,} and so on.
+
+	The Lebesgue measure is conventionally defined on the \emph{Lebesgue $\sigma$-algebra} (whose elements are called \emph{Lebesgue sets}).
+	It is often easier to work with the coarser \emph{Borel $\sigma$-algebra} (or \emph{Borel sets}); this is the smallest $\sigma$-algebra containing every open subset of $\R$.
+	%
+\end{example}
+
+If $\mu$ has the further property that $\mu(X)=1$, then it is a \emph{probability measure,}
+and $(X,\mathcal{X},\mu)$ is a \emph{probability space.}
+In the probability context, `almost everywhere' is usually replaced with `almost sure(ly)' or `a.s.'.
+
+Now consider a function $f : X \to Y$, where both $X$ and $Y$ are measurable spaces. For any measurable set $B \subseteq Y$, a measure on $Y$ can tell us how `large' the set $B$ is.
+How large, then, is the set $A = \{ x \in X : f(x) \in B \}$ of points $x$ in $X$ that lead to a value $f(x)$ that lives in $B$?
+That question only has an answer if $A$ is a measurable set!
+We call a function \emph{measurable} if this question has an answer for every set $B$.
+Symbolically, $f$ is measurable iff for every measurable subset $B$ of $Y$, $\{ x \in X : f(x) \in B \}$ is a measurable subset of $X$.
+
+In modern analysis, the standard integral is the Lebesgue integral.
+This is the integral used almost exclusively in economic theory, including these notes.
+The integral of a measurable function $f : X \to \R$ on a measure space $(X,\mathcal{X},\mu)$ is written $\int_X f \dd \mu$.
+The integral over a measurable subset $A \subseteq X$ is defined
+%
+\begin{equation*}
+	\int_A f \dd \mu \coloneqq \int_X f \1_A \dd \mu ,
+\end{equation*}
+%
+where $\1_A(x) \coloneqq 1$ for $x \in A$ and $\coloneqq 0$ for $x \notin A$.
+
+On probability spaces, measurable functions are conventionally called \emph{random variables,}
+and integrals are called \emph{expectations.}
+One writes
+%
+\begin{equation*}
+	\E( f ) \coloneqq \int_X f \dd \mu .
+\end{equation*}
+
+If you have taken introductory calculus, then you may be more familiar with the \emph{Riemann integral.}%
+	\footnote{The Riemann integral of a function $\R \to \R$ is defined as the limit of the areas of increasingly fine rectangles approximating the area under the graph of the function.}
+The Riemann integral has the problem that the integral of some functions simply fail to exist.
+The Lebesgue integral extends the Riemann integral:
+it allows more functions to be integrated,
+while still giving the same result as the Riemann integral whenever the latter exists.
+
+The Lebesgue integral is defined only for functions $f : X \to \R$ that are measurable.
+That is a necessary condition, but it is not sufficient:
+the existence of the integral requires a further condition.
+(If the further condition fails, the definition of the Lebesgue integral yields the expression $\infty - \infty$, which has no meaning; therefore we agree to say that the integral does not exist in such cases.)
+The integral of a function may be infinite (equal to $\infty$ or $-\infty$).
+A function is called \emph{integrable} iff both (a) its integral exists, \emph{and} (b) its integral is finite.
+
+Whereas the Riemann integral is defined only for functions $f : \R \to \R$,
+the Lebesgue integral makes sense for functions $f : X \to \R$
+defined on any space $X$ you like, provided it has measurable structure (i.e. is equipped with a $\sigma$-algebra).
+This is very useful.
+
+
+
+\end{appendices}
+
+
+%______________________________________________________________________________
+
+
+
+
+%    ____  _ _     _ _                             _
+%   | __ )(_) |__ | (_) ___   __ _ _ __ __ _ _ __ | |__  _   _
+%   |  _ \| | '_ \| | |/ _ \ / _` | '__/ _` | '_ \| '_ \| | | |
+%   | |_) | | |_) | | | (_) | (_| | | | (_| | |_) | | | | |_| |
+%   |____/|_|_.__/|_|_|\___/ \__, |_|  \__,_| .__/|_| |_|\__, |
+%                            |___/          |_|          |___/
+
+
+% \pagebreak
+\printbibliography[heading=bibintoc]
+
+
+
+%______________________________________________________________________________
+
+
+
+\end{document}

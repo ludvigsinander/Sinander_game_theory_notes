@@ -1,0 +1,544 @@
+% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Most economic models feature one or more agents who know their preferences and are intelligent enough to act accordingly. This is normally formalised as maximising a (utility) function. An agent's best-reply problem in a normal-form game is an example.
+
+In any such maximisation problem, a fundamental question is \emph{comparative statics:} how does the agent's optimal choice vary with the primitives (preferences, constraints, information)? The theory of comparative statics supplies general-purpose answers to such questions.
+
+This chapter introduces the theory of comparative statics. These results have many applications in economics. One of these, games of strategic complements, is the subject of the \hyperref[ch_spm]{next chapter}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The comparative-statics question}
+\label{mcs:question}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We consider an agent choosing an action $a \in A \subseteq \R$ to maximise $u(a,\theta)$, where $\theta \in \Theta \subseteq \R^K$ is a parameter and $K \in \N$. The parameter $\theta$ captures anything that may change in the environment which would influence the agent's preferences over actions, as described by the function $u(\cdot,\theta) : A \to \R$.
+
+The comparative-statics question is under what assumptions on $u$ it holds that
+%
+\begin{equation*}
+	\theta \mapsto \argmax_{a \in A} u(a,\theta)
+\end{equation*}
+%
+is increasing: that is, the higher the parameter, the higher the action chosen by the agent. By a `higher parameter $\theta$', we mean the usual vector inequality: $\theta \leq \theta'$ if and only if $\theta_k \leq \theta_k'$ for every dimension $k \in \{1,\dots,K\}$. We shall address below the question of what a `higher $\argmax_{a \in A} u(a,\theta)$' means in case there are multiple maximisers; first, we discuss two examples.
+
+\begin{example}
+	%
+	\label{example:prod}
+	%
+	Consider a firm that uses capital $a \in A \coloneqq \R_+$ to produce output $z f(a)$, where $z \in \R_+$ is a productivity parameter and $f : \R_+ \to \R_+$ is an increasing (production) function. The firm is a price-taker, and the prices of output and of capital are $p \in \R_+$ and $r \in \R_+$, respectively. The firm chooses its output $a \in A$ to maximise profit
+	%
+	\begin{equation*}
+		u(a,(z,p,-r)) \coloneqq pzf(a) - ra .
+	\end{equation*}
+	
+	Let the parameter be $\theta = (z,p,-r) \in \R_+^2 \times \R_- \eqqcolon \Theta$. Under what assumptions on the production function $f$ does the firm raise output whenever $\theta$ increases, i.e. when productivity $z$ increases, the price $p$ of output increases, and/or the rental rate $r$ on capital falls?
+	
+	The classical way of answering this question is to impose auxiliary differentiability and quasi-concavity assumptions, then use the first-order condition. In particular, assume additionally that $f$ is differentiable and strictly concave, and that it satisfies the Inada conditions $\lim_{a \downarrow 0} f'(a) = \infty$ and $\lim_{a \uparrow \infty} f'(a) = 0$. Then for each parameter $\theta \in \Theta$, there is a unique optimal choice $a^\star(\theta) \in \R_+$, which is interior (i.e. belongs to $(0,\infty)$) and satisfies the first-order condition
+	%
+	\begin{equation*}
+		pzf'\left(a^\star(p,z,-r)\right) = r .
+	\end{equation*}
+	%
+	Since $f'$ is strictly decreasing (as $f$ is strictly concave), it follows that $a^\star$ is increasing in each of its three arguments.
+
+	This is all well and good, but what if $f$ fails to be differentiable or concave? The answer, as we shall see below, is that it makes no difference: all that need be assumed about the production function $f$ is that it is monotone.
+	%
+\end{example}
+
+\begin{example}
+	%
+	\label{example:monopoly}
+	%
+	Consider a monopolist with constant marginal cost $c \in \R_+$ facing a decreasing and differentiable demand curve $D(\cdot,\eta) : \R_{++} \to \R_{++}$, where $\eta \in \R_+$ is a parameter that shifts the elasticity of demand: if $\eta \leq \eta'$ then the demand curve $D(\cdot,\eta)$ is uniformly less elastic than $D(\cdot,\eta')$, i.e.
+	%
+	\begin{equation*}
+		- \frac{ D_1(a,\eta) a }{ D(a,\eta) }
+		\leq
+		- \frac{ D_1(a,\eta') a }{ D(a,\eta') }
+		\quad \text{for every price $a \in \R_{++}$,}
+	\end{equation*}
+	%
+	where `$D_1$' denotes the partial derivative of $D$ with respect to its first argument (namely, price). A simple parametric example is the iso-elastic demand curve $D(a,\eta) = K a^{-\eta}$ for all $a \in \R_{++}$, where $K>0$.
+	The monopolist's problem is to choose a price $a \in A \coloneqq \R_{++}$ to maximise profit
+	%
+	\begin{equation*}
+		u(a,c,-\eta) \coloneqq (a-c) \cdot D(a,\eta) .
+	\end{equation*}
+	
+	In this case, the parameter is $\theta = (c,-\eta) \in \R_+ \times \R_- \eqqcolon \Theta$, and the comparative-statics question is what more must be assumed about the demand curve $D$ in order to conclude that when $(c,-\eta)$ increases (i.e. marginal cost rises or demand becomes uniformly less elastic), the monopolist optimally charges a higher price.
+	The answer, as we will see below, is `nothing': the comparative-statics conclusion follows from the stated assumptions. By contrast, a `classical' answer based on the first-order condition would involve additional differentiability and quasi-concavity assumptions.
+	%
+\end{example}
+
+The meaning of a `higher $\argmax_{a \in A} u(a,\theta)$' is unambiguous in case there is always a unique optimal action, so that the argmax is singleton for every parameter $\theta \in \Theta$: in that case, we simply mean `higher action'.%
+	\footnote{Defining $m : \Theta \to A$ by $\{ m(\theta) \} = \argmax_{a \in A} u(a,\theta)$ for every $\theta \in \Theta$, what we mean by `increasing argmax' in this case is that $m$ is increasing: $\theta \leq \theta'$ implies $m(\theta) \leq m(\theta')$.}
+In general, however, there may be multiple optimal actions. (It may also be that there are \emph{no} optimal actions.) We must therefore define a notion of what it means for one \emph{set} of real numbers to be higher/lower than another. The most natural such notion is, I think, the following.
+
+\begin{definition}
+	%
+	\label{definition:wso}
+	%
+	For sets $S,R \subseteq \R$, we say that $S$ is \emph{lower than $R$ in the weak set order,} or `WSO-lower' for short, iff for every $s \in S$ there is an $r \in R$ such that $s \leq r$, and for every $r \in R$ there is an $s \in S$ such that $s \leq r$.
+	%
+\end{definition}
+
+For sets $S$ and $R$ that have least and greatest elements (e.g. compact sets), $S$ is WSO-lower than $R$ if and only if $\min S \leq \min R$ and $\max S \leq \max R$.
+
+\begin{exercise}
+	%
+	\label{exercise:wso_pf}
+	%
+	Prove it! (Bonus: show that there exist $S,R \subseteq \R$ such that $\inf S \leq \inf R$ and $\sup S \leq \sup R$, and yet $S$ is not WSO-lower than $R$. In other words, the assumption that $S$ and $R$ are both compact plays an essential role.)
+	%
+\end{exercise}
+
+It turns out that a fruitful and elegant theory of comparative statics is obtained by considering a somewhat more demanding way of comparing sets, called the \emph{strong set order.}
+
+\begin{definition}
+	%
+	\label{definition:sso}
+	%
+	For sets $S,R \subseteq \R$, we say that $S$ is \emph{lower than $R$ in the strong set order,} or `SSO-lower' for short, iff for every $s \in S$ and $r \in R$, $\min\{r,s\}$ belongs to $S$ and $\max\{r,s\}$ belongs to $R$.
+	%
+\end{definition}
+
+Equivalently, $S$ is SSO-lower than $R$ if and only if $S \ni s > r \in R$ implies $s \in S \intersect R \ni r$. The SSO strengthens the WSO in a way that I personally do not find very natural or economically interpretable, as illustrated by part~\ref{item:sso_wso_nonequiv} of the exercise below. To repeat, the reason why we use the SSO rather than the WSO is because doing so turns out to be fruitful.
+
+\begin{exercise}
+	%
+	\label{exercise:sso_wso}
+	%
+	Prove the following.
+	%
+	\begin{enumerate}[label=(\alph*)]
+
+		\item For any $s,r \in \R$, $\{s\}$ is WSO-lower than $\{r\}$ iff $\{s\}$ is SSO-lower than $\{r\}$ iff $s \leq r$.
+	
+		\item \label{item:wso_sso_impl} For any $S,R \subseteq \R$, if $S$ is SSO-lower than $R$, then $S$ is WSO-lower than $R$.
+
+		\item \label{item:sso_wso_nonequiv} $S = [0,1] \union [3,4]$ is WSO-lower than but not SSO-lower than $R = [2,5]$.
+
+		\item \label{item:sso_wso:empty} For any $S \subseteq \R$, $S$ is SSO-lower than $\varnothing$, and $\varnothing$ is SSO-lower than $S$.
+
+		\item Every set $S \subseteq \R$ is SSO-lower than itself.%
+			\footnote{This last property is special to $\R$: when the SSO is extended to sets $S \subseteq \R^n$, not all sets $S$ are lower than themselves in the SSO.}
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+Our formalisation of the comparative-statics question is as follows: under what assumptions on the objective function $u$ will the correspondence $\theta \mapsto \argmax_{a \in A} u(a,\theta)$ be increasing in the strong set order, i.e.
+%
+\begin{equation*}
+	\argmax_{a \in A} u(a,\theta)
+	\quad \text{is SSO-lower than} \quad
+	\argmax_{a \in A} u(a,\theta')
+	\quad \text{whenever} \quad
+	\theta \leq \theta' ?
+\end{equation*}
+
+\begin{remark}
+	%
+	\label{remark:mcs_selection}
+	%
+	Under natural assumptions, if the correspondence
+	%
+	\begin{equation*}
+		\theta \mapsto \argmax_{a \in A} u(a,\theta) \eqqcolon M(\theta)
+	\end{equation*}
+	%
+	is increasing in the strong set order, then it admits an increasing selection: that is, there exists a function $m : \Theta \to A$ such that $m$ is increasing and $m(\theta) \in M(\theta)$ for each $\theta \in \Theta$. For example, if $M(\theta)$ is non-empty and compact for each $\theta \in \Theta$, then $\theta \mapsto \min M(\theta)$ and $\theta \mapsto \max M(\theta)$ are increasing selections from $M$.%
+		\footnote{For results like this under weaker assumptions, see \textcite{Kukushkin2013}. It is often enough for the argmax correspondence $M$ to be increasing in the \emph{weak} set order, for example.}
+
+	In applications, one sometimes wishes to draw the stronger conclusion that the argmax correspondence $M$ admits \emph{only} increasing selections: that is, that every function $m : \Theta \to A$ such that $m(\theta) \in M(\theta)$ for each $\theta \in \Theta$ is increasing. Occasionally, one wishes to draw the even stronger conclusion that the argmax correspondence $M$ admits only \emph{strictly} increasing selections. These two alternative formalisations of the comparative-statics question are also (briefly) considered below (on \cpageref{remark:mcs_selection_cont}).
+	%
+\end{remark}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notions of complementarity}
+\label{mcs:compl}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Our answer to the comparative-statics question will be in terms of the following properties.
+
+\begin{definition}
+	%
+	\label{definition:id}
+	%
+	For non-empty $A \subseteq \R$ and $\Theta \subseteq \R^K$, a function $u : A \times \Theta \to \R$ has
+	%
+	\begin{itemize}
+	
+		\item \emph{increasing differences} iff $\theta \mapsto u(a',\theta) - u(a,\theta)$ is increasing for any $a \leq a'$ in $A$, and
+
+		\item \emph{single-crossing differences} iff $u(a',\theta) - u(a,\theta) \geq \mathrel{(>)} 0$ implies $u(a',\theta') - u(a,\theta') \geq \mathrel{(>)} 0$ for any $a \leq a'$ in $A$ and $\theta \leq \theta'$ in $\Theta$.
+		(This says that whenever $a \leq a'$, the map $\theta \mapsto u(a',\theta) - u(a,\theta)$ is `single-crossing' [or `up-crossing'] in the sense that it crosses zero at most once, and if so then from below. More intuitively, what it says is that if the larger of two actions is (strictly) preferred at some parameter, then the same is true at every higher parameter.)
+
+	
+	\end{itemize}
+	%
+\end{definition}
+
+These concepts are both formalisations of `complementarity' between the action $a \in A$ and the parameter $\theta \in \Theta$, capturing the idea that increasing the parameter makes the agent like higher actions relatively more. The following exercise shows, among other things, that single-crossing differences is weaker, and that it is an `ordinal' property.
+
+\begin{exercise}
+	%
+	\label{exercise:id_scd}
+	%
+	Prove the following.
+	%
+	\begin{enumerate}[label=(\alph*)]
+
+		\item \label{item:id_scd} If $u$ has increasing differences, then it has single-crossing differences.
+
+		\item \label{item:ordinal} If $u$ has single-crossing differences, then for any strictly increasing $g : \R \to \R$, the composition $g \circ u$ has single-crossing differences.%
+			\footnote{Composition, denoted by `$\circ$', is defined by $(g \circ u)(a) \coloneqq g(u(a))$ for every $a \in A$.}
+		(This says that single-crossing differences is an \emph{ordinal} property: whether or not it holds is independent of the units in which utility is measured.)
+	
+		\item \label{item:id_diff} If $u$ is twice continuously differentiable, then it has increasing differences if and only if $\theta \mapsto u_1(a,\theta)$ is increasing if and only if $a \mapsto u_2(a,\theta)$ is increasing if and only if $u_{12} \geq 0$.
+
+		\item If $u$ is continuously differentiable in its first argument, and if for all $\theta<\theta'$ there exists a $\lambda>0$ such that $u_1(a,\theta) \leq \lambda u_1(a,\theta')$ for every $a \in A$, then $u$ has single-crossing differences.
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{example:prod} {\normalfont (continued from \cpageref{example:prod})}.]
+	%
+	\label{example:prod_idd}
+	%
+	The firm's profit $u(a,(z,p,-r)) = pzf(a)-ra$ has increasing differences. This can be verified directly: for any $a < a'$ in $A$,
+	%
+	\begin{equation*}
+		u(a',(z,p,-r)) - u(a,(z,p,-r))
+		= pz [ f(a') - f(a) ] + (-r) (a'-a) ,
+	\end{equation*}
+	%
+	which is increasing in $p$, in $z$ and in $-r$. Alternatively, since the partial derivative of $u(a,\theta)$ with respect to the vector $\theta = (z,p,-r)$ is $u_2(a,\theta) = (pf(a),zf(a),a)$, and each entry of this vector is increasing in $a$, $u$ has increasing differences by \Cref{exercise:id_scd}\ref{item:id_diff}. Finally, in case $f$ is differentiable, we may instead verify that $u$ has increasing differences by noting that the derivative $u_1(a,\theta) = pzf'(a) - r$ is increasing in $p$, in $z$ and in $-r$, and again appealing to \Cref{exercise:id_scd}\ref{item:id_diff}.
+	%
+\end{namedthm}
+
+Parts~\ref{item:id_scd} and \ref{item:ordinal} of \Cref{exercise:id_scd} together imply that if there is a strictly increasing transformation $g : \R \to \R$ such that $v = g \circ u$ has \emph{increasing} differences, then $u$ has single-crossing differences.%
+	\footnote{Because $u = g^{-1} \circ v$, and $g^{-1}$ is strictly increasing.}
+This is very useful in practice, since it means that we can show that $u$ has single-crossing differences by, for example, establishing that $\log u$ has increasing differences (typically via the differential characterisation in part~\ref{item:id_diff} of \Cref{exercise:id_scd}).
+
+\begin{namedthm}[\Cref*{example:monopoly} {\normalfont (continued from \cpageref{example:monopoly})}.]
+	%
+	\label{example:monopoly_scd}
+	%
+	The monopolist's profit $u(a,\theta) = u(a,(c,-\eta)) = (a-c) D(a,\eta)$ does not generally have increasing differences: in particular,
+	%
+	\begin{equation*}
+		u_1(a,(c,-\eta)) = D(a,\eta) + (a-c) D_1(a,\eta)
+	\end{equation*}
+	%
+	is not necessarily increasing in $-\eta$ (i.e. decreasing in $\eta$). But $v(a,(c,-\eta)) \coloneqq \log u(a,(c,-\eta))$ has increasing differences, since (using part~\ref{item:id_diff} of \Cref{exercise:id_scd})
+	%
+	\begin{equation*}
+		v_1(a,(c,-\eta))
+		= \frac{1}{a-c}
+		- \frac{1}{a}
+		\times \left[ -\frac{ D_1(a,\eta) a }{ D(a,\eta)} \right]
+	\end{equation*}
+	%
+	is increasing in $c$ and decreasing in $\eta$. Hence $u$ has single-crossing differences (by parts~\ref{item:id_scd} and \ref{item:ordinal} of \Cref{exercise:id_scd}). 
+
+	It is clear from this argument that we can drop the assumption that demand $a \mapsto D(a,\eta)$ is differentiable, by replacing the assumption that $\eta$ uniformly shifts the elasticity of demand with the more general assumption (equivalent in the differentiable case) that $\log D$ has decreasing differences:
+	%
+	\begin{equation*}
+		\frac{ D(a',\eta) }{ D(a,\eta) }
+		\geq
+		\frac{ D(a',\eta') }{ D(a,\eta') }
+		\quad \text{for any $a \leq a'$ in $A$ and $\eta \leq \eta'$ in $\R_+$.}
+	\end{equation*}
+	%
+\end{namedthm}
+
+There are a number of useful results which identify easy-to-check sufficient conditions for complementarity properties such as single-crossing differences. We saw a few such results in \Cref{exercise:id_scd}. Another useful one is that if $u,v : A \times \Theta \to \R$ have increasing differences, then so does $u+v$. For more, see \textcite[section~1.4]{Sarver2023}, \textcite{MilgromShannon1994} and \textcite[section~2.6.2]{Topkis1998}.
+
+An especially important class of such results concerns choice under uncertainty, when $u(a,\theta) = \E_{S \sim \mu_{a,\theta}}( v(a,\theta,S) )$ for a random variable $S$ with some distribution $\mu_{a,\theta}$. Various combinations of assumptions on $v$ and $(a,\theta) \mapsto \mu^{(a,\theta)}$ are known to imply that $u$ has single-crossing differences; see \textcite[][section~5]{Sarver2023} for an introduction, and \textcite[Lemma~1]{KarlinRubin1956}, \textcite{Athey2002,QuahStrulovici2012} for more.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The basic comparative-statics theorem}
+\label{mcs:mcs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following result answers the comparative-statics question.
+
+\begin{theorem}
+	%
+	\label{theorem:topkis_ms}
+	%
+	Let $A \subseteq \R$ and $\Theta \subseteq \R^K$ be non-empty. If $u : A \times \Theta \to \R$ has single-crossing differences, then $\theta \mapsto \argmax_{a \in A} u(a,\theta)$ is increasing in the strong set order.
+	%
+\end{theorem}
+
+\begin{proof}
+	%
+	Suppose that $u$ has single-crossing differences, and fix $\theta \leq \theta'$ in $\Theta$; we must show that $M \coloneqq \argmax_{a \in A} u(a,\theta)$ is SSO-lower than $M' \coloneqq \argmax_{a \in A} u(a,\theta')$. This holds automatically if either $M$ or $M'$ is empty (by part~\ref{item:sso_wso:empty} of \Cref{exercise:sso_wso}), so assume for the remainder that they are non-empty.
+
+	If $a \leq a'$ for all $a \in M$ and $a' \in M'$, then $M$ is obviously SSO-lower than $M'$. It remains to consider the case in which there exist $a \in M$ and $a' \in M'$ such that $a > a'$; we must show that $a' \in M$ and $a \in M'$.
+
+	Since $a \in M$, we have $u(a,\theta) \geq u(a',\theta)$. Since $a > a'$ and $u$ has single-crossing differences, it follows that $u(a,\theta') \geq u(a',\theta')$. Since $a' \in M'$, it must then be that $a \in M'$, too.
+
+	Since $a' \in M'$, we have $u(a,\theta') \leq u(a',\theta')$. Since $a > a'$ and $u$ has single-crossing differences, it follows that $u(a,\theta) \leq u(a',\theta)$.%
+		\footnote{Specifically, this uses the `strict' half of single-crossing differences, which requires that $u(a,\theta) > u(a',\theta)$ implies $u(a,\theta') > u(a',\theta')$, or equivalently (by contra-position), that $u(a,\theta') \leq u(a',\theta')$ implies $u(a,\theta) \leq u(a',\theta)$.}
+	Since $a \in M$, it must then be that $a' \in M$, too.
+	%
+\end{proof}
+
+\begin{namedthm}[\Cref*{example:prod} {\normalfont (continued)}.]
+	%
+	\label{example:prod_mcs}
+	%
+	The firm's profit $u$ has increasing differences, and thus has single-crossing differences by \Cref{exercise:id_scd}\ref{item:id_scd}. Hence the firm optimally employs more capital (and thus produces more output) whenever productivity increases, output becomes dearer, or capital becomes cheaper.
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{example:monopoly} {\normalfont (continued)}.]
+	%
+	\label{example:monopoly_mcs}
+	%
+	Since the monopolist's profit $u$ has single-crossing differences, she optimally charges a higher price whenever marginal cost $c$ rises or demand becomes less elastic (as captured by a decrease of $\eta$).
+	%
+\end{namedthm}
+
+Note that \Cref{theorem:topkis_ms} does not feature continuity or compactness assumptions to ensure that optimal choices exist: it may be that $\argmax_{a \in A} u(a,\theta)$ is empty for some parameters $\theta \in \Theta$. This is a feature, not a bug: the comparative-statics question is orthogonal to the existence-of-maximisers question, so we can and should answer them separately. \Cref{theorem:topkis_ms} achieves this separation by dint of how the strong set order is defined: since $\varnothing$ is both SSO-lower and SSO-higher than every other set (part~\ref{item:sso_wso:empty} of \Cref{exercise:sso_wso}), an empty argmax for some $\theta \in \Theta$ does not cause the comparative-statics conclusion to fail.
+
+\begin{exercise}
+	%
+	\label{exercise:market_size}
+	%
+	Consider a monopolist serving a market of size $N \in \N$. The per-customer inverse demand curve is $P : \R_+ \to \R_+$, and the firm's cost function is $C : \R_+ \to \R_+$. Thus selling a per-customer quantity of $a \in \R_+$ yields profit $N aP(a) - C(N a)$. Prove that if $P$ is decreasing and $C$ is convex, then the monopolist's price is increasing in the market size $N$. (If your head starts to hurt, assume that $P$ and $C$ are continuously differentiable.)
+	%
+\end{exercise}
+
+There is a version of \Cref{theorem:topkis_ms} with a converse, showing that single-crossing differences is not only sufficient but also (in a natural sense) \emph{necessary} for comparative statics:
+
+\begin{namedthm}[\Cref*{theorem:topkis_ms}$\boldsymbol{^\star}$.]
+	%
+	\label{theorem:topkis_ms_converse}
+	%
+	Let $A \subseteq \R$ and $\Theta \subseteq \R^K$ be non-empty. For a function $u : A \times \Theta \to \R$, the following are equivalent:
+	%
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item \label{item:topkis_ms_converse_scd} $u$ has single-crossing differences.
+
+		\item \label{item:topkis_ms_converse_mcs} For every non-empty $B \subseteq A$, $\theta \mapsto \argmax_{a \in B} u(a,\theta)$ is increasing in the strong set order.
+	
+	\end{enumerate}
+	%
+\end{namedthm}
+
+\begin{proof}
+	%
+	\ref{item:topkis_ms_converse_scd} implies \ref{item:topkis_ms_converse_mcs} by \Cref{theorem:topkis_ms}. For the converse, we prove the contra-positive: if \ref{item:topkis_ms_converse_scd} fails, then \ref{item:topkis_ms_converse_mcs} fails. So suppose that $u$ does not have single-crossing differences: for some $a<a'$ in $A$ and $\theta < \theta'$ in $\Theta$, we have either (i)~$u(a,\theta) \leq u(a',\theta)$ and $u(a,\theta') > u(a',\theta')$ or (ii)~$u(a,\theta) < u(a',\theta)$ and $u(a,\theta') \geq u(a',\theta')$. Let $B \coloneqq \{a,a'\}$, and write $M \coloneqq \argmax_{b \in B} u(b,\theta)$ and $M' \coloneqq \argmax_{b \in B} u(b,\theta')$. In case~(i), we have $M \ni a'$ and $M' = \{a\}$, while in case~(ii) we have $M = \{a'\}$ and $M' \ni a$; either way, $M$ fails to be SSO-lower than $M'$.
+	%
+\end{proof}
+
+\begin{namedthm}[\Cref*{remark:mcs_selection} {\normalfont(continued from \cpageref{remark:mcs_selection})}.]
+	%
+	\label{remark:mcs_selection_cont}
+	%
+	\Cref{theorem:topkis_ms}\hyperref[theorem:topkis_ms_converse]{($^\star$)} answers the comparative-statics question as formalised in \cref{mcs:question} above: it tells us what must be assumed in order for the correspondence
+	%
+	\begin{equation*}
+		\theta \mapsto \argmax_{a \in A} u(a,\theta) \eqqcolon M(\theta)
+	\end{equation*}
+	%
+	to be increasing in the strong set order. Under natural assumptions, if $M$ is increasing in the strong set order, then it admits an increasing selection.
+
+	An alternative, more demanding formalisation of the comparative-statics question asks what must be assumed in order for $M$ to admit \emph{only} increasing selections. The answer is that $u$ must have \emph{strict single-crossing differences,} meaning that for any $a < a'$ in $A$ and $\theta < \theta'$ in $\Theta$, $u(a',\theta) - u(a,\theta) \geq 0$ implies $u(a',\theta') - u(a,\theta') > 0$; this condition is both sufficient and necessary, on the pattern of \hyperref[theorem:topkis_ms_converse]{\Cref*{theorem:topkis_ms}$^\star$}. \Cref{exercise:mcs_selection_cont} below asks you to prove this.
+
+	An even more demanding formalisation of the comparative-statics question asks what must be assumed in order for $M$ to admit only \emph{strictly} increasing selections. See \textcite{EdlinShannon1998} for an answer.
+	%
+\end{namedthm}
+
+\begin{exercise}
+	%
+	\label{exercise:mcs_selection_cont}
+	%
+	Fix non-empty sets $A \subseteq \R$ and $\Theta \subseteq \R^K$ and a function $u : A \times \Theta \to \R$. Prove the following. (Hint: learn from the proof of \Cref{theorem:topkis_ms}\hyperref[theorem:topkis_ms_converse]{($^\star$)}.)
+	%
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item If $u$ has strict single-crossing differences, then for any $\theta < \theta'$ in $\Theta$ and any $a \in \argmax_{b \in A} u(b,\theta)$ and $a' \in \argmax_{b \in A} u(b,\theta')$, it holds that $a \leq a'$.
+
+		\item If $u$ does \emph{not} have strict single-crossing differences, then there exist $\theta < \theta'$ in $\Theta$, a set $B \subseteq A$, and $a \in \argmax_{b \in B} u(b,\theta)$ and $a' \in \argmax_{b \in B} u(b,\theta')$ such that $a > a'$.
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Extensions}
+\label{mcs:ext}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The basic comparative-statics theorem, \Cref{theorem:topkis_ms}\hyperref[theorem:topkis_ms_converse]{($^\star$)}, can be generalised in various ways. One extension is to allow parameter shifts to influence not only the objective function, but also the constraint set. To capture this, write $C(\theta) \subseteq A$ for the constraint set when the parameter is $\theta \in \Theta$.
+
+\begin{proposition}
+	%
+	\label{proposition:topkis_constr}
+	%
+	Let $A \subseteq \R$ and $\Theta \subseteq \R^K$ be non-empty. If $u : A \times \Theta \to \R$ has single-crossing differences and $C : \Theta \to 2^A$ is non-empty-valued and increasing in the strong set order, then $\theta \mapsto \argmax_{a \in C(\theta)} u(a,\theta)$ is increasing in the strong set order.
+	%
+\end{proposition}
+
+The proof is almost exactly that of \Cref{theorem:topkis_ms}. (There are three new bits; make sure that you spot them and understand why they are needed.)
+
+\begin{proof}
+	%
+	Suppose that $u$ has single-crossing differences and that $C : \Theta \to 2^A$ is non-empty-valued and SSO-increasing, and fix $\theta \leq \theta'$ in $\Theta$; we must show that $M \coloneqq \argmax_{a \in C(\theta)} u(a,\theta)$ is SSO-lower than $M' \coloneqq \argmax_{a \in C(\theta')} u(a,\theta')$. This holds automatically if either $M$ or $M'$ is empty (by part~\ref{item:sso_wso:empty} of \Cref{exercise:sso_wso}), so assume for the remainder that they are non-empty.
+
+	If $a \leq a'$ for all $a \in M$ and $a' \in M'$, then $M$ is obviously SSO-lower than $M'$. It remains to consider the case in which there exist $a \in M$ and $a' \in M'$ such that $a > a'$; we must show that $a' \in M$ and $a \in M'$. Note that $a \in C(\theta')$ and $a' \in C(\theta)$ since $C(\theta) \supseteq M \ni a > a' \in M' \subseteq C(\theta')$ and $C(\theta)$ is SSO-lower than $C(\theta')$.
+
+	Since $a \in M$, we have $u(a,\theta) \geq u(a',\theta)$. Since $a > a'$ and $u$ has single-crossing differences, it follows that $u(a,\theta') \geq u(a',\theta')$. Since $a' \in M'$ and $a \in C(\theta')$, it must then be that $a \in M'$, too.
+
+	Since $a' \in M'$, we have $u(a,\theta') \leq u(a',\theta')$. Since $a > a'$ and $u$ has single-crossing differences, it follows that $u(a,\theta) \leq u(a',\theta)$.%
+		\footnote{Specifically, this uses the `strict' half of single-crossing differences, which requires that $u(a,\theta) > u(a',\theta)$ implies $u(a,\theta') > u(a',\theta')$, or equivalently (by contra-position), that $u(a,\theta') \leq u(a',\theta')$ implies $u(a,\theta) \leq u(a',\theta)$.}
+	Since $a \in M$ and $a' \in C(\theta)$, it must then be that $a' \in M$, too.
+	%
+\end{proof}
+
+\begin{namedthm}[\Cref*{example:monopoly} {\normalfont (continued)}.]
+	%
+	\label{example:monopoly_consr}
+	%
+	Suppose that the monopolist is subject to a regulatory price cap: she can charge at most $\theta \in \R_+$. In this case, $C(\theta) = [0,\theta]$ for each $\theta \in \Theta$. Evidently $C$ is increasing in the strong set order. Hence by \Cref{proposition:topkis_constr}, slacker regulation leads the monopolist to raise her price.
+	%
+\end{namedthm}
+
+\Cref{proposition:topkis_constr} has a converse along the lines of \hyperref[theorem:topkis_ms_converse]{\Cref*{theorem:topkis_ms}$^\star$}; see Theorem~4 in \textcite{MilgromShannon1994}. (This converse result is frequently misunderstood in the literature, so read it and its proof with care!)
+
+There are several other extensions of the basic comparative-statics theorem, \Cref{theorem:topkis_ms}\hyperref[theorem:topkis_ms_converse]{($^\star$)}. The three most important, I think, are the following:
+
+\begin{enumerate}
+
+	\item The parameter set $\Theta$ need not be a subset of $\R^K$; it can be any partially ordered set (possibly infinite-dimensional and not even necessarily a subset of a vector space). The exact same proofs apply.
+
+	\item The action set $A$ can be multi-dimensional: $A \subseteq \R^L$ for $L \in \N$. In this case, an additional assumption is required, which says that the different dimensions of the action $a \in A$ are complementary with each other (not only with the parameter $\theta$). One such condition (which is stronger than necessary, but easy to interpret) is \emph{supermodularity} of $u(\cdot,\theta)$, which assuming twice continuous differentiability requires precisely that for each $\theta \in \Theta$,
+	%
+	\begin{multline*}
+		u_{\ell m}(a_1,\dots,a_\ell,\dots,a_m,\dots,a_L,\theta) \geq 0
+		\\
+		\text{for all $\ell \neq m$ in $\{1,\dots,L\}$ and all $(a_1,\dots,a_\ell,\dots,a_m,\dots,a_L) \in A$.}
+	\end{multline*}
+	%
+	My own experience is that such supermodularity-type assumptions very rarely hold in economic applications, making this extension to multi-dimensional actions less useful than it sounds.
+
+	Actually the action set $A$ can be more general still: all that is really required is that it be a \emph{lattice,} as defined in \cref{tar:latt} above (\cpageref{definition:lattice}). Thus $A$ can be infinite-dimensional, and indeed need not even be a subset of a vector space.
+
+	To learn about this extension, consult \textcite[sections~1.3 and 2.2]{Sarver2023} and/or \textcite{MilgromShannon1994}.
+
+	\item If we restrict attention to \emph{interval} constraint sets $B \subseteq A$, then the necessary and sufficient condition for comparative statics is a weakening of single-crossing differences called \emph{interval dominance:} see \textcite{QuahStrulovici2009}. This extension is very important, because interval constraint sets are ubiquitous in economics and because interval dominance (being weaker) is much more widely applicable than single-crossing dominance \parencite[see e.g.][]{QuahStrulovici2013,SmithSorensenTian2021,Tian2022,Valenzuelastookey2022,csp}.
+
+
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The literature}
+\label{mcs:lit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The theory of comparative statics for single-agent decision problems began with \textcite{Hicks1939,Samuelson1947}, whose results amount to signing derivatives (in particular, they assumed differentiability and quasi-concavity, so that the first-order condition is sufficient for optimality, and then rearranged).
+
+The modern theory of comparative statics, which eschews extraneous differentiability and quasi-concavity assumptions, began with \textcite{Topkis1978}, who established \Cref{theorem:topkis_ms} under the stronger (`cardinal') hypothesis of increasing differences. \textcite{MilgromShannon1994,LicalziVeinott1992} showed that single-crossing differences (an `ordinal' assumption) is sufficient (\Cref{theorem:topkis_ms}), and also in a sense necessary (\hyperref[theorem:topkis_ms_converse]{\Cref*{theorem:topkis_ms}$^\star$}). These papers inspired a rich and still-active literature on single-agent comparative statics, covering e.g. decision problems under uncertainty, problems with multi-dimensional actions, and dynamic problems, as well as applications.
+
+For further/alternative reading, look for lecture notes online, for example \textcite[sections~1--2 and 5]{Sarver2023} and \textcite{Tian2024}, or see \textcite[chapter~2]{Topkis1998} for a (dry) textbook treatment.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{More exercises}
+\label{mcs:exer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+	%
+	\label{exercise:consumption-saving}
+	%
+	Consider the standard consumption--saving model (the backbone of macroeconomic theory). A consumer chooses, in each period $t \in \{0,1,2,3,\dots\}$, her consumption $c_t \in \R_+$ and saving $s_t \in \R_+$. In each period~$t \in \N$, the consumer's income $Y_t$ and the rate of return $R_t$ are random variables, distributed independently and identically across periods~$t \in \N$. The consumer's period-$0$ wealth $w_0 \in \R_+$ is given, and her wealth in each period~$t \in \N$ is $w_t = (1+r_t) s_{t-1} + y_t$, where $r_t$ and $y_t$ are the realisations of the random variables $R_t$ and $Y_t$, which become known at the start of period~$t$. The consumer's period-$t$ budget constraint is $c_t + s_t \leq w_t$. She seeks to maximise her expected discounted utility $\sum_{t=0}^\infty \delta^t \E(U(C_t))$, where $C_t$ is her random period-$t$ consumption (random since it depends on the realisations of $(Y_1,Y_2,Y_3,\dots,Y_t)$ and $(R_1,R_2,R_3,\dots,R_t)$), $U : \R_+ \to \R_+$ is an increasing (utility) function, and $\delta \in (0,1)$ is her discount factor.
+
+	Recall the rudiments of dynamic programming \parencite[e.g.][]{StokeyLucasPrescott1989}. The Bellman equation is the following functional equation in an unknown function $f : \R_+ \to \R_+$:
+	%
+	\begin{equation*}
+		f(w) =
+		\max_{s \in [0,w]}
+		\left[ U(w-s) + \delta \E\bigl( f\left( (1+R_1) s + Y_1 \right) \bigr) \right]
+		\quad \text{for every $w \in \R_+$.}
+	\end{equation*}
+	%
+	Under standard assumptions on $U$ and the distributions of $Y_1$ and $R_1$,%
+		\footnote{For example, assume that $(Y_t,R_t)$ take values in compact set and that $U$ is bounded and continuous, and appeal to the results in \textcite[][chapter~9]{StokeyLucasPrescott1989}.}
+	the value function $V : \R_+ \to \R_+$ solves the Bellman equation, and is the only solution that is bounded; furthermore, optimal saving policies $\sigma : \R_+ \to \R_+$ are precisely those that satisfy
+	%
+	\begin{equation*}
+		\sigma(w) \in \argmax_{s \in [0,w]}
+		\left[ U(w-s) + \delta \E\bigl( V\left( (1+R_1) s + Y_1 \right) \bigr) \right] 
+		\quad \text{for every $w \in \R_+$.}
+	\end{equation*}
+	%
+	Prove the following.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item If $U$ is concave, then in each period, the greater the consumer's start-of-period wealth, the more she saves.
+
+		\item The more patient the consumer is, the more she saves (in every period).
+
+		\item If $U$ is concave and the rate of return $R_1$ is deterministic and non-negative (i.e. $R_1=r$ a.s. for some number $r \in \R_+$), then if the consumer's earning prospects worsen in the sense that the distribution of $Y_1$ becomes first-order stochastically worse, the consumer saves more (in every period).
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}[based on \textcite{DekelQuahSinander}]
+	%
+	\label{exercise:adj}
+	%
+	Consider a model of costly adjustment. An agent chooses $a \in A$, and her gross payoff is $u(a,\theta)$, where $\theta \in \Theta \subseteq \R^K$ is a parameter and $u$ has single-crossing differences. Initially, the parameter was $\theta_0 \in \Theta$, and the agent chose $a_0 \in \argmax_{a \in A} u(a,\theta_0)$. The parameter now increases to $\theta_1 \geq \theta_0$, and the agent adjusts her action in response. Adjustment is costly: in particular, adjusting by $\Delta = a_1 - a_0$ costs $c(\Delta) \geq 0$.  The agent chooses a new action to maximise her net payoff: $a_1 \in M_1 \coloneqq \argmax_{a \in A} [u(a,\theta_1)-c(a-a_0)]$. Assume that $M_1$ is non-empty.
+
+	Say that the adjustment cost function $c : \R_+ \to \R_+$ is \emph{minimised at zero} iff $c(0) \leq c(\Delta)$ for every $\Delta \in \R_+$. This means that \emph{not} adjusting is cheaper than adjusting. Prove that if $c$ is minimised at zero, then there exists an optimal action $a_1 \in M_1$ such that $a_1 \geq a_0$.
+
+	Interpretation: the lesson (from \Cref{theorem:topkis_ms}) that single-crossing differences implies comparative statics is robust to the introduction of adjustment costs. In particular, very little needs to be assumed about the adjustment cost function $c$; it need not even be quasi-convex.
+	%
+\end{exercise}

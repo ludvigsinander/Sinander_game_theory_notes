@@ -1,0 +1,710 @@
+% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this chapter, we study a class of games with a number of economic applications: \emph{games of strategic complements,} also known as `supermodular games'. These are games in which each player's best reply is increasing in her opponents' actions; that is, if her opponents are choosing higher actions, then she wishes herself to choose a higher action.
+
+Strategic complementarity arises naturally in economics. One example is coordination games, whose applications include protests and speculative attacks. Another example is pricing games in IO following \textcite{Bertrand1883}.
+
+Our main results are existence, structure and comparative-statics theorems for pure-strategy Nash equilibria and the rationalisable set. To prove these results, we apply the comparative-statics theory from the \hyperref[ch_mcs]{previous chapter} and \hyperref[theorem:tarski]{Tarski's fixed-point theorem} from \cref{ch_tar}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Games of strategic complements}
+\label{spm:spm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}
+	%
+	\label{definition:spm_game}
+	%
+	A \emph{game of strategic complements} is a normal-form game $(I,(A_i,u_i)_{i \in I})$ such that for each player $i \in I$,
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item \label{item:spm_game:real} $A_i$ is a compact subset of $\R$,
+
+		\item \label{item:spm_game:compact} for any pure action profile $a_{-i} \in A_{-i}$,
+		%
+		\begin{equation*}
+			\inf \left( \argmax_{a_i \in A_i} u_i(a_i,a_{-i}) \right)
+			\quad \text{and} \quad
+			\sup \left( \argmax_{a_i \in A_i} u_i(a_i,a_{-i}) \right)
+		\end{equation*}
+		%
+		belong to $\argmax_{a_i \in A_i} u_i(a_i,a_{-i})$, and
+
+		\item \label{item:spm_game:incr} for any pure action profiles $a_{-i} \leq b_{-i}$ in $A_{-i}$,
+		%
+		\begin{equation*}
+			\argmax_{a_i \in A_i} u_i(a_i,a_{-i})
+			\quad \text{is WSO-lower than} \quad
+			\argmax_{a_i \in A_i} u_i(a_i,b_{-i}) ,
+		\end{equation*}
+	
+	\end{enumerate}
+	%
+\end{definition}
+
+In other words, a game of strategic complements is a normal-form game in which actions are drawn from one-dimensional compact sets and each player's best-reply correspondence $a_{-i} \mapsto \argmax_{a_i \in A_i} u_i(a_i,a_{-i})$ is `closed at the bottom and top' and increasing in the weak set order. The last requirement, \ref{item:spm_game:incr}, is the important one: it says that each player $i \in I$ wishes to meet higher actions $a_{-i} \in A_{-i}$ of her opponents with higher actions $a_i \in A_i$ of her own.
+
+By Exercises~\ref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:subcompl} and \ref{exercise:wso_pf} above (\cpageref{item:lb_R_sublatt:subcompl,exercise:wso_pf}), part~\ref{item:spm_game:incr} of the definition may be replaced with the following:
+
+\begin{itemize}
+
+	\item[(c$'$)] for any pure action profiles $a_{-i} \leq b_{-i}$ in $A_{-i}$,
+	%
+	\begin{align*}
+		\inf \left( \argmax_{a_i \in A_i} u_i(a_i,a_{-i}) \right)
+		&\leq \inf \left( \argmax_{a_i \in A_i} u_i(a_i,b_{-i}) \right)
+		\quad \text{and} \\
+		\sup \left( \argmax_{a_i \in A_i} u_i(a_i,a_{-i}) \right)
+		&\leq \sup \left( \argmax_{a_i \in A_i} u_i(a_i,b_{-i}) \right) .
+	\end{align*}
+
+\end{itemize}
+%
+(To be clear, this property is equivalent to \ref{item:spm_game:incr} when properties~\ref{item:spm_game:real} and \ref{item:spm_game:compact} are satisfied, but not otherwise. Also, the `inf' and `sup' in condition~(c$'$) may be replaced with `min' and `max', respectively [why?].)
+
+The definition above is in terms of properties of best-reply correspondences, rather than properties of the primitives $I$, $(A_i)_{i \in I}$ and $(u_i)_{i \in I}$ that define a normal-form game. The following gives sufficient conditions on these primitives for a normal-form game to be a game of strategic complements.
+
+\begin{corollary}
+	%
+	\label{corollary:spm_game_microfound}
+	%
+	Fix a normal-form game $(I,(A_i,u_i)_{i \in I})$, and suppose that for each player $i \in I$, 
+
+	\begin{enumerate}[label=(\Alph*)]
+
+		\item \label{item:spm_game_suff:real} $A_i$ is a compact subset of $\R$,
+
+		\item \label{item:spm_game_suff:compact} either $A_i$ is finite, or else $u_i(\cdot,a_{-i})$ is continuous for every $a_{-i} \in A_{-i}$,%
+			\footnote{Continuity may be weakened to \emph{upper semi-continuity} (defined in \Cref{exercise:CDFs_lattice}, \cpageref{exercise:CDFs_lattice}); the same proof applies, because the `Weierstrass theorem' requires only upper semi-continuity \parencite[see e.g.][Theorem~2.43, p.~44]{AliprantisBorder2006}.}
+		and finally
+
+		\item \label{item:spm_game_suff:scd} $u_i$ has single-crossing differences.
+	
+	\end{enumerate}
+	%
+	Then $(I,(A_i,u_i)_{i \in I})$ is a game of strategic complements.
+	%
+\end{corollary}
+
+\begin{proof}
+	%
+	\ref{item:spm_game_suff:real} is exactly \ref{item:spm_game:real}. By the `Weierstrass theorem',%
+		\footnote{See e.g. Corollary~2.35 in \textcite[][p.~40]{AliprantisBorder2006}.}
+	\ref{item:spm_game_suff:compact} implies that $\argmax_{a_i \in A_i} u_i(a_i,a_{-i})$ is non-empty and compact for every profile $a_{-i} \in A_{-i}$, which in turn implies \ref{item:spm_game:compact}. Finally, by \Cref{exercise:sso_wso}\ref{item:wso_sso_impl} and \Cref{theorem:topkis_ms} in the \hyperref[ch_mcs]{previous chapter} (\cpageref{exercise:sso_wso,theorem:topkis_ms}), \ref{item:spm_game_suff:scd} implies \ref{item:spm_game:incr}.
+	%
+\end{proof}
+
+\begin{remark}
+	%
+	\label{remark:spm_game_defn}
+	%
+	There is no single agreed-upon definition of `game of strategic complements'. My definition above captures the general idea, but you'll find some authors requiring slightly different conditions (e.g. strengthening part~\ref{item:spm_game:incr} by replacing `WSO-lower than' with `SSO-lower than'), or defining `game of strategic complements' in terms of primitive conditions like those in \Cref{corollary:spm_game_microfound}.
+	The definition can be extended to allow for multi-dimensional action sets ($A_i \subseteq \R^{K_i}$ where $K_i \in \N$ for each player $i \in I$). Actually, the action sets can be more general still: they need merely be \emph{complete lattices,} as defined in \cref{tar:latt} above (\cpageref{definition:lattice}).
+	%
+\end{remark}
+
+\begin{exercise}
+	%
+	\label{exercise:bertrand_spm_diff}
+	%
+	Consider the differentiated \textcite{Bertrand1883} model of oligopolistic competition.
+	Each of two firms $i \in I \coloneqq \{1,2\}$ produces a good at constant marginal cost $c_i \geq 0$, and chooses what price $a_i \in A_i \coloneqq \R_+$ to charge. The demand $D_i(a_i,a_{-i}) > 0$ for firm $i$'s good depends both on its own price $a_i \in \R_+$ and its competitor's price $a_{-i} \in \R_+$. We assume that the demand curve $D_i : \R_+^2 \to \R_{++}$ is decreasing and continuously differentiable in its first argument ($i$'s own price $a_i$), and that $i$'s demand is less elastic the higher her competitor's price: for each fixed $a_i \in \R_+$, the absolute own-price elasticity
+	%
+	\begin{equation*}
+		\abs*{ \eps_i(a_i,a_{-i}) }
+		\coloneqq - \frac{a_i}{D_i(a_i,a_{-i})}
+		\times
+		\left. \frac{\dd}{\dd b_i} D_i(b_i,a_{-i}) \right|_{b_i = a_i}
+	\end{equation*}
+	%
+	is decreasing in $a_{-i} \in \R_+$.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show that this game satisfies part~\ref{item:spm_game:incr} of the definition of a game of strategic complements.
+
+		\item Show that this game satisfies part~\ref{item:spm_game:compact} of the definition of a game of strategic complements if we additionally assume that for each fixed $a_{-i} \in \R_+$, demand is less elastic the higher $i$'s own price, and eventually inelastic: formally, $a_i \mapsto \abs*{ \eps_i(a_i,a_{-i}) }$ is decreasing and $\lim_{a_i \uparrow +\infty} \abs*{ \eps_i(a_i,a_{-i}) } < 1$.
+
+		\item Can you think of a way of reformulating this model so that (under the additional `monotone elasticity' assumption from the previous part) it is a game of strategic complements?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:nagel} {\normalfont (continued from \cpageref{exercise:nagel}).}]
+	%
+	\label{exercise:nagel_spm}
+	%
+	Recall the particulars: players choose $a_i \in A_i = \{1,2,3,\dots,99,100\}$, and those players whose choices are closest to $\frac{2}{3} \frac{1}{\abs*{I}} \sum_{i \in I} a_i$ equally share a prize worth $1$. Is this a game of strategic complements?
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{example:BoS} {\normalfont (continued from \cpageref{example:BoS}).}]
+	%
+	\label{exercise:BoS_spm}
+	%
+	Recall the particulars: a $2 \times 2$ coordination game. Is this a game of strategic complements?
+	%
+\end{namedthm}
+
+\begin{exercise}
+	%
+	\label{exercise:coordinated_attack}
+	%
+	Consider Morris and Shin's (\citeyear{MorrisShin1998}) model of speculative attack on a pegged (i.e. fixed-exchange-rate) currency. (An example of such a speculative attack was the 1992 `Black Wednesday' attack on sterling.) The `fundamental' strength of the currency (determined by factors such as the trade balance) is captured by a parameter $\omega \in [0,1]$. Absent central-bank intervention, the exchange rate would be $f(\omega)$, where $f : [0,1] \to \R_{++}$ is strictly increasing. The exchange rate is pegged at $e^* \in \R_{++}$, however, where $e^* > f(\omega)$ for every $\omega \in [0,1]$. In other words, the currency is overvalued.
+
+	There is a continuum $I \coloneqq [0,1]$ of speculators, each of who chooses whether to attack ($a_i = 1$) or not ($a_i = 0$). (So $A_i \coloneqq \{0,1\}$.) `Attacking' means selling the currency short. The more speculators who attack, the costlier it is for the central bank to defend the peg (keeping the exchange rate at $e^*$) rather than abandoning it (letting the currency float at its market exchange rate $f(\omega)$). We treat the central bank's behaviour as exogenous: it defends the currency peg if the fraction (=Lebesgue measure) of speculators who attack is weakly less than $\alpha \in (0,1)$, and otherwise abandons the peg.
+
+	Each speculator earns a sure payoff of zero if she does not attack. If she does attack, then she incurs a (sunk) transaction cost of $t > 0$, and earns a capital gain of $e^* - f(\omega) > 0$ in case the central bank abandons the peg and no capital gain otherwise. We assume that $e^* - f(0) > t > e^* - f(1)$, meaning that short-selling may or may not be profitable conditional on devaluation, depending on the fundamentals $\omega \in [0,1]$.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Write down the normal-form game; in particular, give an explicit expression for the payoff $u_i((a_j)_{j \in I})$ of each speculator $i \in I$ as a function of the action profile $(a_j)_{j \in I} \in A$. (Ignore measurability issues.)
+
+		\item Show that this is a game of strategic complements.
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{example}
+	%
+	\label{example:protest}
+	%
+	A citizen in an autocracy choosing whether to protest may be more keen to protest if many others do, since there is safety in numbers. This is a `strategic complements' force, and has motivated economics frequently to model protests as a game of strategic complements. Such models of protest look a lot like the speculative-attack model in \Cref{exercise:coordinated_attack} above.
+
+	This may not be such a good model of protests, however, because it neglects an obvious `strategic substitutes' force: since toppling the regime is a public good and protesting incurs private costs (risk of harm, opportunity cost of time, etc.), there is a motive to free-ride by staying home if many others turn out. One recent empirical study of protests in Hong Kong suggests that this latter force is the stronger of the two, making the protest game one of strategic \emph{substitutes} \parencite{CantoniYangYuchtmanZhang2019}. 
+	%
+\end{example}
+
+There are many other examples of games of strategic complements in economics, e.g. technology adoption with network effects. See \textcite{MilgromRoberts1990} for a long list.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pure-strategy Nash equilibria}
+\label{spm:nash}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The set of pure-strategy Nash equilibria of a game need not have a least or a greatest element.
+
+\begin{example}
+	%
+	\label{example:2x2_subst}
+	%
+	Consider a $2 \times 2$ game of strategic substitutes: players $I=\{1,2\}$, actions $A_1 = A_2 = \{0,1\}$, and payoffs
+	%
+	\begin{equation*}
+		\begin{array}{c|cc}
+			  & 0   & 1 \\ \hline
+			0 & 2,2 & 3,3 \\
+			1 & 3,3 & 2,2
+		\end{array}
+	\end{equation*}
+	%
+	The pure-strategy Nash equilibria are $(0,1)$ and $(1,0)$. Neither is smaller or greater than the other: $(0,1) \nleq (1,0) \nleq (0,1)$. So there is neither a least nor a greatest pure-strategy Nash equilibrium.
+	%
+\end{example}
+
+\begin{example}
+	%
+	\label{example:nash_demand}
+	%
+	Consider the oldest and simplest non-cooperative game-theoretic model of bargaining: the Nash (\citeyear{Nash1953}) demand game. Two players $I \coloneqq \{1,2\}$ must split a unit of surplus. Each player $i \in I$ simultaneously makes a \emph{demand} $a_i \in A_i \coloneqq [0,1]$. If their demands are compatible, i.e. $a_1+a_2 \leq 1$, then each player receives her demand. If their demands are incompatible, i.e. $a_1+a_2 > 1$, then both players receive zero surplus. The payoff of player $i \in I$ is thus
+	%
+	\begin{equation*}
+		u_i(a_i,a_{-i}) \coloneqq
+		\begin{cases}
+			v_i(a_i) & \text{if $a_i+a_{-i} \leq 1$} \\
+			v_i(0) & \text{if $a_i+a_{-i} > 1$,} 
+		\end{cases}
+	\end{equation*}
+	%
+	where $v_i : [0,1] \to \R$ is strictly increasing.
+
+	The set of pure-strategy Nash equilibria is $\left\{ (a_1,a_2) \in [0,1]^2 : a_1+a_2=1 \right\}$. Clearly no pure-strategy Nash equilibrium is smaller than any other: $(a_1,a_2) \nleq (b_1,b_2) \nleq (a_1,a_2)$ for any pure-strategy Nash equilibria $(a_1,a_2) \neq (b_1,b_2)$. So there is neither a least nor a greatest pure-strategy Nash equilibrium.
+	%
+\end{example}
+
+Not only need there not be a least or a greatest pure-strategy Nash equilibrium: there need not exist a pure-strategy Nash equilibrium at all.
+
+\begin{example}
+	%
+	\label{example:pennies}
+	%
+	Consider the `matching pennies' game: players $I=\{1,2\}$, actions $A_1 = A_2 = \{\text{heads},\text{tails}\}$, and payoffs
+	%
+	\begin{equation*}
+		\begin{array}{c|cc}
+			  & \text{heads}   & \text{tails} \\ \hline
+			\text{heads} & 1,0 & 0,1 \\
+			\text{tails} & 0,1 & 1,0
+		\end{array}
+	\end{equation*}
+	%
+	There is no pure-strategy Nash equilibrium.
+	%
+\end{example}
+
+Games of strategic complements are special, however:
+
+\begin{theorem}
+	%
+	\label{theorem:spm_game_nash}
+	%
+	Every game of strategic complements has a least and a greatest pure-strategy Nash equilibrium.
+	%
+\end{theorem}
+
+It is useful to compare this result with Nash's (\citeyear{Nash1950,Nash1951}) existence theorem, which asserts than any finite game has a Nash equilibrium. The hypotheses of \Cref{theorem:spm_game_nash} differ in that finiteness is \emph{not} assumed; instead, strategic complementarity is assumed. The conclusion is substantially stronger: \emph{pure-strategy} Nash equilibria exist, and there is a least and a greatest one.
+
+\begin{proof}
+	%
+	Let $(I,(A_i,u_i)_{i \in I})$ be a game of strategic complements. For each player $i \in I$ and each pure action profile $a_{-i} \in A_{-i}$, write
+	%
+	\begin{equation*}
+		\text{br}_i(a_{-i}) \coloneqq \argmax_{a_i \in A_i} u_i(a_i,a_{-i}) .
+	\end{equation*}
+	%
+	By inspection, an action profile $(a_i)_{i \in I} \in A$ is a pure-strategy Nash equilibrium iff $a_i \in \text{br}_i(a_{-i})$ for every player $i \in I$.
+
+	For each player $i \in I$, define $\underline{\text{br}}_i : A_{-i} \to \R$ and $\widebar{\text{br}}_i : A_{-i} \to \R$ by
+	%
+	\begin{equation*}
+		\underline{\text{br}}_i(a_{-i}) \coloneqq \inf \left( \text{br}_i(a_{-i}) \right)
+		\quad \text{and} \quad
+		\widebar{\text{br}}_i(a_{-i}) \coloneqq \sup \left( \text{br}_i(a_{-i}) \right)
+	\end{equation*}
+	%
+	for every profile $a_{-i} \in A_{-i}$. For each player $i \in I$, by property~\ref{item:spm_game:compact} in the definition of games of strategic complements (\cpageref{item:spm_game:compact}), $\underline{\text{br}}_i(a_{-i})$ and $\widebar{\text{br}}_i(a_{-i})$ belong to $\text{br}_i(a_{-i})$ (and thus belong to $A_i$) for every profile $a_{-i} \in A_{-i}$. Thus $\underline{\text{br}}_i$ and $\widebar{\text{br}}_i$ are in fact maps $A_{-i} \to A_i$.
+
+	Define $\underline{\text{br}} : A \to A$ and $\widebar{\text{br}} : A \to A$ by
+	%
+	\begin{equation*}
+		\underline{\text{br}}((a_i)_{i \in I}) \coloneqq \bigl( \underline{\text{br}}_i(a_{-i}) \bigr)_{i \in I}
+		\quad \text{and} \quad
+		\widebar{\text{br}}((a_i)_{i \in I}) \coloneqq \bigl( \widebar{\text{br}}_i(a_{-i}) \bigr)_{i \in I}
+	\end{equation*}
+	%
+	for each action profile $(a_i)_{i \in I} \in A$. Any fixed point of either map is a pure-strategy Nash equilibrium (since $\underline{\text{br}}_i(a_{-i}) \in \text{br}_i(a_{-i}) \ni \widebar{\text{br}}_i(a_{-i})$ for each $i \in I$ and $a_{-i} \in A_{-i}$). Furthermore, if $\underline{\text{br}}$ has a least fixed point $\underline{a} \in A$ then $\underline{a} \leq a$ for every pure-strategy Nash equilibrium $a \in A$, and if $\widebar{\text{br}}$ has a greatest fixed point $\widebar{a} \in A$ then $a \leq \widebar{a}$ for every pure-strategy Nash equilibrium $a \in A$. It therefore suffices to show that $\underline{\text{br}}$ has a least fixed point and that $\widebar{\text{br}}$ has a greatest fixed point.
+
+	By property~\ref{item:spm_game:incr} in the definition of games of strategic complements, the maps $\underline{\text{br}}_i$ and $\widebar{\text{br}}_i$ are increasing for each player $i \in I$, and hence the maps $\underline{\text{br}} : A \to A$ and $\widebar{\text{br}} : A \to A$ are increasing. By \Cref{exercise:product_compl_lattice} in \cref{tar:latt} above (\cpageref{exercise:product_compl_lattice}), $(A,\mathord{\leq})$ is a complete lattice. Hence by \hyperref[theorem:tarski]{Tarski's fixed-point theorem} (\cref{tar:tar} above, \cpageref{theorem:tarski}), $\underline{\text{br}}$ has a least fixed point, and $\widebar{\text{br}}$ has a greatest fixed point.
+	%
+\end{proof}
+
+\begin{remark}
+	%
+	\label{remark:zhou}
+	%
+	Consider the class of games of strategic complements which satisfy the following stronger versions of properties~\ref{item:spm_game:compact} and \ref{item:spm_game:incr} in the definition (\cpageref{definition:spm_game} above): for each player $i \in I$,
+
+	\begin{itemize}
+	
+		\item[(b$^\star$)] for any pure action profile $a_{-i} \in A_{-i}$, $\argmax_{a_i \in A_i} u_i(a_i,a_{-i})$ is compact, and
+	
+		\item[(c$^\star$)] for any pure action profiles $a_{-i} \leq b_{-i}$ in $A_{-i}$,
+		%
+		\begin{equation*}
+			\argmax_{a_i \in A_i} u_i(a_i,a_{-i})
+			\quad \text{is SSO-lower than} \quad
+			\argmax_{a_i \in A_i} u_i(a_i,b_{-i}) .
+		\end{equation*}
+	
+	\end{itemize}
+	%
+	These two properties follow from the assumptions on primitives identified in \Cref{corollary:spm_game_microfound} (the same proof applies). For this more restrictive class of games, the set of pure-strategy Nash equilibria not only has a least and a greatest element, but is in fact a complete lattice. This was shown by \textcite{Zhou1994}.
+	%
+\end{remark}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rationalisability}
+\label{spm:rbty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following shows that if we weaken our game-theoretic solution concept from pure-strategy Nash equilibrium to rationalisability (as defined and studied in \cref{ch_dom} above), we still obtain a similarly sharp prediction: in particular, there is a least and a greatest rationalisable action profile, and these are equal to (respectively) the least and the greatest pure-strategy Nash equilibrium.
+
+\begin{proposition}
+	%
+	\label{proposition:spm_game_rbty}
+	%
+	Let $(I,(A_i,u_i)_{i \in I})$ be a finite game of strategic complements. Let $\underline{a} \in A$ and $\widebar{a} \in A$ be (respectively) its least and its greatest pure-strategy Nash equilibria, and let $X^\infty \subseteq A$ be the set of rationalisable action profiles. Then $\underline{a}_i = \min X^\infty_i \leq \max X^\infty_i = \widebar{a}_i$ for each player $i \in I$.
+	%
+\end{proposition}
+
+Thus all rationalisable action profiles are sandwiched between the least and greatest pure-strategy Nash equilibria (which are of course themselves rationalisable).
+
+\begin{proof}
+	%
+	For any product set $Y = \prod_{i \in I} Y_i \subseteq A$, write
+	%
+	\begin{equation*}
+		\min Y \coloneqq \left( \min Y_i \right)_{i \in I}
+		\quad \text{and} \quad
+		\max Y \coloneqq \left( \max Y_i \right)_{i \in I} .
+	\end{equation*}
+	%
+	Recall from \cref{dom:rbty} above (\cpageref{definition:rbty}) the definition of the sets $X^t \subseteq A$ for each $t \in \{0,1,2,\dots\}$, and that rationalisable action profiles are exactly those that belong to $X^t$ for every $t \in \N$. Obviously $X^{t-1} \supseteq X^t$ for each $t \in \N$.
+	Further recall the notation from the proof above of \Cref{theorem:spm_game_nash}.
+
+	The sequences 
+	%
+	\begin{equation*}
+		\left( \underline{\text{br}}\left(\min X^{t-1}\right) \right)_{t \in \N}
+		\quad \text{and} \quad
+		\left( \widebar{\text{br}}\left(\max X^{t-1}\right) \right)_{t \in \N}
+	\end{equation*}
+	%
+	are increasing and decreasing, respectively, since $X^{t-1} \supseteq X^t$ for each $t \in \N$ and $\underline{\text{br}}$ and $\widebar{\text{br}}$ are increasing.%
+		\footnote{For each $t \in \N$, $X^{t-1} \supseteq X^t$, so $\min X^{t-1} \leq \min X^t$ and $\max X^t \leq \max X^{t-1}$, so $\underline{\text{br}}(\min X^{t-1}) \leq \underline{\text{br}}(\min X^t)$ and $\widebar{\text{br}}(\max X^t) \leq \widebar{\text{br}}(\max X^{t-1})$.}
+	Hence both sequences converge, and since $A$ is finite, the limit $a_\star \in A$ of the former sequence is a fixed point of $\underline{\text{br}}$ and the limit $a^\star \in A$ of the latter sequence is a fixed point of $\widebar{\text{br}}$. Thus $a_\star$ and $a^\star$ are pure-strategy Nash equilibria. By definition of  $\underline{a}$ and $\widebar{a}$, it must then be that
+	%
+	\begin{equation}
+		\underline{a} \leq a_\star
+		\quad \text{and} \quad
+		\widebar{a} \geq a^\star .
+		\label{eq:spm_rbty1}
+	\end{equation}
+
+	By definition of the sets $\left( X^{t-1} \right)_{t \in \N}$ and of the functions $\underline{\text{br}}$ and $\widebar{\text{br}}$, and since these functions are increasing, we have
+	%
+	\begin{equation*}
+		\underline{\text{br}}\left(\min X^{t-1}\right)
+		= \min X^t
+		\quad \text{and} \quad
+		\widebar{\text{br}}\left(\max X^{t-1}\right)
+		= \max X^t
+	\end{equation*}
+	%
+	for each $t \in \N$. Hence $\min X^t \to a_\star$ and $\max X^t \to a^\star$ as $t \to \infty$, or equivalently
+	%
+	\begin{equation}
+		a_\star = \min X^\infty
+		\quad \text{and} \quad
+		a^\star = \max X^\infty.
+		\label{eq:spm_rbty2}
+	\end{equation}
+	
+	Finally, since $\underline{a}$ and $\widebar{a}$ are pure-strategy Nash equilibria, they must belong to $X^\infty$, so
+	%
+	\begin{equation}
+		\min X^\infty \leq \underline{a}
+		\quad \text{and} \quad
+		\max X^\infty \geq \widebar{a} .
+		\label{eq:spm_rbty3}
+	\end{equation}
+	%
+	Combining \eqref{eq:spm_rbty1}, \eqref{eq:spm_rbty2} and \eqref{eq:spm_rbty3} yields
+	%
+	\begin{equation*}
+		\underline{a}
+		\leq a_\star
+		= \min X^\infty
+		\leq \underline{a} 
+		\quad \text{and} \quad
+		\widebar{a}
+		\geq a^\star
+		= \max X^\infty
+		\geq \widebar{a} ,
+	\end{equation*}
+	%
+	so all of the inequalities must be equalities.
+	%
+\end{proof}
+
+\begin{remark}
+	%
+	\label{remark:spm_game_rbty}
+	%
+	The proof incidentally shows that the least pure-strategy Nash equilibrium is equal to the limit as $t \to \infty$ of $\underline{\text{br}}^t(\min A)$, where $\underline{\text{br}}^1 \coloneqq \underline{\text{br}}$ and $\text{br}^{t+1} \coloneqq \underline{\text{br}} \circ \underline{\text{br}}^t$ for each $t \in \N$, and similarly that the greatest pure-strategy Nash equilibrium equals the limit as $t \to \infty$ of $\widebar{\text{br}}^t(\max A)$. This provides an algorithm for computing these equilibria, and also has implications for the long-run behaviour of many adaptive (`evolutionary') dynamics \parencite[see][section~3]{MilgromRoberts1990}.
+	%
+\end{remark}
+
+\begin{remark}
+	%
+	\label{remark:spm_game_rbty_infinite}
+	%
+	There is a version of \Cref{proposition:spm_game_rbty} that allows for infinite action spaces: see Theorem~5 in \textcite{MilgromRoberts1990}.
+	%
+\end{remark}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Comparative statics of equilibria}
+\label{spm:mcs_eqa}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we show that the least and greatest pure-strategy Nash equilibria of a supermodular game vary monotonically with parameters, provided these parameters impact best replies in a monotonic way.
+
+\begin{definition}
+	%
+	\label{definition:spm_game_param}
+	%
+	A \emph{parametrised game of strategic complements} is a tuple $\bigl( \Theta, \bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)_{\theta \in \Theta} \bigr)$ such that
+
+	\begin{enumerate}[label=(\roman*)]
+	
+		\item \label{item:spm_game_param:Theta} $\Theta$ is a non-empty subset of $\R^K$ for some $K \in \N$,
+
+		\item \label{item:spm_game_param:spm} for each $\theta \in \Theta$, $\bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)$ is a game of strategic complements, and
+
+		\item \label{item:spm_game_param:incr} for any parameters $\theta \leq \theta'$ in $\Theta$,
+		%
+		\begin{equation*}
+			\argmax_{a_i \in A_i} u_i^\theta(a_i,a_{-i})
+			\quad \text{is WSO-lower than} \quad
+			\argmax_{a_i \in A_i} u_i^{\theta'}(a_i,a_{-i})
+		\end{equation*}
+		%
+		for each player $i \in I$ and each pure action profile $a_{-i} \in A_{-i}$.
+	
+	\end{enumerate}
+	%
+\end{definition}
+
+The new requirement, part~\ref{item:spm_game_param:incr}, says that all players wish to take weakly higher actions the higher the parameter. By Exercises~\ref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:subcompl} and \ref{exercise:wso_pf} above (\cpageref{item:lb_R_sublatt:subcompl,exercise:wso_pf}), this requirement may be replaced with the following:
+
+\begin{itemize}
+
+	\item[(iii$'$)] for any parameters $\theta \leq \theta'$ in $\Theta$,
+	%
+	\begin{align*}
+		\inf \left( \argmax_{a_i \in A_i} u_i^\theta(a_i,a_{-i}) \right)
+		&\leq \inf \left( \argmax_{a_i \in A_i} u_i^{\theta'}(a_i,a_{-i}) \right)
+		\quad \text{and} \\
+		\sup \left( \argmax_{a_i \in A_i} u_i^\theta(a_i,a_{-i}) \right)
+		&\leq \sup \left( \argmax_{a_i \in A_i} u_i^{\theta'}(a_i,a_{-i}) \right) 
+	\end{align*}
+	%
+	for each player $i \in I$ and each pure action profile $a_{-i} \in A_{-i}$.
+
+\end{itemize}
+
+\begin{corollary}
+	%
+	\label{corollary:spm_game_param_microfound}
+	%
+	Fix a set $\Theta$ and, for each $\theta \in \Theta$, a normal-form game $\bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)$. Suppose that
+
+	\begin{enumerate}[label=(\Roman*)]
+
+		\item \label{item:spm_game_param_suff:Theta} $\Theta$ is a non-empty subset of $\R^K$ for some $K \in \N$,
+
+		\item \label{item:spm_game_param_suff:spm} 
+		for each $\theta \in \Theta$, the normal-form game $\bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)$ satisfies the assumptions of \Cref{corollary:spm_game_microfound} (\cpageref{corollary:spm_game_microfound}), and finally
+
+		\item \label{item:spm_game_param_suff:scd} for each profile $a_{-i} \in A_{-i}$, the map $(a_i,\theta) \mapsto u_i^\theta(a_i,a_{-i})$ has single-crossing differences.%
+			\footnote{In other words, for each profile $a_{-i} \in A_{-i}$, the function $v : A_i \times \Theta \to \R$ defined by $v(a_i,\theta) \coloneqq u_i^\theta(a_i,a_{-i})$ for each $a_i \in A_i$ and $\theta \in \Theta$ has single-crossing differences.}
+	
+	\end{enumerate}
+	%
+	Then $\bigl( \Theta, \bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)_{\theta \in \Theta} \bigr)$ is a parametrised game of strategic complements.
+	%
+\end{corollary}
+
+\begin{proof}
+	%
+	\ref{item:spm_game_param_suff:Theta} is exactly \ref{item:spm_game_param:Theta}. \ref{item:spm_game_param_suff:spm} implies \ref{item:spm_game_param:spm} by \Cref{corollary:spm_game_microfound} above (\cpageref{corollary:spm_game_microfound}). Finally, by \Cref{exercise:sso_wso}\ref{item:wso_sso_impl} and \Cref{theorem:topkis_ms} in the \hyperref[ch_mcs]{previous chapter} (\cpageref{exercise:sso_wso,theorem:topkis_ms}), \ref{item:spm_game_param_suff:scd} implies \ref{item:spm_game_param:incr}.
+	%
+\end{proof}
+
+\begin{proposition}
+	%
+	\label{proposition:spm_game_mcs}
+	%
+	Let $\bigl( \Theta, \bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)_{\theta \in \Theta} \bigr)$ be a parametrised game of strategic complements, and for each parameter $\theta \in \Theta$, let $\underline{a}^\theta \in A$ and $\widebar{a}^\theta \in A$ be (respectively) its least and its greatest pure-strategy Nash equilibria. Then $\theta \mapsto \underline{a}^\theta$ and $\theta \mapsto \widebar{a}^\theta$ are increasing.
+	%
+\end{proposition}
+
+In other words, the set of pure-strategy Nash equilibria is WSO-increasing in the parameter $\theta$. You may be tempted to think that this is nearly obvious: we assumed (part~\ref{item:spm_game_param:incr} of the definition of a parametrised game of strategic complements) that players' best replies are increasing in $\theta$, and concluded that an increase of $\theta$ leads players to choose higher actions in pure-strategy Nash equilibria. But it is not so obvious, I think. In particular, part~\ref{item:spm_game_param:spm} of the definition (for each $\theta \in \Theta$, the game is one of strategic complements) is essential: it plays a key role in the proof below, and the result is false without this assumption.%
+	\footnote{For example, consider the Cournot model in \Cref{example:cournot} (\cpageref{example:cournot}), except with firms' constant marginal costs $c_1>0$ and $c_2>0$ allowed to differ from each other. Increasing $\theta \coloneqq -c_1$ increases firm~$1$'s best reply to any choice of firm~2 and does not affect firm~$2$'s best replies, so part~\ref{item:spm_game_param:incr} of the definition of a parametrised game of strategic complements is satisfied. But firm~2's action in the (unique) pure-strategy Nash equilibrium strictly \emph{decreases,} due to strategic substitutability.}
+
+\begin{proof}
+	%
+	Recall the proof of \Cref{theorem:spm_game_nash} in \cref{spm:nash} (\cpageref{theorem:spm_game_nash}): for each parameter $\theta \in \Theta$, write $\underline{\text{br}}_i^\theta(a_{-i}) \in A_i$ and $\widebar{\text{br}}_i^\theta(a_{-i}) \in A_i$ for (respectively) the least and the greatest best replies in the normal-form game $\bigl( I, \bigl( A_i, u_i^\theta \bigr)_{i \in I} \bigr)$ of player $i \in I$ to pure profile $a_{-i} \in A_{-i}$, define $\underline{\text{br}}^\theta : A \to A$ and $\widebar{\text{br}}\vphantom{\text{br}}^\theta : A \to A$ by
+	%
+	\begin{equation*}
+		\underline{\text{br}}^\theta\left( (a_i)_{i \in I} \right)
+		\coloneqq \left( \underline{\text{br}}_i^\theta(a_{-i}) \right)_{i \in I}
+		\quad \text{and} \quad
+		\widebar{\text{br}}\vphantom{\text{br}}^\theta\left( (a_i)_{i \in I} \right)
+		\coloneqq \left( \widebar{\text{br}}_i^\theta(a_{-i}) \right)_{i \in I}
+	\end{equation*}
+	%
+	for each action profile $(a_i)_{i \in I} \in A$, and recall that $\underline{\text{br}}^\theta$ and $\widebar{\text{br}}\vphantom{\text{br}}^\theta$ are increasing and that $\underline{a}^\theta$ is the least fixed point of the former and that $\widebar{a}^\theta$ is the greatest fixed point of the latter. Further recall that $(A,\mathord{\leq})$ is a complete lattice.
+
+	By \hyperref[theorem:tarski]{Tarski's fixed-point theorem} in \cref{tar:tar} above (\cpageref{theorem:tarski}), we have
+	%
+	\begin{equation*}
+		\underline{a}^\theta
+		= \inf_{(A,\mathord{\leq})}
+		\left\{ a \in A : \underline{\text{br}}^\theta(a) \leq a \right\}
+		\quad \text{and} \quad
+		\widebar{a}^\theta
+		= \sup_{(A,\mathord{\leq})}
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^\theta(a) \right\} 
+	\end{equation*}
+	%
+	for each parameter $\theta \in \Theta$.
+	Since $A_i$ is compact for each $i \in I$, by \Cref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:subcompl} in \cref{tar:bounds} above (\cpageref{item:lb_R_sublatt:subcompl}), we may replace the `$\inf_{(A,\mathord{\leq})}$' and `$\sup_{(A,\mathord{\leq})}$' with the ordinary `$\inf$' and `$\sup$' familiar from real analysis:%
+		\footnote{This step is not necessary; its only role is to increase interpretability.}
+	%
+	\begin{equation*}
+		\underline{a}^\theta
+		= \inf
+		\left\{ a \in A : \underline{\text{br}}^\theta(a) \leq a \right\}
+		\quad \text{and} \quad
+		\widebar{a}^\theta
+		= \sup
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^\theta(a) \right\} 
+	\end{equation*}
+	%
+	for each parameter $\theta \in \Theta$.
+	For any $\theta \leq \theta'$ in $\Theta$, we have $\underline{\text{br}}^\theta \leq \underline{\text{br}}^{\theta'}$ and $\widebar{\text{br}}^\theta \leq \widebar{\text{br}}^{\theta'}$ by part~\ref{item:spm_game_param:incr} of the definition of a parametrised game of strategic complements, so
+	%
+	\begin{align*}
+		\left\{ a \in A : \underline{\text{br}}^\theta(a) \leq a \right\}
+		&\supseteq
+		\left\{ a \in A : \underline{\text{br}}^{\theta'}(a) \leq a \right\}
+		\quad \text{and}
+		\\
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^\theta(a) \right\}
+		&\subseteq
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^{\theta'}(a) \right\} ,
+	\end{align*}
+	%
+	and thus
+	%
+	\begin{align*}
+		\underline{a}^\theta
+		= \inf
+		\left\{ a \in A : \underline{\text{br}}^\theta(a) \leq a \right\}
+		&\leq \inf
+		\left\{ a \in A : \underline{\text{br}}^{\theta'}(a) \leq a \right\}
+		= \underline{a}^{\theta'}
+		\quad \text{and}
+		\\
+		\widebar{a}^\theta
+		= \sup
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^\theta(a) \right\}
+		&\leq \sup
+		\left\{ a \in A : a \leq \widebar{\text{br}}\vphantom{\text{br}}^{\theta'}(a) \right\}
+		= \widebar{a}^{\theta'} . \qedhere
+	\end{align*}
+	%
+\end{proof}
+
+\begin{namedthm}[\Cref*{exercise:bertrand_spm_diff} {\normalfont (continued from \cpageref{exercise:bertrand_spm_diff}).}]
+	%
+	\label{exercise:bertrand_spm_diff_param}
+	%
+	Let $\theta \coloneqq (c_1,c_2) \in \R_+^2 \eqqcolon \Theta$. Show that modulo compactness of the action sets, this is a parametrised game of strategic complements, and conclude that when either firm's marginal cost increases, the prices charged by both firms in the least and greatest pure-strategy Nash equilibria increase.
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:coordinated_attack} {\normalfont (continued from \cpageref{exercise:coordinated_attack}).}]
+	%
+	\label{exercise:coordinated_attack_param}
+	%
+	Let $\theta \coloneqq (-\omega,-t) \in [-1,0] \times \R_{--} \eqqcolon \Theta$. Show that this is a parametrised game of strategic complements, and conclude that when fundamentals worsen ($\omega$ falls) or transaction costs decline ($t$ falls), the fraction of speculators who attack in the least and greatest pure-strategy Nash equilibria increases. (Bonus question: for which parameter increases $\theta \coloneqq (-\omega,-t) \leq \theta' = (-\omega',-t')$ does the fraction of speculators who attack in the least and greatest pure-strategy Nash equilibria \emph{strictly} increase?)
+	%
+\end{namedthm}
+
+It is important to note that \Cref{proposition:spm_game_mcs} promises only that the least and greatest pure-strategy Nash equilibria increase with the parameter $\theta$. Other equilibria need not increase with $\theta$, as the following shows.
+
+\begin{exercise}
+	%
+	\label{exercise:diamond_mcs}
+	%
+	The \textcite{Diamond1982} `coconuts' search model was one of the earliest formalisations of Keynes's (\citeyear{Keynes1936}) idea that recessions can be demand-driven or `self-fulfilling': a drop in demand lowers employment and (thus) earnings, leading demand to fall yet further, etc. A two-agent version of this model \parencite[based on][section~4]{MilgromRoberts1990} goes as follows.
+
+	Each of two players $I = \{1,2\}$ has an endowment (including human capital) whose value to her is normalised to zero. There are gains from trade: if players trade, they realise a strictly positive surplus normalised to $2$, which they split equally. (My example: player~1 is a hairdresser and player~2 a car mechanic. Diamond's original example: each player has a coconut, and eating one's own coconut is taboo.)
+
+	Costly search effort is required to find a trading partner. In particular, each player $i \in I$ chooses effort $a_i \in A_i \coloneqq [0,1]$, and search is successful (so trade occurs) with probability $a_1 a_2 \in [0,1]$. (Thus expected GDP is $2 a_1 a_2$.) We assume that the cost of effort $a_i \in [0,1]$ is $\left( k a_i / \theta + a_i^2/2 \right) / (1+k)$, where $\theta \in \Theta \coloneqq (0,1)$ and $k \in [0,\infty)$. Thus the payoff of player $i \in I$ is
+	%
+	\begin{equation*}
+		u_i^\theta(a_i,a_{-i})
+		\coloneqq a_i a_{-i}
+		- \frac{ k a_i / \theta + a_i^2/2 }{1+k}
+		\quad \text{for all $(a_i,a_{-i}) \in [0,1]^2$.}
+	\end{equation*}
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Fix $\theta$ and $k > 0$. Prove that there are three pure-strategy Nash equilibria: a least one, a greatest one, and a third `middle' one. Write down explicit expressions for all three.
+
+		\item Fix $k > 0$. Show that $\bigl( \Theta, \bigl( I,\bigl(A_i,u_i^\theta\bigr)_{i \in I} \bigr)_{\theta \in \Theta} \bigr)$ is a parametrised game of strategic complements. Is the `middle' equilibrium increasing in the parameter $\theta$?
+
+		\item Bonus: if $k=0$, what are the pure-strategy Nash equilibria?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The literature}
+\label{spm:lit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textcite{Topkis1979} defined games of strategic complements and proved that they have least and greatest pure-strategy Nash equilibria (\Cref{theorem:spm_game_nash}). Games of strategic complements were (independently) introduced to economics by \textcite{BulowGeanakoplosKlemperer1985}, who also coined the terms `strategic complements' and `strategic substitutes'. The result about rationalisability (\Cref{proposition:spm_game_rbty}) is due to \textcite{MilgromRoberts1990}, and the comparative-statics result for pure-strategy Nash equilibria (\Cref{proposition:spm_game_mcs}) is from \textcite{MilgromRoberts1990,Vives1990,Sobel1988}.
+
+As shown in \Cref{exercise:diamond_mcs} (\cpageref{exercise:diamond_mcs}), in a parametrised game of strategic complements, pure-strategy Nash equilibria other than the least and greatest may or may not be increasing in the parameter. Samuelson's (\citeyear{Samuelson1947}) `correspondence principle' characterises which equilibria do and don't increase, under auxiliary differentiability and quasi-concavity assumptions. For a correspondence principle without auxiliary assumptions, see \textcite{Echenique2002}.
+
+For further/alternative reading, look for lecture notes online, for example \textcite[section~3]{Sarver2023} and \textcite{Levin2006spm}, or see \textcite[chapter~4]{Topkis1998} for a (dry) textbook treatment.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{More exercises}
+\label{spm:exer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+	%
+	\label{exercise:spm_welfare}
+	%
+	Let $G = (I,(A_i,u_i)_{i \in I})$ be a game of strategic complements. By Theorem~\ref*{theorem:spm_game_nash} (p.~\pageref*{theorem:spm_game_nash}), $G$ has a least and a greatest pure-strategy Nash equilibrium; let's denote these by $\underline{a} \in A$ and $\overline{a} \in A$, respectively.
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item \label{spm_welfare_special} Suppose that every player's payoff is increasing in her opponents' actions, i.e. that $a_{-i} \mapsto u_i(a_i,a_{-i})$ is increasing for each $a_i \in A_i$. Prove every player prefers $\overline{a}$ to $\underline{a}$. (In other words, either $\overline{a}$ either Pareto-dominates $\underline{a}$, or else $\underline{a}=\overline{a}$.)
+
+		\item \label{spm_welfare} Suppose that for a subset $S \subseteq I$ of players, every player $i \in S$ has payoff increasing in her opponents' actions and every player $i \in I \setminus S$ has payoff decreasing in her opponents' actions: that is, for every $a_i \in A_i$, $a_{-i} \mapsto u_i(a_i,a_{-i})$ is increasing for each $i \in S$ and is decreasing for each $i \in I \setminus S$. Prove that each player $i \in S$ prefers $\overline{a}$ to $\underline{a}$ and that each player $i \in I \setminus S$ prefers $\underline{a}$ to $\overline{a}$.
+
+	\end{enumerate}
+	%
+\end{exercise}

@@ -1,0 +1,975 @@
+% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Given a non-empty set $X$, a \emph{fixed point} of a map $f : X \to X$ is an $x \in X$ such that $f(x)=x$.
+(For a correspondence $f : X \to 2^X$, a fixed point is any $x \in X$ such that $x \in f(x)$.)
+Fixed points matter because nearly all equilibrium concepts in economics are precisely fixed points of some behavioural (often best-response-like) map $f : X \to X$; examples include Nash equilibrium, competitive equilibrium, and even rationalisability (see \cref{tar:app} below).
+
+Fixed-point theorems are results which identify assumptions on $X$ and $f$ under which fixed points exist,%
+	\footnote{This is non-trivial because many functions have no fixed point; the simplest example is the function $f : \{0,1\} \to \{0,1\}$ given by $f(0) \coloneqq 1$ and $f(1) \coloneqq 0$.}
+and (sometimes) also describe the qualitative structure of the fixed-point set $\{ x \in X : f(x)=x \}$.
+Three classic fixed-point theorems see extensive use in economics.
+
+\begin{enumerate}
+
+	\item \label{item:fpt_browuer} Brouwer's (\citeyear{Brouwer1912}) asserts that if $X$ is a non-empty, compact and convex subset of a Euclidean space and $f : X \to X$ is continuous, then $f$ has a fixed point. Famous applications include the proofs of the existence of Nash equilibrium \parencite{Nash1950,Nash1951} and of competitive equilibrium \parencite{Mckenzie1954,Mckenzie1959,ArrowDebreu1954}.
+
+	\item \label{item:fpt_banach} Banach's (\citeyear{Banach1922}) asserts that if $(X,d)$ is a non-empty complete metric space and $f : X \to X$ is a contraction (there exists a $k \in [0,1)$ such that $d(f(x),f(y)) \leq k d(x,y)$ for all $x,y \in X$), then $f$ has exactly one fixed point, which may be found by iterating on $f$.%
+		\footnote{`May be found by iterating on $f$' formally means that for any $x \in X$, $f^n(x)$ converges to the fixed point as $n \to \infty$, where $f^1 \coloneqq f$ and $f^{n+1} \coloneqq f \circ f^n$ for each $n \in \N$.}
+	One famous application is the proof of the `principle of optimality' (the necessity and sufficiency of the Bellman equation) for infinite-horizon discounted dynamic programming \parencite{Blackwell1965}.
+
+	\item \label{item:fpt_tarski} Tarski's (\citeyear{Tarski1955}) asserts that if $(X,\mathord{\lesssim})$ is a non-empty complete lattice and $f : X \to X$ is increasing, then the fixed-point set $\{ x \in X : f(x) = x \}$ is a non-empty complete lattice. This one is the subject of this chapter. It is perhaps less familiar than the other two, but it is just as useful; we shall see several applications in \cref{tar:app,ch_spm,ch_aps} below.
+
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Partial orders}
+\label{tar:poset}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Recall that given a set $X$, a \emph{binary relation} $\lesssim$ on $X$ is formally a subset of $X \times X$, though it is usual to write `$x \lesssim y$' in place of `$(x,y) \in \mathord{\lesssim}$'. The idea is that $x$ is in some general/abstract sense `weakly smaller' than $y$.
+
+\begin{notation}
+	%
+	\label{notation:relations}
+	%
+	For a binary relation $\lesssim$ on a set $X$, we write
+	%
+	\begin{itemize}
+
+		\item `$\gtrsim$' for the \emph{inverse} of $\lesssim$, meaning the binary relation on $X$ defined by, for all $x,y \in X$, $x \gtrsim y$ iff $y \lesssim x$,
+
+		\item `$\not\lesssim$' for the \emph{complement} of $\lesssim$, meaning the binary relation on $X$ defined by, for all $x,y \in X$, $x \not\lesssim y$ iff it is not the case that $x \lesssim y$, and
+
+		\item `$<$' for the \emph{strict part} of $\lesssim$, meaning the binary relation on $X$ defined by, for all $x,y \in X$, $x < y$ iff $x \lesssim y \not\lesssim x$.
+
+	\end{itemize}
+	%
+\end{notation}
+
+\begin{definition}
+	%
+	\label{definition:poset}
+	%
+	A binary relation on $X$ is called a \emph{partial order} iff it is transitive, reflexive and anti-symmetric.%
+		\footnote{$\lesssim$ is \emph{transitive} iff for all $x,y,z \in X$, $x \lesssim y \lesssim z$ implies $x \lesssim z$, \emph{reflexive} iff $x \lesssim x$ for all $x \in X$, and \emph{anti-symmetric} iff for all $x,y \in X$, $x \lesssim y \lesssim x$ implies $x=y$.}
+	A set $X$ equipped with a partial order $\lesssim$ is called a \emph{partially ordered set} (`poset' for short); we write `$(X,\mathord{\lesssim})$' when we are being fastidious, and simply `$X$' when we are not.
+	%
+\end{definition}
+
+\begin{exercise}
+	%
+	\label{exercise:partial_orders}
+	%
+	Show the following:
+	%
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item For $X \subseteq \R$, the ordinary inequality $\leq$ is a partial order on $X$.
+
+		\item For $X \subseteq \R^n$ where $n \in \N$, the ordinary vector inequality $\leq$ is a partial order on $X$.
+
+		\item When $X$ is a set of functions $\R \to \R$, pointwise inequality $\leq$ (i.e. $f \leq g$ iff $f(y) \leq g(y))$ for every $y \in \R$) is a partial order on $X$.
+
+		\item For any non-empty set $S$, the containment relation $\subseteq$ is a partial order on the set $X \coloneqq 2^S$ of all subsets of $S$.
+
+		\item \label{item:partial_orders:fosd} If $X$ is a set of CDFs on $\R$, then first-order stochastic dominance is a partial order on $X$. (Bonus question: same claim, but for second-order stochastic dominance.)
+
+		\item \label{item:posets:pref} If $X$ is a non-empty set of alternatives and $\preceq$ is a preference relation on $X$ (a complete%
+			\footnote{`Complete' means that for all $x,y \in X$, either $x \preceq y$ or $y \preceq x$.}
+		and transitive binary relation), then $\preceq$ is a partial order if and only if it is never indifferent (there do not exist $x \neq y$ in $X$ such that $x \preceq y \preceq x$).
+
+		\item Let $X$ be a non-empty set of alternatives, let $I$ be a non-empty set of agents, and let each agent $i \in I$ have a preference relation $\preceq_i$ over $X$. For $x,y \in X$, say that $x$ is \emph{weakly Pareto-dominated} by $y$ iff $x \preceq_i y$ for every $i \in I$. Show that `weakly Pareto-dominated by' is transitive and reflexive. What is the necessary and sufficient condition on the preference relations $(\mathord{\preceq}_i)_{i \in I}$ for `weakly Pareto-dominated by' to be a partial order?
+
+		\item Fix a normal-form game $(I,(A_i,u_i)_{i \in I})$, and further fix a player $i \in I$. let $\lesssim_i$ be the binary relation on $A_i$ such that for any $a_i, b_i \in A_i$, it holds that $a_i \lesssim_i b_i$ iff either (1)~$a_i$ is weakly dominated by $b_i$ or (2)~$a_i$ and $b_i$ are payoff-equivalent, i.e. $u_i(a_i,a_{-i}) = u_i(b_i,a_{-i})$ for every $a_{-i} \in A_{-i}$. Show that $\lesssim_i$ is transitive and reflexive. What is the necessary and sufficient condition for $\lesssim_i$ to be a partial order?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:arrow-pratt}
+	%
+	Let $X$ be the set of all twice continuously differentiable functions $u : \R \to \R$ with strictly positive first derivative ($u'>0$). We interpret these as Bernoulli utility functions of expected-utility decision makers à la \textcite{VonneumannMorgenstern1947}. Recall that for $u,v \in X$, $u$ is called \emph{less risk-seeking than (or more risk-averse than) $v$} iff for any $x \in \R$ and any CDF $F$ on $\R$, $u(x) \leq \mathrel{(<)} \int u \dd F$ implies $v(x) \leq \mathrel{(<)} \int v \dd F$. (That is, whenever $u$ prefers a lottery $F$ to a sure thing $x$, so does $v$. This definition is due to \textcite{Yaari1969}.) Further recall that by the Arrow--Pratt theorem \parencite{Arrow1965,Pratt1964}, $u \in X$ is less risk-seeking than $v \in X$ iff $u'' / u' \leq v''/v'$.
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show that `less risk-seeking than' is transitive and reflexive, but not anti-symmetric, hence not a partial order on $X$.
+
+	\end{enumerate}
+	%
+	Let $\mathcal{X}$ be the set of all equivalence classes of $X$ with respect to positive affine transformation; this just means that we identify (i.e. treat as identical) any two $u,v \in X$ such that $u = \alpha + \beta v$ for some $\alpha \in \R$ and $\beta \in \R_{++}$.
+
+	\begin{enumerate}[label=(\alph*),resume]
+
+		\item \label{item:arrow-pratt:b} Show that `less risk-seeking than' is a partial order on $\mathcal{X}$.
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lower and upper bounds, infima, suprema}
+\label{tar:bounds}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}
+	%
+	\label{definition:lb}
+	%
+	Fix a poset $(X,\mathord{\lesssim})$ and a subset $S \subseteq X$. An element $x \in X$ is called a \emph{lower bound (in $(X,\mathord{\lesssim})$)} of $S$ iff $x \lesssim y$ for every $y \in S$.
+	%
+\end{definition}
+
+\begin{exercise}
+	%
+	\label{exercise:lb-R}
+	%
+	Answer the following.
+	
+	\begin{enumerate}[label=(\alph*)]
+
+		\item What are the lower bounds in $([0,1],\mathord{\leq})$ of $[1/2,1)$?
+
+		\item What are the lower bounds in $([0,1],\mathord{\leq})$ of $(1/2,1)$?
+	
+		\item \label{item:lb_R_notsub} What are the lower bounds in $([0,1],\mathord{\leq})$ of $\{1/4\} \union (1/2,1)$?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:lb_disj}
+	%
+	Answer the following. (Think carefully about definitions.)
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item What are the lower bounds in $([0,1] \union [2,3],\mathord{\leq})$ of $(2,3]$?
+
+		(Answer: $[0,1] \cup \{2\}$. Make sure that you understand why!)
+
+		\item What are the lower bounds in $([0,1] \union (2,3],\mathord{\leq})$ of $(2,3]$?
+
+		\item What are the lower bounds in $([0,1) \union (2,3],\mathord{\leq})$ of $(2,3]$?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:lb-R2}
+	%
+	Answer the following. (I suggest drawing pictures.)
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item \label{item:lb_R2:a} What are the lower bounds in $\left([0,1]^2,\mathord{\leq}\right)$ of $[1/2,1]^2$?
+
+		\item \label{item:lb_R2:b} What are the lower bounds in $\left([0,1]^2,\mathord{\leq}\right)$ of $(1/2,1]^2$?
+
+		\item \label{item:lb_R2:c} What are the lower bounds in $\left([0,1]^2,\mathord{\leq}\right)$ of $(1/4,1] \times [1/2,1]$?
+
+		% \item What are the lower bounds in $\left([0,1]^2,\mathord{\leq}\right)$ of $\left\{ (x_1,x_2) \in [0,1]^2 : x_1 = x_2 \right\}$?
+
+		\item \label{item:lb_R2:d} What are the lower bounds in $\left([0,1]^2,\mathord{\leq}\right)$ of
+		%
+		\begin{equation*}
+			Y \coloneqq \left\{ (x_1,x_2) \in [0,1]^2 : x_1 + x_2 = 1 \right\} ?
+		\end{equation*}
+
+		\item \label{item:lb_R2:e} What are the lower bounds in $(Y,\mathord{\leq})$ of $\{(1/2,1/2)\}$?
+
+		\item \label{item:lb_R2:f} What are the lower bounds in $(Y,\mathord{\leq})$ of $\{(1/3,2/3),(2/3,1/3)\}$?
+
+		\item \label{item:lb_R2:g} What are the lower bounds in $(Y,\mathord{\leq})$ of $Y$?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:lb_exist}
+	%
+	Show that for any poset $(X,\mathord{\lesssim})$, the following are equivalent:
+
+	\begin{itemize}
+	
+		\item Every set $S \subseteq X$ admits at least one lower bound in $(X,\mathord{\lesssim})$.
+
+		\item $X$ has a $\lesssim$-least element (an $x \in X$ such that $x \lesssim y$ for every $y \in X$).
+	
+	\end{itemize}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:lb_empty}
+	%
+	Fix an arbitrary poset $(X,\mathord{\lesssim})$, and let $S \coloneqq \varnothing$ (the empty set). What are the lower bounds in $(X,\mathord{\lesssim})$ of $S$?
+	%
+\end{exercise}
+
+\begin{definition}
+	%
+	\label{definition:glb}
+	%
+	Fix a poset $(X,\mathord{\lesssim})$ and a subset $S \subseteq X$.
+	An element $x \in X$ is called the \emph{infimum (in $(X,\mathord{\lesssim})$)} of $S$ iff $x$ is a lower bound (in $(X,\mathord{\lesssim})$) of $S$ and $y \lesssim x$ for every lower bound $y \in X$ (in $(X,\mathord{\lesssim})$) of $S$.
+	The infimum (in $(X,\mathord{\lesssim})$) of $S$, if it exists, is denoted `$\inf_{(X,\mathord{\lesssim})} S$' when we are being fastidious, and simply `$\inf S$' when we are not.%
+		\footnote{Other names for infima are `greatest lower bound', `meet', `$\bigwedge_{(X,\mathord{\lesssim})} S$' and `$\bigwedge S$'.}
+	%
+\end{definition}
+
+We say `the' infimum for a reason:
+
+\begin{exercise}
+	%
+	\label{exercise:glb_unique}
+	%
+	Fix a poset $(X,\mathord{\lesssim})$ and a subset $S \subseteq X$. Prove that the infimum of $S$ is unique if it exists. (In other words: $S$ has at most one infimum.) (Hint: recall the definition of a partial order.)
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:lb-R} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R-latt}
+	%
+	Revisit each part and identify the infimum.
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:lb_disj} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb_disj_latt}
+	%
+	Revisit each part and determine whether there is an infimum, and if yes, what it is. (Hint: in at least one part, no infimum exists.)
+	%
+\end{namedthm}
+
+\begin{exercise}
+	%
+	\label{exercise:lb-R_sublatt}
+	%
+	Prove the following.
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item `Infimum in $(\R,\mathord{\leq})$' as defined by \Cref{definition:glb} above is equivalent to the familiar notion of `infimum' from real analysis: that is, $\inf_{(\R,\mathord{\leq})} S = \inf S$ for every non-empty $S \subseteq \R$ that is bounded below.%
+			\footnote{`Bounded below' means that there is an $x \in \R$ such that $x \leq y$ for every $y \in S$.}
+
+		\item \label{item:lb_R_sublatt:ineq} For any $X \subseteq \R$,
+		$\inf_{(X,\mathord{\leq})} S 
+		\leq \inf_{(\R,\mathord{\leq})} S
+		= \inf S$ for every non-empty $S \subseteq X$ that is bounded below.
+
+		\item \label{item:lb_R_sublatt:subcompl} For any compact $X \subseteq \R$,
+		$\inf_{(X,\mathord{\leq})} S 
+		= \inf_{(\R,\mathord{\leq})} S
+		= \inf S$ for every non-empty $S \subseteq X$.
+
+		\item There exist $S \subseteq X \subseteq \R$ such that $S$ is bounded below and
+		$\inf_{(X,\mathord{\leq})} S 
+		< \inf_{(\R,\mathord{\leq})} S
+		= \inf S$.
+		(Hint: take inspiration from \Cref{exercise:lb-R}\ref{item:lb_R_notsub} on \cpageref{item:lb_R_notsub}.)
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:lb_sublat}
+	%
+	Prove the following generalisation of \Cref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:ineq}--\ref{item:lb_R_sublatt:subcompl}: for any poset $(X,\mathord{\lesssim})$ and any $S \subseteq Y \subseteq X$, if $\inf_{(Y,\mathord{\lesssim})} S$ and $\inf_{(X,\mathord{\lesssim})} S$ exist, then $\inf_{(Y,\mathord{\lesssim})} S \lesssim \inf_{(X,\mathord{\lesssim})} S$, and if in addition $\inf_{(X,\mathord{\lesssim})} S$ belongs to $Y$, then $\inf_{(Y,\mathord{\lesssim})} S = \inf_{(X,\mathord{\lesssim})} S$.
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:lb-R2} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R2_latt}
+	%
+	Revisit each part and determine whether there is an infimum, and if yes, what it is.
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:lb_exist} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb_exist_latt}
+	%
+	Show that for any poset $(X,\mathord{\lesssim})$, the set $X$ has a $\lesssim$-least element iff $X$ has an infimum in $(X,\mathord{\lesssim})$.
+	%
+\end{namedthm}
+
+\begin{definition}
+	%
+	\label{definition:ub_lub}
+	%
+	Fix a poset $(X,\mathord{\lesssim})$ and a subset $S \subseteq X$. An element $x \in X$ is called an \emph{upper bound (in $(X,\mathord{\lesssim})$)} of $S$ iff $y \lesssim x$ for every $y \in S$.%
+		\footnote{Equivalently, $x \in X$ is an upper bound in $(X,\mathord{\lesssim})$ of $S$ iff it is a lower bound in $(X,\mathord{\gtrsim})$ of $S$.}
+	An element $x \in X$ is called the \emph{supremum (in $(X,\mathord{\lesssim})$)} of $S$ iff $x$ is an upper bound (in $(X,\mathord{\lesssim})$) of $S$ and $x \lesssim y$ for every upper bound $y \in X$ (in $(X,\mathord{\lesssim})$) of $S$.%
+		\footnote{Equivalently, $x \in X$ is the supremum in $(X,\mathord{\lesssim})$ of $S$ iff it is the infimum in $(X,\mathord{\gtrsim})$ of $S$.}
+	The supremum (in $(X,\mathord{\lesssim})$) of $S$, if it exists, is denoted `$\sup_{(X,\mathord{\lesssim})} S$'.%
+		\footnote{Other names for suprema are `least upper bound', `join', $\bigvee_{(X,\mathord{\lesssim})} S$ and `$\bigvee S$'.}
+	%
+\end{definition}
+
+\begin{namedthm}[\Cref*{exercise:lb_exist} {\normalfont (continued)}.]
+	%
+	\label{exercise:ub_exist_latt}
+	%
+	Fix an arbitrary poset $(X,\mathord{\lesssim})$. Show that $X$ has a supremum in $(X,\mathord{\lesssim})$ iff $X$ has a $\lesssim$-greatest element (an $x \in X$ such that $y \lesssim x$ for every $y \in X$).
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:lb-R} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R-upp}
+	%
+	In each case, what are the \emph{upper} bounds?
+	%
+\end{namedthm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lattices}
+\label{tar:latt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}
+	%
+	\label{definition:lattice}
+	%
+	A poset $(X,\mathord{\lesssim})$ is called a \emph{lattice} iff every two-element set $S = \{x,y\} \subseteq X$ has an infimum and a supremum, and is called a \emph{complete lattice} iff every set $S \subseteq X$ has an infimum and a supremum.
+	%
+\end{definition}
+
+It is common to abbreviate `$(X,\mathord{\lesssim})$ is a (complete) lattice' to `$X$ is a (complete) lattice', leaving the partial order $\lesssim$ implicit. I will avoid this, as it can be confusing.
+
+\begin{example}
+	%
+	\label{example:meet_boolean}
+	%
+	For any non-empty set $S$, the \emph{Boolean lattice} $\bigl( 2^S, \mathord{\subseteq} \bigr)$ is, as its name suggests, a lattice. In particular, for any subsets $R,T \subseteq S$,
+	%
+	\begin{equation*}
+		\inf_{\left( 2^S, \mathord{\subseteq} \right)}\{ R, T \}
+		= R \cap T
+		\quad \text{and} \quad
+		\sup_{\left( 2^S, \mathord{\subseteq} \right)}\{ R, T \}
+		= R \cup T .
+	\end{equation*}
+	%
+	Actually, it is a \emph{complete} lattice, with
+	%
+	\begin{equation*}
+		\inf_{\left( 2^S, \mathord{\subseteq} \right)}\mathcal{R}
+		= \bigcap_{R \in \mathcal{R}} R
+		\quad \text{and} \quad
+		\sup_{\left( 2^S, \mathord{\subseteq} \right)}\mathcal{R}
+		= \bigcup_{R \in \mathcal{R}} R 
+	\end{equation*}
+	%
+	for each collection $\mathcal{R} \subseteq 2^S$ of subsets of $S$.
+	%
+\end{example}
+
+\begin{namedthm}[\Cref*{exercise:lb-R} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R-lat}
+	%
+	Is $([0,1],\mathord{\leq})$ a lattice? Is it a complete lattice?
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:lb_disj} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb_disj_lat}
+	%
+	Answer the following.
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Is $([0,1] \union [2,3],\mathord{\leq})$ a lattice? Is it a complete lattice?
+
+		\item Is $([0,1] \union (2,3],\mathord{\leq})$ a lattice? Is it a complete lattice?
+
+		\item Is $([0,1) \union (2,3],\mathord{\leq})$ a lattice? Is it a complete lattice?
+	
+	\end{enumerate}
+	%
+\end{namedthm}
+
+\begin{namedthm}[\Cref*{exercise:lb-R2}\ref*{item:lb_R2:a}--\ref*{item:lb_R2:d} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R2_lat_a-d}
+	%
+	Show that the infimum in $\left( [0,1]^2, \mathord{\leq} \right)$ of any set $S \subseteq [0,1]^2$ exists and is equal to the `coordinate-by-coordinate' infimum, i.e. the vector $\bigl( \inf_{([0,1],\mathord{\leq})} S_1, \inf_{([0,1],\mathord{\leq})} S_2 \bigr)$ where
+	%
+	\begin{equation*}
+		S_1 \coloneqq \left\{ x_1 \in [0,1] : (x_1,x_2) \in S \right\}
+		\quad \text{and} \quad
+		S_2 \coloneqq \left\{ x_2 \in [0,1] : (x_1,x_2) \in S \right\} .
+	\end{equation*}
+	%
+	Further show that $\left( [0,1]^2, \mathord{\leq} \right)$ is a complete lattice.
+	%
+\end{namedthm}
+
+$\left( \R^2, \mathord{\leq} \right)$ is an example of a \emph{product lattice:} a poset $(X,\mathord{\lesssim})$ such that $X = \prod_{i \in \mathcal{I}} X_i$, where $X_i \subseteq \R$ for each $i \in \mathcal{I}$ (and where $\mathcal{I}$ is a non-empty [`index'] set), and for any $x = (x_i)_{i \in \mathcal{I}} \in X$ and $y = (y_i)_{i \in \mathcal{I}} \in X$, it holds that $x \lesssim y$ iff $x_i \leq y_i$ for every $i \in \mathcal{I}$. As the name suggests, every product lattice is a lattice. Another example of a product lattice is the set of all functions $\R \to \R$ ordered by `pointwise inequality' $\leq$, i.e. $f \leq g$ iff $f(y) \leq g(y)$ for every $y \in \R$. (In this case, the `index' set is $\mathcal{I} \coloneqq \R$, and $x_i \equiv f(i)$ for each $i \in \mathcal{I}$.)
+
+It is a general fact that for a product lattice $(X,\mathord{\lesssim}) = \left( \prod_{i \in \mathcal{I}} X_i, \mathord{\lesssim} \right)$, the infimum and supremum in $(X,\mathord{\lesssim})$ of any set $S \subseteq X$, if these exist, are equal to $\bigl( \inf_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$ and $\bigl( \sup_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$, where $S_i \coloneqq \left\{ x_i \in X_i : (x_i,x_{-i}) \in S \right\}$.
+If $X_i$ is compact for each $i \in \mathcal{I}$, then by \Cref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:subcompl}, we may replace the `$\inf_{(X_i,\mathord{\leq})}$' and `$\sup_{(X_i,\mathord{\leq})}$' with the ordinary `$\inf$' and `$\sup$' from real analysis.
+
+\begin{exercise}
+	%
+	\label{exercise:product_compl_lattice}
+	%
+	Consider the product lattice $(X,\mathord{\leq})$, where $X \coloneqq \prod_{i \in \mathcal{I}} X_i$, the set $\mathcal{I}$ is non-empty, and $X_i \subseteq \R$ for each $i \in \mathcal{I}$. Prove that if $X_i$ is compact for each $i \in \mathcal{I}$, then $(X,\mathord{\leq})$ is a complete lattice.
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:lb-R2}\ref*{item:lb_R2:e}--\ref*{item:lb_R2:g} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb-R2_lat_e-g}
+	%
+	Recall that
+	%
+	\begin{equation*}
+		Y \coloneqq \left\{ (x_1,x_2) \in [0,1]^2 : x_1 + x_2 = 1 \right\} .
+	\end{equation*}
+	%
+	Is $( Y, \mathord{\leq} )$ a lattice? Is it a complete lattice?
+	%
+\end{namedthm}
+
+\begin{exercise}
+	%
+	\label{exercise:budget_set_latt}
+	%
+	Consider the standard consumer-choice problem. There are $L \geq 2$ goods, whose prices are $p \in \R_{++}^L$. The consumer has income/wealth $w \in \R_{++}$, and chooses her consumption $x \in \R_+^L$ of each good. Hence her budget set is $B \coloneqq \left\{ x \in \R_+^L : p \cdot x \leq w \right\}$.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Let `$\leq$' denote the standard `coordinate-wise' order on $B$ (that is, $x \leq y$ iff $x_\ell \leq y_\ell$ for each good $\ell \in \{1,\dots,L\}$). Is $(B,\mathord{\leq})$ a lattice?
+
+		\item Assume that $L \coloneq 2$, and let $\lesssim$ be the partial order defined by $(x_1,x_2) \lesssim (y_1,y_2)$ iff $x_1 \leq y_1$ and $x_2 \geq y_2$. Show that $(B,\mathord{\lesssim})$ is a complete lattice.
+	
+	\end{enumerate}
+	
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:lb_empty} {\normalfont (continued)}.]
+	%
+	\label{exercise:lb_empty_lat}
+	%
+	Let $X \coloneqq \varnothing$. There is exactly one partial order on $X$; why? Call this partial order $\lesssim$. $(X,\mathord{\lesssim})$ is a lattice; why?
+	%
+\end{namedthm}
+
+\begin{exercise}
+	%
+	\label{exercise:diamond}
+	%
+	Let $X = \left\{ (0,0), (1,2), (2,1), (3,3) \right\} \subseteq \R^2$, and let $\leq$ be the usual coordinate-wise order, i.e. $(x_1,x_2) \leq (y_1,y_2)$ if and only if $x_1 \leq y_1$ and $x_2 \leq y_2$. (Draw a picture, probably.)
+	
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item What is the infimum in $(X,\mathord{\leq})$ of $S = \{ (1,2), (2,1) \}$? (Answer: $(0,0)$. Not $(1,1)$! Make sure that you understand why.)
+
+		\item Is $(X,\mathord{\leq})$ a lattice?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:latt_compl_finite}
+	%
+	Let $(X,\mathord{\lesssim})$ be a poset, and assume that $X$ is finite. Prove that $(X,\mathord{\lesssim})$ is a complete lattice iff it is a lattice. (Bonus question: show by example that this equivalence can fail if $X$ is not assumed finite.)
+	%
+\end{exercise}
+
+\begin{namedthm}[\Cref*{exercise:arrow-pratt}\ref*{item:arrow-pratt:b} {\normalfont (continued from \cpageref{exercise:arrow-pratt,item:arrow-pratt:b})}.]
+	%
+	\label{exercise:arrow-pratt_lattice}
+	%
+	Show that $\left(\mathcal{X},\text{`less risk-seeking than'}\right)$ is a lattice.
+	%
+\end{namedthm}
+
+\begin{exercise}[brace yourself]
+	%
+	\label{exercise:CDFs_lattice}
+	%
+	Let $X$ be the set of all CDFs on $\R$. In other words, $X$ is the set of all increasing and right-continuous functions $F : \R \to [0,1]$ that satisfy $\lim_{y \downarrow -\infty} F(y) = 0$ and $\lim_{y \uparrow +\infty} F(y) = 1$.
+	For any $F,G \in X$, write $F \lesssim G$ iff $F$ is first-order stochastically dominated by $G$ (that is, $F(y) \geq G(y)$ for every $y \in \R$). We know from \Cref{exercise:partial_orders}\ref{item:partial_orders:fosd} (\cpageref{item:partial_orders:fosd}) that $(X,\mathord{\lesssim})$ is a poset.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show that $(X,\mathord{\lesssim})$ is a lattice, and give explicit expressions for the infimum and supremum of an arbitrary two-element set $\{F,G\} \subseteq X$.
+	
+	\end{enumerate}
+	%
+	In the rest of this exercise, we prove that the lattice $(X,\mathord{\lesssim})$ is not complete, and ask which sets $S \subseteq X$ \emph{do} admit an infimum and supremum. This requires some more mathematical concepts.
+
+	Recall that a function $\phi : \R \to [0,1]$ is called \emph{upper semi-continuous (USC)} iff $\limsup_{z \to y} \phi(z) \leq \phi(y)$ for each $y \in \R$. Equivalently, $\phi : \R \to [0,1]$ is USC iff for any $k \in [0,1]$, the set $\left\{ y \in \R : \phi(y) \geq k \right\}$ is closed.
+	A key fact about USC functions is that for any collection $\Phi$ of USC functions $\R \to [0,1]$, the `pointwise infimum', i.e. the function $\psi : \R \to [0,1]$ defined by $\psi(y) \coloneqq \inf_{\phi \in \Phi} \phi(y)$ for each $y \in \R$, is USC.%
+		\footnote{\emph{Proof.}\, For any $k \in \R$, $\left\{ y \in \R : \psi(y) \geq k \right\} = \Intersect_{\phi \in \Phi} \left\{ y \in \R : \phi(y) \geq k \right\}$, which is closed since each $\phi \in \Phi$ is USC and since the intersection of closed sets is closed. \qed}
+	The same is \emph{not} true of the `pointwise supremum'.%
+		\footnote{Consider $\Phi = \{ \1_{[z,\infty)} : z \in \R_{++} \}$ where, recall, `$\R_{++}$' are the strictly positive real numbers and `$\1_S$' for $S \subseteq \R$ is the function $\R \to [0,1]$ defined by $\1_S(y) \coloneqq 1$ for $y \in S$ and $\1_S(y) \coloneqq 0$ for $y \in \R \setminus S$.}
+
+	For any function $\phi : \R \to [0,1]$, let $\phi^\star : \R \to [0,1]$ denote the pointwise infimum of the set of all USC functions which pointwise exceed $\phi$: that is, $\phi^\star(y) \coloneqq \inf_{\psi \in \Psi} \psi(y)$ for each $y \in \R$, where $\Psi$ is the set of all functions $\psi : \R \to [0,1]$ which are USC and satisfy $\psi \geq \phi$. By the above fact, $\phi^\star$ is USC. Hence $\phi^\star$ is the pointwise least USC function which pointwise exceeds $\phi$. The function $\phi^\star$ is called the \emph{upper semi-continuous envelope} of $\phi$.
+
+	It is easy to see that in the definition of a CDF, `right-continuous' may be replaced with `USC': in other words, $X$ is exactly the set of all increasing and \emph{upper semi-continuous} functions $F : \R \to [0,1]$ that satisfy $\lim_{y \downarrow -\infty} F(y) = 0$ and $\lim_{y \uparrow +\infty} F(y) = 1$.
+
+	\begin{enumerate}[label=(\alph*),resume]
+	
+		\item \label{item:exercise:CDFs_lattice:b} Fix a non-empty set $S \subseteq X$ of CDFs, and let $F^* : \R \to [0,1]$ be its pointwise infimum: $F^*(y) \coloneqq \inf_{H \in S} H(y)$ for each $y \in \R$. 
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item Suppose that $F^*$ belongs to $X$.
+			Show that each $H \in S$ is first-order stochastically dominated by $F^*$. (That is, $F^*$ is an upper bound in $(X,\mathord{\lesssim})$ of $S$.) (Don't be confused by the direction of the inequalities: keep in mind that by definition, for any $F,G \in X$, $F \lesssim G$ iff $F \geq G$.)
+
+			\item Suppose that $F^*$ belongs to $X$.
+			Show that $F^*$ is first-order stochas\-tically dominated by any $G \in X$ that first-order stochastically dominates every $H \in S$.
+			(That is, $F^* \lesssim G$ for every upper bound $G$ of $S$.)
+
+			\item Conclude that
+
+			\begin{itemize}
+			
+				\item if $F^*$ belongs to $X$, then it is the supremum in $(X,\mathord{\lesssim})$ of $S$, and
+
+				\item if $F^*$ does not belong to $X$, then $S$ admits no supremum in $(X,\mathord{\lesssim})$.
+			
+			\end{itemize}
+
+		\end{enumerate}
+
+		The set $S$ is called \emph{tight} iff for every $\eps>0$, there exist $x<y$ in $\R$ such that $H(y)-H(x) \geq 1-\eps$ for each $H \in S$.%
+			\footnote{You may have encountered tightness when studying weak convergence of probability measures, e.g. in proving the central limit theorem \parencite[e.g.][chapter~11]{Rosenthal2006}.}
+
+		\begin{enumerate}[label=(\roman*),resume]
+
+			\item Prove that if $S$ is tight, then $F^*$ belongs to $X$.
+
+			\item Prove by example that if $S$ is not tight, then $F^*$ need not belong to $X$.
+		
+		\end{enumerate}
+
+		\item \label{item:exercise:CDFs_lattice:c} Fix a non-empty set $S \subseteq X$ of CDFs, and let $F_* : \R \to [0,1]$ be the upper semi-continuous envelope of its pointwise supremum: $F_* \coloneqq \phi^\star$, where $\phi : \R \to [0,1]$ is given by $\phi(y) \coloneqq \sup_{H \in S} H(y)$ for each $y \in \R$.
+
+		\begin{enumerate}[label=(\roman*)]
+
+			\item Suppose that $F_*$ belongs to $X$. Show that each $H \in S$ first-order stochastically dominates $F_*$. (That is, $F_*$ is a lower bound in $(X,\mathord{\lesssim})$ of $S$.)
+
+			\item Suppose that $F_*$ belongs to $X$. Show that $F_*$ first-order stochastically dominates any $G \in X$ that is first-order stochastically dominated by every $H \in S$.
+			(That is, $G \lesssim F_*$ for every lower bound $G$ of $S$.)
+
+			\item If you still haven't run out of energy, repeat the remaining steps in part~\ref{item:exercise:CDFs_lattice:b}, applied to $F_*$.
+		
+		\end{enumerate}
+
+		\item Let $Y$ be the set of all CDFs on the bounded interval $[a,b]$, for some $a<b$ in $\R$. Is $(Y,\mathord{\lesssim})$ is a complete lattice?
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tarski's fixed-point theorem}
+\label{tar:tar}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}
+	%
+	\label{definition:incresing}
+	%
+	Let $(X,\mathord{\lesssim})$ and $(X',\mathord{\lesssim'})$ be posets. A function $f : X \to X'$ is called \emph{$\lesssim$/$\lesssim'$-increasing} iff for any $x \lesssim y$ in $X$, we have $f(x) \lesssim' f(y)$. In most cases we abbreviate `$\lesssim$/$\lesssim'$-increasing' to simply `increasing'.%
+		\footnote{Other names for `increasing' are `order-preserving', `isotone' and `monotone'.}
+	%
+\end{definition}
+
+\begin{namedthm}[Tarski's fixed-point theorem.]
+	%
+	\label{theorem:tarski}
+	%
+	Let $(X,\mathord{\lesssim})$ be a non-empty complete lattice, let $f : X \to X$ be increasing, and write $\mathcal{F} \coloneqq \{ x \in X : f(x)=x \}$ for its fixed-point set. Then $(\mathcal{F},\mathord{\lesssim})$ is a non-empty complete lattice.
+	Furthermore, the least fixed point $\inf_{(\mathcal{F},\mathord{\lesssim})} \mathcal{F}$ is equal to $\inf_{(X,\mathord{\lesssim})} \left\{ x \in X : f(x) \lesssim x \right\}$,
+	and the greatest fixed point $\sup_{(\mathcal{F},\mathord{\lesssim})} \mathcal{F}$ is equal to $\sup_{(X,\mathord{\lesssim})} \left\{ x \in X : x \lesssim f(x) \right\}$.
+	%
+\end{namedthm}
+
+The biggest take-away is that the fixed-point set $\mathcal{F}$ is \emph{non-empty.}
+
+\begin{exercise}
+	%
+	\label{exercise:tarski_unit}
+	%
+	A corollary of \hyperref[theorem:tarski]{Tarski's fixed-point theorem} is that any increasing function $f : [0,1] \to [0,1]$ must intersect the diagonal, even if $f$ is not continuous. Draw some pictures to convince yourself that/why this is true.
+	%
+\end{exercise}
+
+\begin{remark}
+	%
+	\label{remark:tarski_decr}
+	%
+	It is tempting to think that `increasing' and `decreasing' are somehow symmetric, so that \hyperref[theorem:tarski]{Tarski's fixed-point theorem} applies also to decreasing functions. But that is false even in the simplest possible case: $X = \{0,1\}$ and $f(x) \coloneqq 1-x$ for each $x \in X$.
+	%
+\end{remark}
+
+\begin{exercise}
+	%
+	\label{exercise:tarski_R}
+	%
+	Recall Brouwer's and Banach's fixed-point theorems (\cpageref{item:fpt_browuer,item:fpt_banach}).
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item \label{item:tarski_R:conts_incr} There exist continuous and increasing functions $f : \R \to \R$ with no fixed point. Exhibit one.
+
+		\item Show that $(\R,\mathord{\leq})$ is a lattice. Is it a complete lattice?
+
+		\item Why does part~\ref{item:tarski_R:conts_incr} not contradict \hyperref[theorem:tarski]{Tarski's fixed-point theorem}?
+
+		\item Is $\R$ convex? Is it compact (=closed and bounded)?
+
+		\item Why does part~\ref{item:tarski_R:conts_incr} not contradict \hyperref[item:fpt_browuer]{Brouwer's fixed-point theorem}?
+
+		\item Prove that if $f : \R \to \R$ is continuous and increasing but has no fixed point, then
+		%
+		\begin{equation*}
+			\sup_{(x,\eps) \in \R \times \R_{++}} \frac{ f(x+\eps) - f(x) }{ \eps } \geq 1 .
+		\end{equation*}
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}[{\cite[pp.~40--41]{Topkis1998}}]
+	%
+	\label{exercise:diamond_tarski}
+	%
+	Consider the poset $(X,\mathord{\leq})$ where $X \coloneqq [0,3]^2$ and $\leq$ is the usual coordinate-wise inequality. Define $f : X \to X$ by
+	%
+	\begin{equation*}
+		f(x_1,x_2) \coloneqq
+		\begin{cases}
+			(0,0) & \text{if $x_1+x_2<3$} \\
+			(1,2) & \text{if $(x_1,x_2)=(1,2)$} \\
+			(2,1) & \text{if $(x_1,x_2)=(2,1)$} \\
+			(3,3) & \text{otherwise.} \\
+		\end{cases}
+	\end{equation*}
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item Is $(X,\mathord{\leq})$ a complete lattice?
+	
+		\item Is $f$ increasing?
+
+		\item Argue that the fixed-point set $\mathcal{F} \coloneqq \{ x \in X : f(x)=x \}$ is equal to $\{ (0,0), (1,2), (2,1), (3,3) \}$.
+
+		\item Is $(\mathcal{F},\mathord{\leq})$ a complete lattice? (Recall \Cref{exercise:diamond,exercise:latt_compl_finite} on \cpageref{exercise:diamond,exercise:latt_compl_finite}.) 
+	
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{proof}[Partial proof of {\hyperref[theorem:tarski]{Tarski's fixed-point theorem}}]
+	%
+	We shall show that $\mathcal{F}$ is non-empty with least element $\inf_{(X,\mathord{\lesssim})} \left\{ x \in X : f(x) \lesssim x \right\}$, omitting the (symmetric) argument that $\sup_{(X,\mathord{\lesssim})} \left\{ x \in X : x \lesssim f(x) \right\}$ is the greatest element as well as the proof that $(\mathcal{F},\mathord{\lesssim})$ is a complete lattice. 
+
+	Write $Y \coloneqq \left\{ x \in X : f(x) \lesssim x \right\}$. Since $(X,\mathord{\lesssim})$ is a non-empty complete lattice, the set $Y$ is non-empty (since $\sup_{(X,\mathord{\lesssim})} X$ is clearly an element of $Y$) and admits an infimum $y \coloneqq \inf_{(X,\mathord{\lesssim})} Y$.
+	Obviously $y \lesssim x$ for any fixed point $x$ of $f$, since $f(x)=x$ implies $x \in Y$ and thus $y = \inf_{(X,\mathord{\lesssim})} Y \lesssim x$.
+	Hence if $y$ is a fixed point of $f$, then it is the least fixed point. It remains only to show that $y$ is indeed a fixed point of $f$.
+
+	We will show that $y \in Y$ and $f(y) \in Y$. This is sufficient because $y \in Y$ is equivalent to $f(y) \lesssim y$ and $f(y) \in Y$ implies that $y = \inf_{(X,\mathord{\lesssim})} Y \lesssim f(y)$, so $f(y) \lesssim y \lesssim f(y)$, which implies $f(y)=y$ since $\lesssim$ is anti-symmetric.
+
+	To show that $y \in Y$, observe that for any $x \in Y$, we have $y = \inf_{(X,\mathord{\lesssim})} Y \lesssim x$, so $f(y) \lesssim f(x) \lesssim x$, where the first `$\lesssim$' holds since $f$ is increasing and the second holds since $x \in Y$. Thus $f(y)$ is a lower bound (in $(X,\mathord{\lesssim})$) of $Y$. Since $y$ is by definition the \emph{greatest} lower bound (in $(X,\mathord{\lesssim})$) of $Y$, it follows that $f(y) \lesssim y$, or equivalently $y \in Y$.
+
+	To show that $f(y) \in Y$, note that since $y \in Y$, we have $f(y) \lesssim y$ and thus $f(f(y)) \lesssim f(y)$ as $f$ is increasing. Hence $f(y) \in Y$ by definition of $Y$.
+	%
+\end{proof}
+
+\begin{remark}
+	%
+	\label{remark:tarski_extension}
+	%
+	Extensions of \hyperref[theorem:tarski]{Tarski's fixed-point theorem} include a version for correspondences \parencite{Zhou1994} and a version identifying additional assumptions that ensure a unique fixed point \parencite{MarinacciMontruccio2019}. Also useful is the extension in Tarski's (\citeyear{Tarski1955}) original paper to `pseudo-increasing' functions; the special case of this result for the complete lattice $(\R,\mathord{\leq})$ was (rediscovered and) used by \textcite{RobertsSonnenschein1976} to prove equilibrium existence in the symmetric Cournot model with general convex cost functions, for example.
+	%
+\end{remark}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Some applications}
+\label{tar:app}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hyperref[theorem:tarski]{Tarski's fixed-point theorem} has many economic applications. Here are three, borrowed from Eran Shmaya.%
+	\footnote{Lecture notes on his course may be found at \href{https://ludvigsinander.net/lecture_notes.html}{ludvigsinander.net/lecture\_notes}.}
+We will see a fourth application in \cref{ch_spm} below (specifically, \cref{spm:nash,spm:mcs_eqa}), and a fifth in \cref{ch_aps} (specifically, \cref{aps:selfgen}).
+
+\begin{example}[rationalisability]
+	%
+	\label{example:rationalisability_tarski}
+	%
+	Fix a normal-form game $(I,(A_i,u_i)_{i \in I})$. As in the definition of rationalisability (\cref{dom:rbty}, \cpageref{definition:rbty}), for each player $i \in I$ and each conjecture $\alpha_{-i} \in \Delta(A_{-i})$ about her opponents' actions, write $\text{BR}_i(\alpha_{-i}) \subseteq A_i$ for the set of best replies to $\alpha_{-i}$. For each player $i \in I$ and any product set $Y_{-i} = \prod_{j \in I \setminus \{i\}} Y_i \subseteq A_{-i}$ of her opponents' actions, let $\mathcal{B}_i(Y_{-i}) \subseteq A_i$ be the set of all best replies to conjectures supported on $Y_{-i}$:
+	%
+	\begin{equation*}
+		\mathcal{B}_i(Y_{-i}) \coloneqq
+		\Union_{\alpha_{-i} \in \Delta(Y_{-i})}
+		\text{BR}_i(\alpha_{-i}) .
+	\end{equation*}
+	%
+	(In case $Y_{-i}$ is empty, $\mathcal{B}_i(Y_{-i})$ is likewise empty.)
+	For any product set $Y = \prod_{i \in I} Y_i \subseteq A$, let $\mathcal{B}(Y) \coloneqq \left( \mathcal{B}_i(Y_{-i}) \right)_{i \in I}$.
+
+	Recall from \cref{dom:br_property} (\cpageref{definition:br_set}) that a product set $Y = \prod_{i \in I} Y_i \subseteq A$ is said to have the \emph{best-reply property} iff for each player $i \in I$, every $a_i \in Y_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta(Y_{-i})$. By inspection, $Y = \prod_{i \in I} Y_i \subseteq A$ has the best-reply property if and only if $Y \subseteq \mathcal{B}(Y)$.
+
+	Let $\mathcal{P}$ be the set of all product subsets of $A$. The map $\mathcal{B} : \mathcal{P} \to \mathcal{P}$ is evidently $\subseteq$/$\subseteq$-increasing. It is easily checked (echoing \Cref{example:meet_boolean} on \cpageref{example:meet_boolean}) that $(\mathcal{P},\mathord{\subseteq})$ is a complete lattice. Hence by \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, there is a largest (in the set-inclusion sense) set with the best-reply property. This recovers \Cref{observation:br_property_max} (\cpageref{observation:br_property_max}). Note that we made no assumptions about the game $(I,(A_i,u_i)_{i \in I})$, such as finiteness or compactness-and-continuity.
+	%
+\end{example}
+
+\begin{exercise}
+	%
+	\label{exercise:rationalisability_tarski}
+	%
+	Return to \Cref{example:rationalisability_tarski}. By \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, $\mathcal{B}$ also has a \emph{smallest} fixed point. What is it?
+	%
+\end{exercise}
+
+\begin{example}[Markov chains]
+	%
+	\label{example:markov_ch}
+	%
+	Consider a Markov chain on $[a,b] \subseteq \R$ with Borel-measurable transition kernel $m : [a,b] \to \Delta([a,b])$, where $\Delta([a,b])$ denotes the set of Borel probability measures on $[a,b]$. The interpretation is that if the state is $x \in [a,b]$ in a given period, then the next period's state will be drawn from the distribution $m(x) \in \Delta([a,b])$.
+
+	The \emph{Markov operator} $f : \Delta([a,b]) \to \Delta([a,b])$ is given by, for each $\mu \in \Delta([a,b])$,
+	%
+	\begin{equation*}
+		(f(\mu))(E) \coloneqq \int_{[a,b]} m(E|x) \mu(\dd x)
+		\quad\text{for each Borel $E\subseteq [a,b]$.} 
+	\end{equation*}
+	%
+	The interpretation is that if today's state is distributed according to $\mu \in \Delta([a,b])$, then the distribution of tomorrow's state is $f(\mu) \in \Delta([a,b])$. A distribution $\mu \in \Delta([a,b])$ is called an \emph{invariant distribution} of the Markov chain iff it is a fixed point of $f$.
+
+	Let's assume that $x \leq y$ implies $m(x) \lesssim m(y)$, where `$\lesssim$' denotes first-order stochastic dominance. This obviously implies that $f$ is $\lesssim$/$\lesssim$-increasing. We know from \Cref{exercise:CDFs_lattice} (\cpageref{exercise:CDFs_lattice}) that $( \Delta([a,b]), \mathord{\lesssim} )$ is a complete lattice. It follows by \hyperref[theorem:tarski]{Tarski's fixed-point theorem} that the Markov chain has an invariant distribution, and further that its invariant distributions form a complete lattice with respect to first-order stochastic dominance.%
+		\footnote{The other obvious way to ensure the existence of an invariant distribution is to impose continuity and compactness assumptions, then to appeal to \hyperref[item:fpt_browuer]{Brouwer's fixed-point theorem}.}
+	%
+\end{example}
+
+\begin{example}[matching]
+	%
+	\label{example:matching}
+	%
+	Let $W$ and $M$ be non-empty finite sets of heterosexual women and men, respectively. For simplicity, assume that $\abs*{W}=\abs*{M}$. Each woman $w \in W$ has an anti-symmetric (=never-indifferent) preference relation $\preceq_w$ on $M$,
+	and similarly each man $m \in M$ has an anti-symmetric preference relation $\preceq_m$ on $W$.
+
+	A \emph{matching} is a map $\mu : W \union M \to W \union M$ such that $\mu(W) \subseteq M$ and $\mu(M) \subseteq W$ (heteronormativity) and $\mu(\mu(i))=i$ for every $i \in W \union M$ (consistency).
+	A matching $\mu$ is \emph{stable} iff there is no pair $(w,m) \in W \times M$ such that $\mu(w) \prec_w m$ and $\mu(m) \prec_m w$. (In other words, no pair $(m,w)$ wishes to elope.)
+
+	A \emph{pre-matching} is a pair $(f,g)$ of maps $f : W \to M \union \{\text{single}\}$ and $g : M \to W \union \{\text{single}\}$. (Unlike a matching, a pre-matching allows people to remain single, and doesn't impose consistency.) Let $X$ be the set of all pre-matchings, and for any pre-matchings $(f,g),(f',g') \in X$, write $(f,g) \lesssim (f',g')$ iff all women weakly prefer $f'$ to $f$ and all men weakly prefer $g$ to $g'$.
+	Perhaps surprisingly, $(X,\mathord{\lesssim})$ is a complete lattice. (The proof is not hard.)
+
+	For a pre-matching $(f,g) \in X$, let $T_W(g)$ be the map $W \to M \union \{\text{single}\}$ obtained by letting each woman $w$ either stay with the man to whom she is matched under $g$, or else grab her favourite man from among those who are either single under $g$ or else willing to leave their present spouse under $g$ for $w$; similarly define $T_M(f) : M \to W \union \{\text{single}\}$. Formally,
+	%
+	\begin{align*}
+		(T_W(g))(w) \coloneqq{}& \max_{\preceq_w} \left\{
+		m \in M :
+		\text{$g(m) = \text{single}$ or $g(m) \preceq_m w$}
+		\right\} \quad \text{and}
+		\\
+		(T_M(f))(m) \coloneqq{}& \max_{\preceq_m} \left\{
+		w \in W :
+		\text{$f(w) = \text{single}$ or $f(w) \preceq_w m$}
+		\right\} .
+	\end{align*}
+	%
+	Define $T : X \to X$ by $T(f,g) \coloneqq (T_W(g),T_M(f))$ for each pre-matching $(f,g) \in X$.
+	Applying $T$ to a pre-matching is essentially equivalent to one round of the Gale--Shapley (\citeyear{GaleShapley1962}) algorithm. A moment's reflection reveals that $T$ is $\lesssim$/$\lesssim$-increasing.
+
+	Let $\mathcal{F} \subseteq X$ be the set of fixed points of $T$. By \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, $(\mathcal{F},\mathord{\lesssim})$ is a non-empty complete lattice.
+	Fixed points of $T$ clearly correspond to stable matchings, so we have shown not only that stable matchings exist, but also that there is a stable matching which all women prefer to any other stable matching (viz. $\sup_{(X,\mathord{\lesssim})} \mathcal{F}$) as well as a stable matching which all men prefer to any other stable matching (namely, $\inf_{(X,\mathord{\lesssim})} \mathcal{F}$).
+	%
+	% Since $X$ is finite, starting at the smallest or largest pre-matching and iterating on $T$ yields a stable matching in finite time. Starting the algorithm at the largest pre-matching will generate the women-favoured matching, and starting at the smallest pre-matching yields the men-preferred matching.
+	%
+\end{example}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The literature}
+\label{tar:lit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Partial orders have been important in economics since \textcite{Pareto1906} introduced the notion of Pareto dominance.
+
+The notion of lattice was first introduced by \textcite{Dedekind1897}, who was studying the lattice $(\N, \text{`is divisible by'})$. (Exercise: prove that this is a lattice, and give explicit expressions for the infimum of supremum of an arbitrary two-element set $\{m,n\} \subseteq \N$). Lattice theory was systematised and developed by \textcite{Birkhoff1940,Birkhoff1948,Birkhoff1967}. It remains an active literature within combinatorics / discrete mathematics.
+
+\hyperref[theorem:tarski]{Tarski's fixed-point theorem} is due to \textcite{Tarski1955}. The special case for the Boolean lattice $\bigl( 2^S, \subseteq \bigr)$ (see \Cref{example:meet_boolean} on \cpageref{example:meet_boolean} above) was published earlier, without proof, by \textcite{KnasterTarski1928}.
+
+The stable-matching problem (\Cref{example:matching}, \cpageref{example:matching} above) was introduced by \textcite{GaleShapley1962}, and is the subject of a large and active literature within economic theory. The lattice structure of stable matchings was first pointed out in print by \textcite{Knuth1976},%
+	\footnote{That's Don Knuth, the guy who created \TeX!}
+but he attributes the discovery to John Conway. The proof given in the text, using \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, is due to \textcite{Adachi2000}.
+
+For further/alternative reading, consider \textcite[chapter~2]{Topkis1998}, though I warn you it is rather dry.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{More exercises}
+\label{tar:exer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+	%
+	\label{exercise:J}
+	%
+	\textcite{KasherRubinstein1997} consider the question of who in society is and is not a `J', where Js are a group in society whose membership is potentially contested, i.e. people may disagree about who is and isn't a J. Two examples are $\text{J}=\text{`Swede'}$ and $\text{J}=\text{`famous'}$.
+
+	Each individual $i \in I$ has a view about who is and is not a J: she considers $J_i \subseteq I$ to be Js, and considers the remaining individuals $I \setminus J_i$ to be non-Js. (She may consider herself a non-J: $i \notin J_i$ is allowed.)
+
+	It is to be decided who ultimately does and does not count as a J. 
+
+	\begin{itemize}
+
+		\item You can imagine that there might end up being more than one answer to this question, depending on context; for example, `Chinese' might mean `citizen of the PRC' in some contexts and something more (or less) broad in other contexts. Let us focus on one single such context, in which a single answer must be obtained (for example, who should have access to the PRC's consular services).
+
+		\item You might think that in some applications, the answer to `who is a J?' should depend on some hard facts, rather than on opinions $(J_i)_{i \in I}$. Okay, but \emph{how} should it depend on those hard facts? For example, whether a person is born in Italy is a matter of fact, but how (if at all) should this bear on whether a person counts as `Italian'? For another example, a person's birth sex is in most cases an uncontested matter of fact, but how (if at all) should this bear on whether a person counts as `female' (for the purpose of a particular sports competition, say)? We are back to a question on which opinions may differ.
+
+	\end{itemize}
+
+	\textcite{KasherRubinstein1997} are especially interested in the `liberal' answer to the question `who is a J?', which is that a person is a J if and only if she considers herself a J: in other words, the set of Js is $S^\text{KR} = \{ i \in I : i \in J_i \}$. They characterise this `liberal' answer in terms of a few normative axioms.%
+		\footnote{\textcite{SungDimitrov2005} refine Kasher and Rubinstein's characterisation.}
+	(They also axiomatically characterise two other answers which they call `dictatorial' and `oligarchic'.)
+
+	In this question, we consider another answer, which may or may not be natural in some contexts: the \emph{super-liberal} answer whereby a person is a J if and only if \emph{at least one J} considers her a J. The super-liberal answer relaxes the liberal answer's requirement that an individual consider \emph{herself} a J, requiring instead only that \emph{some} J consider her a J. We can break the super-liberal answer down into two principles:
+
+	\begin{enumerate}[label=(\Alph*)]
+
+		\item \label{addition} The set $S$ of individuals who count as Js must satisfy $S \supseteq \bigcup_{i \in S} J_i$. That is: if some J considers you a J, then you are a J.
+
+		\item \label{limit} The set $S$ of individuals who count as Js must satisfy $S \subseteq \bigcup_{i \in S} J_i$. That is: unless some J considers you a J, you are a non-J.
+
+	\end{enumerate}
+	%
+	(In case $S = \varnothing$, `$\bigcup_{i \in S} J_i$' denotes the empty set, i.e. $\bigcup_{i \in \varnothing} J_i \coloneqq \varnothing$.)
+
+	Let's call a set $S \subseteq I$ \emph{tenable} iff it satisfies both \ref{addition} and \ref{limit}.
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item Suppose that $I = \{1,2\}$, $J_1 = \{1\}$ and $J_2 = \{2\}$. Show that there are \emph{four} tenable sets, and that these are not nested (that is, there are at least two tenable sets neither of which is a subset of the other).
+
+	\end{enumerate}
+
+	This shows that tenable sets need not be unique, nor nested. Another question is whether tenable sets always \emph{exist;} this is perhaps not obvious, either.
+
+	\begin{enumerate}[label=(\alph*),resume]
+
+		\item Carefully answer the following (in generality, i.e. for an arbitrary non-empty finite set $I$ and an arbitrary collection $(J_i)_{i \in I}$ of subsets of $I$). Tip: try to answer \ref{item:exist}--\ref{item:meet} all in one go, rather than one by one.
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item \label{item:exist} Prove that there exists at least one tenable set.
+
+			\item \label{item:greatest} Prove that there exists a greatest tenable set, i.e. a tenable set $S^\star$ such that $S^\star \supseteq S$ for every (other) tenable set $S$.
+
+			\item \label{item:union} Prove that $S^\star$ equals the union of all sets that satisfy property \ref{limit}.
+
+			\item \label{item:join} Prove that for any collection $(S_k)_{k=1}^K$ of tenable sets, there exists a least tenable set which contains $S_k$ for every $k \in \{1,\dots,K\}$, i.e. a set $S^\dag \subseteq I$ such that $S^\dag \supseteq \bigcup_{k=1}^K S_k$ and $S^\dag \subseteq S$ for any $S \subseteq I$ such that $S \supseteq \bigcup_{k=1}^K S_k$.
+
+			\item \label{item:least} Prove that there exists a least tenable set, i.e. a tenable set $S_\star$ such that $S_\star \subseteq S$ for every (other) tenable set $S$.
+
+			\item \label{item:intersect} Prove that $S_\star$ equals the intersection of all sets that satisfy property \ref{addition}.
+
+			\item \label{item:meet} Prove that for any collection $(S_k)_{k=1}^K$ of tenable sets, there exists a greatest tenable set which is contained in $S_k$ for every $k \in \{1,\dots,K\}$, i.e. a set $S_\dag \subseteq I$ such that $S_\dag \subseteq \bigcap_{k=1}^K S_k$ and $S_\dag \supseteq S$ for any $S \subseteq I$ such that $S \subseteq \bigcap_{k=1}^K S_k$.
+
+			\item \label{item:algo} Bonus: sketch how you would go about finding the greatest tenable set $S^\star$ numerically on a computer.
+		
+			\item \label{item:varnothing} Bonus: give an explicit expression for the least tenable set $S_\star$.
+		
+		\end{enumerate}
+
+		\item Recall Kasher and Rubinstein's `liberal' answer $S^\text{KR} = \{ i \in I : i \in J_i \}$. 
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item Prove that $S^\star \supseteq S^\text{KR}$. In other words, the greatest `super-liberal' answer is (as its name suggests) more permissive than the `liberal' answer.
+
+			\item Prove by example that it can be that $S^\star \neq S^\text{KR}$. In other words, the greatest `super-liberal' answer is sometimes \emph{strictly} more permissive than the `liberal' answer.
+		
+		\end{enumerate}
+
+	\end{enumerate}
+	%
+\end{exercise}
+
+\begin{exercise}[easy]
+	%
+	\label{exercise:oedipus}
+	%
+	Mr O. E. Dipus hires the oracle A. T. Delphi to prophesy his future; in particular, to prophesy which outcome $x \in X$ will occur. Prediction is a tricky business, since Ms Delphi's prophecy will influence Mr Dipus's behaviour, and hence influence what future outcome will actually occur. We write $f(x) \in X$ for the outcome that arises in case Ms Delphi prophesies $x \in X$. We will of course call $f : X \to X$ the \emph{destiny function.} Being oracular, Ms Delphi knows the destiny function. She makes a prophecy $x \in X$. Her only aim is reputation: she wishes to make a \emph{true} prophecy.
+
+	For simplicity, suppose that outcomes are vectors: $X \subseteq \R^N$, where the $n$th entry of each outcome $x \in X$ captures how tragic Mr Dipus's life will be in dimension $n$. For example, it could be that $X = \{0,1\}^2 \subseteq \R^2$, where the first dimension $x_1$ of an outcome $x \in X$ captures whether Mr Dipus will kill his father ($x_1=0$ means no, $x_1=1$ means yes) while the second dimension $x_2$ captures whether he will marry his mother ($x_2=0$ means no, $x_2=1$ means yes).
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show by example that Ms Delphi may have a choice: there may be more than one prophecy which, if made, will actually come true. (Tip: stick to two outcomes, $X=\{x,y\}$.)
+
+		\item Show by example that Ms Delphi's task may be impossible: there may not exist a prophecy which, if made, will actually come true. (Tip: again stick to two outcomes.)
+
+		\item Suppose that the more tragic the prophecy, the more tragic the outcome: $f(x) \leq f(y)$ whenever $x \leq y$. Identify an assumption (as weak as possible) on the outcome set $X$ under which Ms Delphi's task is possible. What more can you say about the set of prophecies which, if made, will actually come true?
+
+	
+	\end{enumerate}
+	%
+\end{exercise}
