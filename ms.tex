@@ -67,7 +67,7 @@
 \author{Ludvig Sinander \\
 University of Oxford}
 
-\date{\small This version: 17 March 2025}
+\date{\small This version: 16 April 2025}
 
 % \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
 
@@ -123,7 +123,7 @@ Visit \href{https://www.gnu.org/licenses/copyleft}{gnu.org/licenses/copyleft} to
 %%%%%%%%%%%%%%%%%%%%%%
 
 These are the notes for the game theory component of the first-year graduate microeconomics sequence at Oxford, which I first taught in winter 2025.
-Thanks to Sami Petersen for exceptionally perceptive proofreading, and to Matteo Escudé, Alexis Ghersengorin, Sanjari Kalantri, Malayvardhan Prajapati, Augustus Smith, Alex Teytelboym, Runhuan Wang and Sally Yang for comments.
+Thanks to Sami Petersen for exceptionally perceptive proofreading, and to Matteo Escudé, Alexis Ghersengorin, Vishnu Gorthi, Sanjari Kalantri, Malayvardhan Prajapati, Augustus Smith, Alex Teytelboym, Runhuan Wang and Sally Yang for comments.
 
 
 
@@ -351,7 +351,7 @@ An assessment $(\sigma,\mu)$ that satisfies both sequential rationality and Baye
 A \emph{perfect Bayesian equilibrium (PBE)} is a weak PBE that satisfies natural additional restrictions on $\mu$ even at some off-path information sets $S \in \mathcal{S}$. First, Bayes's rule on the path is strengthened to \emph{Bayes's rule wherever possible,} to cover cases in which it is clear that Bayes's rule could be used at an off-path information set.%
 	\footnote{In the example mentioned in \cref{footnote:wpbe_spne}, it is clear that when Bayes's rule is required also at the off-path information set, sequential rationality implies subgame-perfection.}
 Secondly, for games with three or more players, a requirement called \emph{no signalling what you don't know} is added, which requires that a deviation (taking us off the path) by player~$i$ should not change the belief of player~$j$ about player~$k$ if $i \neq j \neq k \neq i$.
-Formally defining PBE is a little thorny; the original definition \parencite{FudenbergTirole1991} is for a particular class of games. A practical and more generally applicable definition may be found in \textcite{Watson2017}.
+Formally defining PBE is a little thorny; the original definition \parencite{FudenbergTirole1991} is for a particular class of games. A practical and more generally applicable definition may be found in \textcite{Watson2025}.
 
 A closely related solution concept is Kreps and Wilson's (\citeyear{KrepsWilson1982}) \emph{sequential equilibrium.} It is defined only for \emph{finite} extensive-form games, but the definition is simple. Say that a strategy profile $\sigma$ is \emph{fully mixed} iff at every information set, every available action is played with strictly positive probability (that is, $[\sigma(S)](h) > 0$ for all $h \in S \in \mathcal{S}$). If $\sigma$ is fully mixed, then \emph{every} information set is on the path, so Bayes's rule on the path has bite at every information set. We call an assessment $(\sigma,\mu)$ \emph{(Kreps--Wilson) consistent} iff there exists a sequence $(\sigma^n)_{n \in \N}$ of fully mixed strategy profiles converging to $\sigma$ such that the (unique) sequence $(\mu^n)_{n \in \N}$ of belief systems such that $(\sigma^n,\mu^n)$ satisfies Bayes's rule on the path for each $n \in \N$ converges to $\mu$. A \emph{sequential equilibrium} is an assessment that is both sequentially rational and consistent.
 
