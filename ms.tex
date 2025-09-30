@@ -486,7 +486,7 @@ In this appendix chapter, I review some mathematical concepts that are useful fo
 
 $\N = \{1,2,3,\dots\}$ denotes the natural numbers, $\R$ denotes the real numbers, and for $n \in \N$, $\R^n$ denotes the set of all length-$n$ vectors of real numbers. $\R_+$ denotes the set of non-negative real numbers, $\R_{++}$ those that are strictly positive, i.e. $\R_{++} \coloneqq \R_+ \setminus \{0\}$, and similarly $\R_-$ ($\R_{--}$) denotes the non-positive (strictly negative) reals.
 
-Given non-empty sets $X$, $Y$ and $Z$ and functions $f : X \to Y$ and $g : Y \to Z$, the \emph{composition} of $f$ and $g$ is the function $f \circ g : X \to Z$ defined by $(f \circ g)(x) \coloneqq f(g(x))$ for each $x \in X$. Given non-empty sets $X$, $Y$ and $Z$ such that $X \supseteq Y$ and a function $f : X \to Z$, the \emph{restriction of $f$ to $Y$,} often denoted by `$f|_Y$', is the function $g : Y \to Z$ defined by $g(y) \coloneqq f(y)$ for every $y \in Y$.
+Given non-empty sets $X$, $Y$ and $Z$ and functions $f : X \to Y$ and $g : Y \to Z$, the \emph{composition} of $f$ and $g$ is the function $g \circ f : X \to Z$ defined by $(g \circ f)(x) \coloneqq g(f(x))$ for each $x \in X$. Given non-empty sets $X$, $Y$ and $Z$ such that $X \supseteq Y$ and a function $f : X \to Z$, the \emph{restriction of $f$ to $Y$,} often denoted by `$f|_Y$', is the function $g : Y \to Z$ defined by $g(y) \coloneqq f(y)$ for every $y \in Y$.
 
 For any set $S$, $2^S$ denotes the set of all subsets of $S$ (including the empty set $\varnothing$). For any nested sets $S \subseteq X$, the indicator function $\1_S : X \to \R$ is defined by $\1_S(x) \coloneqq 1$ if $x \in S$ and $\1_S(x) \coloneqq 0$ otherwise.
 
