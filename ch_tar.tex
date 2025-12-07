@@ -438,11 +438,12 @@ It is common to abbreviate `$(X,\mathord{\lesssim})$ is a (complete) lattice' to
 	%
 	Show that the infimum in $\left( [0,1]^2, \mathord{\leq} \right)$ of any set $S \subseteq [0,1]^2$ exists and is equal to the `coordinate-by-coordinate' infimum, i.e. the vector $\bigl( \inf_{([0,1],\mathord{\leq})} S_1, \inf_{([0,1],\mathord{\leq})} S_2 \bigr)$ where
 	%
-	\begin{equation*}
-		S_1 \coloneqq \left\{ x_1 \in [0,1] : (x_1,x_2) \in S \right\}
-		\quad \text{and} \quad
-		S_2 \coloneqq \left\{ x_2 \in [0,1] : (x_1,x_2) \in S \right\} .
-	\end{equation*}
+	\begin{align*}
+		S_1 &\coloneqq \left\{ x_1 \in [0,1] : \text{$(x_1,x_2) \in S$ for some $x_2 \in [0,1]$} \right\}
+		\quad \text{and}
+		\\
+		S_2 &\coloneqq \left\{ x_2 \in [0,1] : \text{$(x_1,x_2) \in S$ for some $x_1 \in [0,1]$} \right\} .
+	\end{align*}
 	%
 	Further show that $\left( [0,1]^2, \mathord{\leq} \right)$ is a complete lattice.
 	%
@@ -450,7 +451,12 @@ It is common to abbreviate `$(X,\mathord{\lesssim})$ is a (complete) lattice' to
 
 $\left( \R^2, \mathord{\leq} \right)$ is an example of a \emph{product lattice:} a poset $(X,\mathord{\lesssim})$ such that $X = \prod_{i \in \mathcal{I}} X_i$, where $X_i \subseteq \R$ for each $i \in \mathcal{I}$ (and where $\mathcal{I}$ is a non-empty [`index'] set), and for any $x = (x_i)_{i \in \mathcal{I}} \in X$ and $y = (y_i)_{i \in \mathcal{I}} \in X$, it holds that $x \lesssim y$ iff $x_i \leq y_i$ for every $i \in \mathcal{I}$. As the name suggests, every product lattice is a lattice. Another example of a product lattice is the set of all functions $\R \to \R$ ordered by `pointwise inequality' $\leq$, i.e. $f \leq g$ iff $f(y) \leq g(y)$ for every $y \in \R$. (In this case, the `index' set is $\mathcal{I} \coloneqq \R$, and $x_i \equiv f(i)$ for each $i \in \mathcal{I}$.)
 
-It is a general fact that for a product lattice $(X,\mathord{\lesssim}) = \left( \prod_{i \in \mathcal{I}} X_i, \mathord{\lesssim} \right)$, the infimum and supremum in $(X,\mathord{\lesssim})$ of any set $S \subseteq X$, if these exist, are equal to $\bigl( \inf_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$ and $\bigl( \sup_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$, where $S_i \coloneqq \left\{ x_i \in X_i : (x_i,x_{-i}) \in S \right\}$.
+It is a general fact that for a product lattice $(X,\mathord{\lesssim}) = \left( \prod_{i \in \mathcal{I}} X_i, \mathord{\lesssim} \right)$, the infimum and supremum in $(X,\mathord{\lesssim})$ of any set $S \subseteq X$, if these exist, are equal to $\bigl( \inf_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$ and $\bigl( \sup_{(X_i,\mathord{\leq})} S_i \bigr)_{i \in \mathcal{I}}$, where
+%
+\begin{equation*}
+	S_i \coloneqq \left\{ x_i \in X_i : \text{$(x_i,x_{-i}) \in S$ for some $x_{-i} \in \prod_{j \in \mathcal{I} \setminus \{i\}} X_j$} \right\} .
+\end{equation*}
+%
 If $X_i$ is compact for each $i \in \mathcal{I}$, then by \Cref{exercise:lb-R_sublatt}\ref{item:lb_R_sublatt:subcompl}, we may replace the `$\inf_{(X_i,\mathord{\leq})}$' and `$\sup_{(X_i,\mathord{\leq})}$' with the ordinary `$\inf$' and `$\sup$' from real analysis.
 
 \begin{exercise}
@@ -528,7 +534,7 @@ If $X_i$ is compact for each $i \in \mathcal{I}$, then by \Cref{exercise:lb-R_su
 	%
 	\label{exercise:arrow-pratt_lattice}
 	%
-	Show that $\left(\mathcal{X},\text{`less risk-seeking than'}\right)$ is a lattice.
+	Show that the poset $\left(\mathcal{X},\text{`less risk-seeking than'}\right)$ is a lattice.
 	%
 \end{namedthm}
 
@@ -770,7 +776,7 @@ We will see a fourth application in \cref{ch_spm} below (specifically, \cref{spm
 
 	Recall from \cref{dom:br_property} (\cpageref{definition:br_set}) that a product set $Y = \prod_{i \in I} Y_i \subseteq A$ is said to have the \emph{best-reply property} iff for each player $i \in I$, every $a_i \in Y_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta(Y_{-i})$. By inspection, $Y = \prod_{i \in I} Y_i \subseteq A$ has the best-reply property if and only if $Y \subseteq \mathcal{B}(Y)$.
 
-	Let $\mathcal{P}$ be the set of all product subsets of $A$. The map $\mathcal{B} : \mathcal{P} \to \mathcal{P}$ is evidently $\subseteq$/$\subseteq$-increasing. It is easily checked (echoing \Cref{example:meet_boolean} on \cpageref{example:meet_boolean}) that $(\mathcal{P},\mathord{\subseteq})$ is a complete lattice. Hence by \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, there is a largest (in the set-inclusion sense) set with the best-reply property. This recovers \Cref{observation:br_property_max} (\cpageref{observation:br_property_max}). Note that we made no assumptions about the game $(I,(A_i,u_i)_{i \in I})$, such as finiteness or compactness-and-continuity.
+	Let $\mathcal{Y}$ be the set of all product subsets of $A$. The map $\mathcal{B} : \mathcal{Y} \to \mathcal{Y}$ is evidently $\subseteq$/$\subseteq$-increasing. It is easily checked (echoing \Cref{example:meet_boolean} on \cpageref{example:meet_boolean}) that $(\mathcal{Y},\mathord{\subseteq})$ is a complete lattice. Hence by \hyperref[theorem:tarski]{Tarski's fixed-point theorem}, there is a largest (in the set-inclusion sense) fixed point of $\mathcal{B}$. The largest fixed point $\mathcal{B}$ is also the largest set with the best-reply property (why?). This recovers \Cref{observation:br_property_max} (\cpageref{observation:br_property_max}). Note that we made no assumptions about the game $(I,(A_i,u_i)_{i \in I})$, such as finiteness or compactness-and-continuity.
 	%
 \end{example}
 

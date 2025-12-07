@@ -435,7 +435,7 @@ This is a reassuring result, since if there were no rationalisable actions then 
 	%
 \end{remark}
 
-Many (most?) games arising in economics are not dominance-solvable.
+In many (most?) games that arise in economics, rationalisability does not yield a unique prediction of play.
 
 \begin{example}
 	%
@@ -870,7 +870,7 @@ As with strict dominance, weak dominance can be applied iteratively. Iterated we
 
 The notions of dominance and best reply appeared early in the development of game theory: weak dominance was introduced by \textcite{Borel1921}, strict dominance figures in early work at the RAND Corporation (where the Prisoner's Dilemma was developed), and the notion of best reply is (I believe) due to \textcite{Nash1950,Nash1951}.
 
-\hyperref[lemma:pearce]{Pearce's lemma} is from \textcite[][Lemma~3]{Pearce1984}. Similar results were known earlier; according to Bruno \textcite{Salcedo2020}, the earliest are those of \textcite{Wald1939,Stein1955}. \hyperref[lemma:pearce]{Pearce's lemma} is an instance of a more general (often useful) principle that `undominated' is equivalent to `optimal in some situation' \parencite[see e.g.][]{BorgersCheng2023}. The proof in the text (based on the separating-hyperplane theorem) is standard, but does not appear in \textcite{Pearce1984}; \textcite{Salcedo2020} attributes it to Abraham Wald.
+\hyperref[lemma:pearce]{Pearce's lemma} is from \textcite[][Lemma~3]{Pearce1984}. Similar results were known earlier; according to Bruno \textcite{Salcedo2020}, the earliest are those of \textcite{Wald1939,Stein1955}. \hyperref[lemma:pearce]{Pearce's lemma} is an instance of a more general (often useful) principle that `undominated' is equivalent to `optimal in some situation' \parencite[see e.g.][]{Fishburn1975,BorgersCheng2023}. The proof in the text (based on the separating-hyperplane theorem) is standard, but does not appear in \textcite{Pearce1984}; \textcite{Salcedo2020} attributes it to Abraham Wald.
 
 Rationalisability was introduced by \textcite{Bernheim1984,Pearce1984}. Both authors considered both of the two definitions studied in this chapter, namely `the result of iterated deletion of never-best actions' and `largest set with the best-reply property', and proved non-emptiness and equivalence (\Cref{proposition:rbty_nonempty,proposition:br_property}). Bernheim also considered a third `epistemic' definition.
 
@@ -990,3 +990,102 @@ For further/alternative reading, consider the textbook treatments in \textcite[c
 	\end{enumerate}
 	%
 \end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:exam_ht25}
+	%
+	Consider the Bertrand model of oligopolistic competition, except with constraints on what prices can be charged. Two firms $i \in I \coloneqq \{1,2\}$ sell a homogeneous good, and choose what price $a_i \in A_i$ to charge, where $A_i$ is a non-empty subset of $[0,\infty)$. There is a single consumer, who buys from whichever firm charges less; if prices are equal, then the consumer randomises by tossing a fair coin. Firms' marginal costs are equal and constant, normalised to zero. Formally, the profit of each firm $i \in \{1,2\}$ is
+	%
+	\begin{equation*}
+		u_i(a_i,a_{3-i})
+		\coloneqq
+		\begin{cases}
+			a_i	& \text{if $a_i < a_{3-i}$}
+			\\
+			a_i/2	& \text{if $a_i = a_{3-i}$}
+			\\
+			0	& \text{if $a_i > a_{3-i}$.}
+		\end{cases}
+	\end{equation*}
+	%
+	Some reminders, in case you need them:
+	
+	\begin{itemize}
+
+		\item `$\Delta(A_i)$' denotes the set of all probability distributions on $A_i$.
+
+		\item An action $a_i \in A_i$ is a \emph{best reply} to a mixed action $\alpha_{3-i} \in \Delta(A_{3-i})$ if and only if $u_i(a_i,\alpha_{3-i}) \geq u_i(a_i',\alpha_{3-i})$ for every pure action $a_i' \in A_i$, where
+		%
+		\begin{equation*}
+			u_i(a_i,\alpha_{3-i})
+			\equiv \sum_{a_{3-i} \in A_{3-i}} u_i(a_i,a_{3-i}) \alpha_{3-i}(a_{3-i}) .
+		\end{equation*}
+	
+		\item An action $a_i \in A_i$ of a player $i \in \{1,2\}$ is called \emph{never-best} if and only if there is no mixed action $\alpha_{3-i} \in \Delta(A_{3-i})$ to which $a_i$ is a best reply.
+
+		\item An action $a_i \in A_i$ of a player $i \in \{1,2\}$ is \emph{strictly dominated} by a mixed action $\alpha_i \in \Delta(A_i)$ if and only if $u_i(a_i,a_{3-i}) < u_i(\alpha_i,a_{3-i})$ for every pure action $a_{3-i} \in A_{3-i}$, where
+		%
+		\begin{equation*}
+			u_i(\alpha_i,a_{3-i})
+			\equiv \sum_{a_i \in A_i} u_i(a_i,a_{3-i}) \alpha_i(a_i) .
+		\end{equation*}
+
+		\item Pearce's lemma says that if the action sets $A_1$ and $A_2$ are finite, then an action $a_i \in A_i$ of a player $i \in \{1,2\}$ is never-best if and only if it is strictly dominated by some mixed action $\alpha_i \in \Delta(A_i)$.
+
+		\item The \emph{rationalisable} actions $X_1^\infty \subseteq A_1$ and $X_2^\infty \subseteq A_2$ are those actions that are left after all actions of either player that are never-best are deleted, and then all actions of either player that are (now) never-best are deleted, and so on forever.
+
+	\end{itemize}
+	%
+	Answer the following.
+
+	\begin{enumerate}[label=(\alph*)]
+
+		\item Suppose that $0 \in A_1$ and $0 \in A_2$.
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item Show that no action is never-best. (That is, there is no player $i \in \{1,2\}$ and action $a_i \in A_i$ such that $a_i$ is never-best.)
+
+			\item What are the rationalisable actions $X_1^\infty$ and $X_2^\infty$?
+		
+		\end{enumerate}
+
+		\item Suppose that $A_1 = A_2 = \{1,2,3,4,\dots,K-1,K\}$, where $K$ is an integer that satisfies $K \geq 3$. (Note that $0 \notin A_1$ and $0 \notin A_2$.)
+
+		\begin{enumerate}[label=(\roman*)]
+
+			\item Show that $(a_1,a_2) = (2,2)$ is a Nash equilibrium.
+		
+			\item Show that $a_i = K$ is \emph{not} strictly dominated by the pure action $K-1$.
+
+			\item Show that $a_i = K$ is never-best. (Take care.)
+
+			\item What are the rationalisable actions $X_1^\infty$ and $X_2^\infty$? (Take care.)
+
+		\end{enumerate}	
+
+		\item Suppose that $A_1 = A_2 = [k,\infty)$ where $k>0$. Let $F_k$ denote the CDF $F_k : [0,\infty) \to [0,1]$ defined by
+		%
+		\begin{equation*}
+			F_k(x) \coloneqq
+			\begin{cases}
+				0 & \text{for $x \in [0,k)$} \\
+				1 - k/x & \text{for $x \in [k,\infty)$.}
+			\end{cases}
+		\end{equation*}
+		%
+		($F_k$ is called the `$\text{Pareto}(k,1)$ distribution'.)
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item Show that $(F_k,F_k)$ is a Nash equilibrium.
+
+			\item What are the rationalisable actions $X_1^\infty$ and $X_2^\infty$?
+		
+		\end{enumerate}
+	
+	\end{enumerate}
+	%
+\end{exercise}
+

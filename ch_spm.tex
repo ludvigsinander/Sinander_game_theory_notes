@@ -191,7 +191,7 @@ The definition above is in terms of properties of best-reply correspondences, ra
 	%
 	\label{example:protest}
 	%
-	A citizen in an autocracy choosing whether to protest may be more keen to protest if many others do, since there is safety in numbers. This is a `strategic complements' force, and has motivated economics frequently to model protests as a game of strategic complements. Such models of protest look a lot like the speculative-attack model in \Cref{exercise:coordinated_attack} above.
+	A citizen in an autocracy choosing whether to protest may be more keen to protest if many others do, since there is safety in numbers. This is a `strategic complements' force, and has motivated economists frequently to model protests as a game of strategic complements. Such models of protest look a lot like the speculative-attack model in \Cref{exercise:coordinated_attack} above.
 
 	This may not be such a good model of protests, however, because it neglects an obvious `strategic substitutes' force: since toppling the regime is a public good and protesting incurs private costs (risk of harm, opportunity cost of time, etc.), there is a motive to free-ride by staying home if many others turn out. One recent empirical study of protests in Hong Kong suggests that this latter force is the stronger of the two, making the protest game one of strategic \emph{substitutes} \parencite{CantoniYangYuchtmanZhang2019}. 
 	%
@@ -244,7 +244,13 @@ The set of pure-strategy Nash equilibria of a game need not have a least or a gr
 	%
 	where $v_i : [0,1] \to \R$ is strictly increasing.
 
-	The set of pure-strategy Nash equilibria is $\left\{ (a_1,a_2) \in [0,1]^2 : a_1+a_2=1 \right\}$. Clearly no pure-strategy Nash equilibrium is smaller than any other: $(a_1,a_2) \nleq (b_1,b_2) \nleq (a_1,a_2)$ for any pure-strategy Nash equilibria $(a_1,a_2) \neq (b_1,b_2)$. So there is neither a least nor a greatest pure-strategy Nash equilibrium.
+	The set of pure-strategy Nash equilibria is
+	%
+	\begin{equation*}
+		\left\{ (a_1,a_2) \in [0,1]^2 : a_1+a_2=1 \right\} \cup \{(1,1)\} .
+	\end{equation*}
+	%
+	Clearly there is not a least Nash pure-strategy Nash equilibrium.
 	%
 \end{example}
 
@@ -369,7 +375,7 @@ Thus all rationalisable action profiles are sandwiched between the least and gre
 		\max Y \coloneqq \left( \max Y_i \right)_{i \in I} .
 	\end{equation*}
 	%
-	Recall from \cref{dom:rbty} above (\cpageref{definition:rbty}) the definition of the sets $X^t \subseteq A$ for each $t \in \{0,1,2,\dots\}$, and that rationalisable action profiles are exactly those that belong to $X^t$ for every $t \in \N$. Obviously $X^{t-1} \supseteq X^t$ for each $t \in \N$.
+	Recall from \cref{dom:rbty} above (\cpageref{definition:rbty}) the definition of the sets $X^t \subseteq A$ for each $t \in \{0,1,2,\dots\}$, and that rationalisable action profiles are exactly those that belong to $X^t$ for every $t \in \N$. By \Cref{proposition:rbty_nonempty} in \cref{dom:rbty} (\cpageref{proposition:rbty_nonempty}) $X^{t-1} \supseteq X^t$ for each $t \in \N$.
 	Further recall the notation from the proof above of \Cref{theorem:spm_game_nash}.
 
 	The sequences 

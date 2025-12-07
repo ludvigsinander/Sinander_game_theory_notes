@@ -27,7 +27,7 @@ By a `single-agent decision problem', I mean an extensive-form game with only on
 
 \end{itemize}
 
-This chapter concerns the (conceptually straightforward) extension of the one-shot deviation principle to dynamic games. A very general result of this type could be proved for sequential equilibria of arbitrary perfect-recall extensive-form games \parencite[see e.g.][Exercise~227.1]{OsborneRubinstein1994}. We shall keep things simple by restricting attention to subgame-perfect equilibria of \emph{deterministic perfect-information} extensive-form games, i.e. those games in which there are no moves of Nature and every information set is a singleton. One application is to the \textcite{Rubinstein1982} bargaining model.
+This chapter concerns the (conceptually straightforward) extension of the one-shot deviation principle to dynamic games. A very general result of this type could be proved for sequential equilibria of arbitrary perfect-recall extensive-form games \parencite[see e.g.][Exercise~227.1]{OsborneRubinstein1994}. We shall keep things simple by restricting attention to subgame-perfect equilibria of \emph{deterministic perfect-information} extensive-form games, i.e. those games in which there are no moves of Nature and every information set is a singleton. One application is to the \textcite{Rubinstein1982} bargaining model. We shall also focus on pure strategies.
 
 In the next chapter, we undertake the (conceptually more significant) extension of the Bellman equation to dynamic games. We focus on the game-theoretic analogue of stationary single-agent decision problems: \emph{repeated games.} Specifically, we prove a Bellman-equation-type characterisation of the set of perfect public equilibrium payoffs of repeated games with (possibly noisy) public monitoring, as well as a means of constructing, for any given equilibrium payoff, an equilibrium which generates it. This recursive technique is called `APS' after its originators, \textcite{AbreuPearceStacchetti1990}.
 
@@ -45,23 +45,23 @@ Recall the standard concepts from extensive-form game theory (tersely) reviewed 
 Fix a deterministic perfect-information extensive-form game
 %
 \begin{equation*}
-	(I,\mathcal{A},H,P,A,\mathcal{S},(u_i)_{i \in I},\pi) ,
+	(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{i \in I},\pi) ,
 \end{equation*}
 %
 with terminal histories denoted $Z \subseteq H$, recalling that $I$ are the players, $\mathcal{A}$ the actions, $H$ the histories, $\mathcal{S}$ the information sets (all of which are singletons, by definition of `perfect information'), $(u_i)_{i \in I}$ the payoff functions, and the functions $P$, $A$ and $\pi$ specify, for each information set, which player (or Nature) moves, which actions are available and, if Nature moves, the probabilities with which the various actions are chosen.
-Given the determinacy assumption, Nature never moves, so we may as well drop $\pi$ from the formal description of the game. Similarly, given the perfect-information assumption, we can drop the information sets $\mathcal{S}$ from the definition, and treat $P$, $A$, and strategy profiles as having domain $H \setminus Z$ rather than $\mathcal{S}$. That leaves $(I,\mathcal{A},H,P,A,(u_i)_{i \in I})$.
+Given the determinacy assumption, Nature never moves, so we may as well drop $\pi$ from the formal description of the game. Similarly, given the perfect-information assumption, we can drop the information sets $\mathcal{S}$ from the definition, and treat $P$, $A$, and strategy profiles as having domain $H \setminus Z$ rather than $\mathcal{S}$. That leaves $(I,\mathcal{A},H,P,(u_i)_{i \in I})$.
 
-A \emph{strategy profile} is a map $\sigma : H \setminus Z \to \Delta(\mathcal{A})$ such that $\supp \sigma(h) \subseteq A(h)$ for every $h \in H \setminus Z$. We sometimes write $\sigma \equiv (\sigma_i)_{i \in I}$, where for each player $i \in I$, $\sigma_i$ denotes the restriction of $\sigma$ to those non-terminal histories $P^{-1}(i) \equiv \{ h \in H \setminus Z : P(h) = i \}$ at which player~$i$ moves,%
-	\footnote{That is, $\sigma_i$ is the map $P^{-1}(i) \to \Delta(\mathcal{A})$ given by $\sigma_i(h) \coloneqq \sigma(h)$ for every $h \in P^{-1}(i)$.}
+A \emph{(pure) strategy profile} is a map $\sigma : H \setminus Z \to \mathcal{A}$ such that $\sigma(h) \in A(h)$ for every $h \in H \setminus Z$. We sometimes write $\sigma \equiv (\sigma_i)_{i \in I}$, where for each player $i \in I$, $\sigma_i$ denotes the restriction of $\sigma$ to those non-terminal histories $P^{-1}(i) \equiv \{ h \in H \setminus Z : P(h) = i \}$ at which player~$i$ moves,%
+	\footnote{That is, $\sigma_i$ is the map $P^{-1}(i) \to \mathcal{A}$ given by $\sigma_i(h) \coloneqq \sigma(h)$ for every $h \in P^{-1}(i)$.}
 and is called a \emph{strategy of player~$i$.}
 
 Any non-terminal history $h \in H \setminus Z$ corresponds to a subgame, viz. the subgame starting immediately after $h$ has been played. The histories of this subgame are $H|_h \coloneqq \{ h' \in H : \text{$h$ is a truncation of $h'$} \}$, and its non-terminal histories are $H|_h \setminus Z$. For any strategy profile $\sigma$ and any non-terminal history $h \in H \setminus Z$ (even if $h$ is off the path of $\sigma$), the \emph{continuation strategy} is the restriction of $\sigma$ to $H|_h \setminus Z$, denoted $\sigma|_h$.%
-	\footnote{That is, $\sigma|_h$ is the function $H|_h \setminus Z \to \Delta(\mathcal{A})$ defined by $\sigma|_h(h') \coloneqq \sigma(h')$ for every $h' \in H|_h$.}
+	\footnote{That is, $\sigma|_h$ is the function $H|_h \setminus Z \to \mathcal{A}$ defined by $\sigma|_h(h') \coloneqq \sigma(h')$ for every $h' \in H|_h$.}
 The continuation strategy is a strategy of the subgame starting at $h$, and describes how the strategy $\sigma$ plays if and when this subgame is reached.
 
 Payoffs $u(z) \coloneqq (u_i(z))_{i \in I}$ depend on which \emph{terminal} history $z \in Z$ is reached. For any \emph{non}-terminal history $h \in H \setminus Z$ and pure strategy profile $\sigma$, letting $z$ be the terminal history reached when players first play $h$ and then follow $\sigma|_h$,%
 	\footnote{That is, $z \coloneqq ( h, \sigma(h), \sigma( h, \sigma(h) ), \sigma( h, \sigma(h), \sigma( h, \sigma(h) ) ), \dots )$.}
-we abuse notation by writing $u(h,\sigma|_h) \equiv u(z)$ for the resulting payoffs. When $\sigma$ is a behavioural strategy profile, $h$ and $\sigma|_h$ generate a probability distribution over terminal nodes $z$, and we write $u(h,\sigma|_h)$ for the expectation of $u(z)$ with respect to this distribution.
+we abuse notation by writing $u(h,\sigma|_h) \equiv u(z)$ for the resulting payoffs.
 
 A strategy profile $\sigma = (\sigma_i)_{i \in I}$ is \emph{subgame-perfect} if and only if for every non-terminal history $h \in H \setminus Z$, letting $i \coloneqq P(h)$ be the player who moves at $h$, it holds that $u_i(h,\sigma|_h) \geq u_i(h,(\sigma'_i,\sigma_{-i})|_h)$ for every strategy $\sigma'_i$ of player~$i$. This is equivalent to the usual definition, which is that $\sigma$ is subgame-perfect if and only if for every non-terminal history $h \in H \setminus Z$, the continuation strategy profile $\sigma|_h$ is a Nash equilibrium of the subgame starting at $h$.
 
@@ -85,6 +85,8 @@ A strategy profile $\sigma = (\sigma_i)_{i \in I}$ is \emph{subgame-perfect} if 
 
 		\item the terminal histories $Z$ are all sequences in $\mathcal{A}$ (not including the empty sequence) of even or infinite length whose every odd entry belongs to $[0,1]$, whose every even entry except the last (if there is a last entry) equals `reject', and whose last entry (if there is one) equals `accept',
 
+		\item the action function $A$ is given by $A(h) \coloneqq [0,1]$ for $h$ of even length and $A(h) \coloneqq \{ \text{accept}, \text{reject} \}$ for $h$ of odd length,
+
 		\item the player function $P$ is given by, for each $n \in \{0,1,2,3,\dots\}$, 
 		%
 		\begin{equation*}
@@ -92,11 +94,9 @@ A strategy profile $\sigma = (\sigma_i)_{i \in I}$ is \emph{subgame-perfect} if 
 			\coloneqq
 			\begin{cases}
 				1 & \text{for $h$ of length $4n$ or $4n+3$} \\
-				2 & \text{for $h$ of length $4n+1$ or $4n+2$,}
+				2 & \text{for $h$ of length $4n+1$ or $4n+2$, and}
 			\end{cases} 
 		\end{equation*}
-
-		\item the action function $A$ is given by $A(h) \coloneqq [0,1]$ for $h$ of even length and $A(h) \coloneqq \{ \text{accept}, \text{reject} \}$ for $h$ of odd length, and
 
 		\item the payoff functions $(u_1,u_2)$ are given by
 		%
@@ -129,7 +129,7 @@ Fix a deterministic perfect-information extensive-form game
 %
 \begin{equation*}
 	\mathcal{G}
-	= (I,\mathcal{A},H,P,A,(u_i)_{i \in I}) .
+	= (I,\mathcal{A},H,P,(u_i)_{i \in I}) .
 \end{equation*}
 %
 Given a strategy profile $\sigma$, we say that another strategy profile $\sigma'$ is a \emph{one-shot deviation (from $\sigma$)} iff $\sigma$ and $\sigma'$ differ at exactly one non-terminal history: that is, there is a non-terminal history $h \in H \setminus Z$ such that $\sigma(h) \neq \sigma'(h)$ and $\sigma(h') = \sigma'(h')$ for every $h' \in (H \setminus Z) \setminus \{h\}$. A strategy profile $\sigma$ is called \emph{one-shot unimprovable} iff there is no one-shot deviation $\sigma'$ from $\sigma$ that makes the deviating player strictly better off. Formally:
@@ -212,7 +212,7 @@ A deterministic perfect-information extensive-form game
 %
 \begin{equation*}
 	\mathcal{G}
-	= (I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+	= (I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 \end{equation*}
 %
 has \emph{finite horizon} iff every $h \in H$ has finite length. Recall that \emph{backward induction} is an algorithm which takes as input a finite-horizon deterministic extensive-form game and outputs a set of pure strategy profiles. 
@@ -229,15 +229,15 @@ What the backward-induction algorithm does is precisely to rule out one-shot dev
 
 \begin{enumerate}
 
-	\item \label{item:backward_induction:1} Actions are specified at each of the final (=maximal in the sense of set inclusion $\subseteq$) non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off.
+	\item \label{item:backward_induction:1} An action is specified at each of the final (=maximal in the sense of set inclusion $\subseteq$) non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off.
 
-	\item \label{item:backward_induction:2} Actions are specified at each of the penultimate non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off, given play at the final non-terminal histories.
+	\item \label{item:backward_induction:2} An action is specified at each of the penultimate non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off, given play at the final non-terminal histories.
 
-	\item \label{item:backward_induction:3} Actions are specified at each of the antepenultimate non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off, given play at the penultimate and final non-terminal histories.
+	\item \label{item:backward_induction:3} An action is specified at each of the antepenultimate non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off, given play at the penultimate and final non-terminal histories.
 
 	\item[\vdots]
 
-	\item[($T$)] Actions are specified at the initial history (the empty history $\varnothing$), in such a way that at this history, there is no one-shot deviation that makes the deviating player strictly better off, given play at all of the subsequent non-terminal histories.
+	\item[($T$)] An action is specified at the initial history (the empty history $\varnothing$), in such a way that at this history, there is no one-shot deviation that makes the deviating player strictly better off, given play at all of the subsequent non-terminal histories.
 
 \end{enumerate}
 
@@ -285,7 +285,7 @@ Not all infinite-horizon games satisfy the OSD principle.
 		actions $\mathcal{A} \coloneqq \{ \text{c(ontinue),q(uit)} \}$,
 		non-terminal histories $H \setminus Z \coloneqq \left\{ \varnothing, (\text{c}), (\text{c},\text{c}), (\text{c},\text{c},\text{c}), (\text{c},\text{c},\text{c},\text{c}), (\text{c},\text{c},\text{c},\text{c},\text{c}), \dots \right\}$, 
 		terminal histories $Z \coloneqq \left\{ (\text{q}), (\text{c},\text{q}), (\text{c},\text{c},\text{q}), (\text{c},\text{c},\text{c},\text{q}), (\text{c},\text{c},\text{c},\text{c},\text{q}), \dots \right\} \cup \left\{ (\text{c},\text{c},\text{c},\text{c},\text{c},\dots) \right\}$,
-		player and action functions given by $P(h) \coloneqq \text{Zeno}$ and $A(h) \coloneqq \{ \text{c}, \text{q} \}$ for every $h \in H \setminus Z$,
+		action and player functions given by $A(h) \coloneqq \{ \text{c}, \text{q} \}$ and $P(h) \coloneqq \text{Zeno}$ for every $h \in H \setminus Z$,
 		information sets $\mathcal{S} \coloneqq \{ \{h\} : h \in H \setminus Z \}$,
 		and payoff function given by $u_{\text{Zeno}}(z) \coloneqq -t/(t+1)$ for $z = (\underbrace{\text{c},\dots,\text{c}}_{\text{$t$ times}},\text{q})$ and $u_{\text{Zeno}}((\text{c},\text{c},\text{c},\text{c},\text{c},\dots)) \coloneqq 1$.}
 
@@ -341,7 +341,7 @@ Not all infinite-horizon games satisfy the OSD principle.
 	A deterministic perfect-information extensive-form game
 	%
 	\begin{equation*}
-		(I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+		(I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
 	with terminal histories $Z \subseteq H$ is \emph{continuous at infinity} iff for each player $i \in I$ and every $\eps>0$, there exists a $T \in \N$ such that $\abs*{ u_i(z) - u_i(z') } < \eps$ for any two terminal histories $z,z' \in Z$ which agree in their first $T$ entries.%
@@ -387,7 +387,7 @@ The proof relies on a lemma. Recall that $P^{-1}(i) \equiv \{ h \in H \setminus 
 	Fix a deterministic perfect-information extensive-form game
 	%
 	\begin{equation*}
-		(I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+		(I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
 	with terminal histories denoted $Z \subseteq H$. Further fix a player $i \in I$, a strategy profile $\sigma = (\sigma_i,\sigma_{-i})$, an (alternative) strategy $\sigma_i'$ of player~$i$, and a non-terminal history $h \in P^{-1}(i)$ at which $i$ moves.
@@ -520,7 +520,7 @@ The proof relies on a lemma. Recall that $P^{-1}(i) \equiv \{ h \in H \setminus 
 	Fix a deterministic perfect-information extensive-form game
 	%
 	\begin{equation*}
-		(I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+		(I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
 	that is continuous at infinity, and write $Z \subseteq H$ for its terminal histories. We shall prove the contra-positive: namely, that any strategy profile which fails to be subgame-perfect must also fail to be one-shot unimprovable. So fix a strategy profile $\sigma$ that is not subgame-perfect, meaning that that there is a non-terminal history $h \in H \setminus Z$ and an alternative strategy $\sigma_i'$ of the player $i \coloneqq P(h)$ who moves at $h$ such that $u_i(h,(\sigma'_i,\sigma_{-i})|_h) > u_i(h,\sigma|_h)$; we must show that there exists a \emph{one-shot} deviation $\sigma^\star$ from $\sigma$ such that $u_i(h^\star,(\sigma^\star_i,\sigma_{-i})|_{h^\star}) > u_i(h^\star,\sigma|_{h^\star})$ for some non-terminal history $h^\star \in H \setminus Z$ at which $i$ moves, i.e. $P(h^\star)=i$. (In particular, we shall choose $h^\star$ to be a successor of $h$, i.e. a non-terminal history of which $h$ is a truncation).
@@ -582,7 +582,7 @@ Continuity at infinity is not necessarily easy directly to verify in application
 	Show that any deterministic finite-horizon perfect-information extensive-form game
 	%
 	\begin{equation*}
-		(I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+		(I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
 	is continuous at infinity.
@@ -592,10 +592,10 @@ Continuity at infinity is not necessarily easy directly to verify in application
 Another useful sufficient condition is as follows. Whereas in an arbitrary infinite-horizon deterministic perfect-information extensive-form game
 %
 \begin{equation*}
-	(I,\mathcal{A},H,P,A,(u_i)_{i \in I}) ,
+	(I,\mathcal{A},H,P,(u_i)_{i \in I}) ,
 \end{equation*}
 %
-the (total, lifetime) payoff $u_i(z)$ of each player $i \in I$ depends in an arbitrary way on the entire terminal history $(a_1,a_2,a_3,\dots) \equiv z \in Z$, most games in economics have payoffs equal to the discounted sum of \emph{per-period} payoffs: for each player $i \in I$, there is a primitive payoff function $v_i : \mathcal{A} \to \R$ that depends on actions (not on histories, which are \emph{sequences} of actions), and $i$'s payoff at each terminal history $(a_1,a_2,a_3,\dots) \in Z$ satisfies $u_i(a_1,a_2,a_3,\dots) = \sum_{t=1}^\infty \delta_i^{t-1} v_i(a_t)$, where $\delta_i \in (0,1)$ is a parameter called the \emph{discount factor} of player~$i$.
+the (total, lifetime) payoff $u_i(z)$ of each player $i \in I$ depends in an arbitrary way on the entire terminal history $(a_1,a_2,a_3,\dots) \equiv z \in Z$, most games in economics have payoffs equal to the discounted sum of \emph{per-period} payoffs: for each player $i \in I$, there is a primitive payoff function $v_i : \mathcal{A} \to \R$ that depends on actions (not on histories, which are \emph{sequences} of actions), and $i$'s payoff at each terminal history $z = (a_1,a_2,a_3,\dots) \in Z$ satisfies $u_i(z) = \sum_{t=1}^{\text{length}(z)} \delta_i^{t-1} v_i(a_t)$, where $\delta_i \in (0,1)$ is a parameter called the \emph{discount factor} of player~$i$.
 
 \begin{proposition}
 	%
@@ -604,29 +604,27 @@ the (total, lifetime) payoff $u_i(z)$ of each player $i \in I$ depends in an arb
 	Fix a deterministic perfect-information extensive-form game
 	%
 	\begin{equation*}
-		\mathcal{G} = (I,\mathcal{A},H,P,A,(u_i)_{i \in I}) 
+		\mathcal{G} = (I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
-	with terminal histories $Z \subseteq H$. Suppose that for each player $i \in I$, there exist $v_i : \mathcal{A} \to \R$ and $\delta_i \in (0,1)$ such that $u_i(a_1,a_2,a_3,\dots) = \sum_{t=1}^\infty \delta_i^{t-1} v_i(a_t)$ for every terminal history $(a_1,a_2,a_3,\dots) \in Z$. If for each player $i \in I$, the function $v_i$ is bounded, then $\mathcal{G}$ is continuous at infinity.
+	with terminal histories $Z \subseteq H$. Suppose that for each player $i \in I$, there exist $v_i : \mathcal{A} \to \R$ and $\delta_i \in (0,1)$ such that $u_i(z) = \sum_{t=1}^{\text{length}(z)} \delta_i^{t-1} v_i(a_t)$ for every terminal history $z=(a_1,a_2,a_3,\dots) \in Z$. If for each player $i \in I$, the function $v_i$ is bounded, then $\mathcal{G}$ is continuous at infinity.
 	%
 \end{proposition}
 
 \begin{proof}
 	%
 	This could have been an exercise, really, but it would have more of a real-analysis exercise than a game-theory one. Fix a player $i \in I$ and an $\eps > 0$; we seek a $T \in \N$ such that $\abs*{ u_i(a_1,a_2,a_3,\dots) - u_i(a_1',a_2',a_3',\dots) } < \eps$ whenever $a_t = a_t'$ for every $t \in \{1,\dots,T\}$. By hypothesis, there is a constant $K \geq 0$ such that $\abs*{v_i} \leq K$. Choose a $T \in \N$ large enough that $2K \delta_i^T / (1-\delta_i) < \eps$.
-	Then for any terminal histories $(a_1,a_2,a_3,\dots) \in Z$ and $(a_1',a_2',a_3',\dots) \in Z$ such that $a_t = a_t'$ for every $t \in \{1,\dots,T\}$, we have
+	Then for any terminal histories $z=(a_1,a_2,a_3,\dots) \in Z$ and $z'=(a_1',a_2',a_3',\dots) \in Z$ such that $a_t = a_t'$ for every $t \in \{1,\dots,T\}$, writing $v_i(a_t) \coloneqq 0$ if $t > \text{length}(z)$ if $v_i(a_t') \coloneqq 0$ for $t > \text{length}(z')$, we have
 	%
-	\begin{multline*}
-		\abs*{ u_i(a_1,a_2,a_3,\dots)
-		- u_i(a_1',a_2',a_3',\dots) }
+	\begin{equation*}
+		\abs*{ u_i(z)
+		- u_i(z') }
 		\leq \sum_{t=T+1}^\infty
 		\delta_i^{t-1} \abs*{ v_i(a_t) - v_i(a_t') }
-		\\
-		\leq 2K \sum_{t=T+1}^\infty \delta_i^{t-1}
-		= 2K \delta_i^T \sum_{s=0}^\infty \delta_i^s
+		\leq 2K \delta_i^T \sum_{s=0}^\infty \delta_i^s
 		= \frac{2K \delta_i^T}{1-\delta_i}
 		< \eps ,
-	\end{multline*}
+	\end{equation*}
 	%
 	as desired.
 	%
@@ -700,7 +698,7 @@ For further/alternative reading, consider \textcite[section~4.2]{FudenbergTirole
 		\item Formally, the above is a deterministic perfect-information extensive-form game, meaning a tuple
 		%
 		\begin{equation*}
-			G = (I,\mathcal{A},H,P,A,(u_i)_{i \in I}) ,
+			\mathcal{G} = (I,\mathcal{A},H,P,(u_i)_{i \in I}) ,
 		\end{equation*}
 		%
 		with terminal histories denoted $Z \subseteq H$.
@@ -712,9 +710,9 @@ For further/alternative reading, consider \textcite[section~4.2]{FudenbergTirole
 
 	\begin{enumerate}[label=(\alph*),resume]
 
-		\item Prove that if $R\delta<1$, then $G$ is continuous at infinity.
+		\item Prove that if $R\delta<1$, then $\mathcal{G}$ is continuous at infinity.
 
-		\item Prove that if $R\delta \geq 1$, then $G$ is \emph{not} continuous at infinity.
+		\item Prove that if $R\delta \geq 1$, then $\mathcal{G}$ is \emph{not} continuous at infinity.
 
 	\end{enumerate}
 

@@ -32,7 +32,13 @@ We focus on the game-theoretic analogue of stationary single-agent dynamic decis
 	%
 	\label{definition:stage_game}
 	%
-	A \emph{public-monitoring stage game} is a tuple $\left( I, Y, (A_i, u_i)_{i \in I}, \mu \right)$, where $I$ and $Y$ are non-empty sets, for each $i \in I$, $A_i$ is a non-empty set and $u_i$ is a function $A_i \times Y \to \R$, and $\mu$ is a function $A \to \Delta(Y)$.
+	A \emph{public-monitoring stage game} is a tuple
+	%
+	\begin{equation*}
+		\left( I, Y, (A_i, u_i)_{i \in I}, \mu \right) ,
+	\end{equation*}
+	%
+	where $I$ and $Y$ are non-empty sets, for each $i \in I$, $A_i$ is a non-empty set and $u_i$ is a function $A_i \times Y \to \R$, and $\mu$ is a function $A \to \Delta(Y)$.
 	%
 \end{definition}
 
@@ -178,7 +184,7 @@ The definitions above of public-monitoring stage and repeated games omit some me
 	As mentioned above, for a finite public-information stage game $G = \left( I, Y, (A_i, u_i)_{i \in I}, \mu \right)$ and a $\delta \in (0,1)$, the public-monitoring repeated game $(G,\delta)$ is formally an extensive-form game, namely
 	%
 	\begin{equation*}
-		\left(\widetilde{I},\widetilde{\mathcal{A}},\widetilde{H},\widetilde{P},\widetilde{A},\widetilde{\mathcal{S}},\left(\widetilde{u}_i\right)_{i \in I},\widetilde{\pi}\right)
+		\left(\widetilde{I},\widetilde{\mathcal{A}},\widetilde{H},\widetilde{P},\widetilde{\mathcal{S}},\left(\widetilde{u}_i\right)_{i \in I},\widetilde{\pi}\right)
 	\end{equation*}
 	%
 	where
@@ -207,19 +213,19 @@ The definitions above of public-monitoring stage and repeated games omit some me
 		%
 		(where the non-terminal histories are the finite ones, and the terminal histories are the infinite ones,)
 
-		\item the player and action functions $\widetilde{P}$ and $\widetilde{A}$ are given by
+		\item the action and player functions $\widetilde{A}$ and $\widetilde{P}$ are given by
 
 		\begin{itemize}
 		
-			\item $\widetilde{P}(h) \coloneqq 1$ and $\widetilde{A}(h) \coloneqq A_1$ if $\text{length}(h) = (\abs*{I}+1) n$ for some $n \in \{0,1,2,3,\dots\}$,
+			\item $\widetilde{A}(h) \coloneqq A_1$ and $\widetilde{P}(h) \coloneqq 1$ if $\text{length}(h) = (\abs*{I}+1) n$ for some $n \in \{0,1,2,3,\dots\}$,
 		
-			\item $\widetilde{P}(h) \coloneqq 2$ and $\widetilde{A}(h) \coloneqq A_2$ if $\text{length}(h) = (\abs*{I}+1) n + 1$ for some $n \in \{0,1,2,3,\dots\}$,
+			\item $\widetilde{A}(h) \coloneqq A_2$ and $\widetilde{P}(h) \coloneqq 2$ if $\text{length}(h) = (\abs*{I}+1) n + 1$ for some $n \in \{0,1,2,3,\dots\}$,
 
 			\item[\vdots]
 
-			\item $\widetilde{P}(h) \coloneqq \abs*{I}$ and $\widetilde{A}(h) \coloneqq A_{\abs*{I}}$ if $\text{length}(h) = (\abs*{I}+1) n + \abs*{I}-1$ for some $n \in \{0,1,2,3,\dots\}$, and
+			\item $\widetilde{A}(h) \coloneqq A_{\abs*{I}}$ and $\widetilde{P}(h) \coloneqq \abs*{I}$ if $\text{length}(h) = (\abs*{I}+1) n + \abs*{I}-1$ for some $n \in \{0,1,2,3,\dots\}$, and
 
-			\item $\widetilde{P}(h) \coloneqq \text{Nature}$ and $\widetilde{A}(h) \coloneqq Y$ if $\text{length}(h) = (\abs*{I}+1) n + \abs*{I}$ for some $n \in \{0,1,2,3,\dots\}$,
+			\item $\widetilde{A}(h) \coloneqq Y$ and $\widetilde{P}(h) \coloneqq \text{Nature}$ if $\text{length}(h) = (\abs*{I}+1) n + \abs*{I}$ for some $n \in \{0,1,2,3,\dots\}$,
 		
 		\end{itemize}
 
@@ -320,15 +326,15 @@ for every private history
 	\in (Y \times A_i)^t .
 \end{equation*}
 %
-A \emph{(public) strategy profile} is a collection $\sigma = (\sigma_i)_{i \in I}$ of (public) strategies, one for each player. For a public strategy profile $\sigma$, we abuse notation by writing $\sigma\bigl(h^{t-1}\bigr) \in \prod_{i \in I} \Delta(A_i)$ for the mixed action profile played at public history $h^{t-1} \in Y^t$. (Why is this an abuse of notation?)
+A \emph{(public) strategy profile} is a collection $\sigma = (\sigma_i)_{i \in I}$ of (public) strategies, one for each player. For a public strategy profile $\sigma$, we abuse notation by writing $\sigma\bigl(h^{t-1}\bigr) \in \prod_{i \in I} \Delta(A_i)$ for the profile of mixed actions played at public history $h^{t-1} \in Y^t$. (Why is this an abuse of notation?)
 
-Any public strategy profile $\sigma$ generates, for each $t \in \{0,1,2,3,\dots\}$, a random length-$t$ public history $h^{t-1}_\sigma \in Y^t$: in particular, $h^{-1}_\sigma \coloneqq \varnothing$ (the empty sequence), $h^0_\sigma \coloneqq (y^0_\sigma)$ where $y^0_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^{-1}_\sigma \right) \right)$, $h^1_\sigma \coloneqq \left(h^0_\sigma,y^1_\sigma\right)$ where $y^1_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^0_\sigma \right) \right)$, $h^2_\sigma \coloneqq \left(h^1_\sigma,y^2_\sigma\right)$ where $y^2_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^1_\sigma \right) \right)$, and so on, where the draws are jointly independent. The (lifetime) expected payoff of player $i \in I$ from the strategy profile $\sigma$ is denoted
+Any public strategy profile $\sigma$ generates, for each $t \in \{0,1,2,3,\dots\}$, a random length-$t$ public history $h^{t-1}_\sigma \in Y^t$: in particular, $h^{-1}_\sigma \coloneqq \varnothing$ (the empty sequence), $h^0_\sigma \coloneqq (y^0_\sigma)$ where $y^0_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^{-1}_\sigma \right) \right)$, $h^1_\sigma \coloneqq \left(h^0_\sigma,y^1_\sigma\right)$ where $y^1_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^0_\sigma \right) \right)$, $h^2_\sigma \coloneqq \left(h^1_\sigma,y^2_\sigma\right)$ where $y^2_\sigma$ is drawn from $\mu\left( \cdot \middle| \sigma\left( h^1_\sigma \right) \right)$, and so on, where the draws are jointly independent. The lifetime expected payoff of player $i \in I$ from the strategy profile $\sigma$ is denoted
 %
 \begin{equation*}
-	U_i(\sigma) \coloneqq (1-\delta) \sum_{t=0}^\infty \delta^t u_i\left( \sigma\left(h^{t-1}_\sigma\right) \right) .
+	U_i(\sigma) \coloneqq \E\left( (1-\delta) \sum_{t=0}^\infty \delta^t u_i\left( \sigma\left(h^{t-1}_\sigma\right) \right) \right) .
 \end{equation*}
 %
-We write $U(\sigma) \coloneqq (U_i(\sigma))_{i \in I}$ for the vector of all players' lifetime payoffs. Similarly, we write $u(\alpha) \coloneqq (u_i(\alpha))_{i \in I}$ for the vector of all players' stage-game payoffs from a mixed action profile $\alpha \in \prod_{i \in I} \Delta(A_i)$.
+We write $U(\sigma) \coloneqq (U_i(\sigma))_{i \in I}$ for the vector of all players' lifetime expected payoffs. Similarly, we write $u(\alpha) \coloneqq (u_i(\alpha))_{i \in I}$ for the vector of all players' stage-game payoffs from a profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ of mixed actions.
 
 Although the `continuation game' starting from a public history $h^{t-1} \in Y^t$ is \emph{not} a subgame (except if monitoring is perfect), it can still be treated as a game in its own right \emph{provided} players play a public strategy profile, since then players' private information about their own past play is irrelevant for payoffs going forward. By inspection, this `continuation game' is identical with the full public-monitoring repeated game $(G,\delta)$ itself: the game is $G$ is played repeatedly, with public outcomes drawn conditionally independently over time, and payoffs discounted by $\delta$.
 
@@ -348,9 +354,9 @@ The \emph{continuation payoff} of a public strategy profile $\sigma$ at a public
 %
 \begin{align*}
 	U\left( \sigma_{*} \right)
-	&= (1-\delta) \sum_{s=0}^\infty \delta^s u\left( \sigma_{*}\left(h^{s-1}_{\sigma_{*}}\right) \right)
+	&= \E\left( (1-\delta) \sum_{s=0}^\infty \delta^s u\left( \sigma_{*}\left(h^{s-1}_{\sigma_{*}}\right) \right) \right)
 	\\
-	&= (1-\delta) \sum_{s=t}^\infty \delta^{s-t} u\left( \sigma\left(h_{*}^{t-1},h^{s-t-1}_{\sigma_{*}} \right) \right) .
+	&= \E\left( (1-\delta) \sum_{s=t}^\infty \delta^{s-t} u\left( \sigma\left(h_{*}^{t-1},h^{s-t-1}_{\sigma_{*}} \right) \right) \right) .
 \end{align*}
 %
 Note that by definition, the continuation payoff from public history $h_{*}^{t-1} \in Y^t$ omits per-period payoffs enjoyed in periods $\{0,1,2,3,\dots,t-1\}$; it is a forward-looking object.
@@ -599,7 +605,7 @@ The technique developed in this section, called `APS' after \textcite{AbreuPearc
 	%
 	\label{corollary:enforcement}
 	%
-	Fix a map $\beta : Y \to E$ and a mixed action profile $\alpha \in \prod_{i \in I} \Delta(A_i)$, and let
+	Fix a map $\beta : Y \to E$ and a profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ of mixed actions, and let
 	%
 	\begin{equation*}
 		v \coloneqq (1-\delta) u(\alpha) + \delta \sum_{y \in Y} \beta(y) \mu(y|\alpha) .
@@ -634,7 +640,7 @@ In order for players to be willing actually to follow through with this future p
 	%
 	\label{definition:enforcement}
 	%
-	A map $\beta : Y \to X$ \emph{enforces} a mixed action profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ iff
+	A map $\beta : Y \to X$ \emph{enforces} a profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ of mixed actions iff
 	%
 	\begin{align*}
 		(1-\delta) u_i(\alpha) &+ \delta \sum_{y \in Y} \beta_i(y) \mu(y|\alpha)
@@ -665,7 +671,7 @@ Enforcement captures incentive-compatibility. In the language of moral hazard, w
 	%
 	\label{definition:generation}
 	%
-	A set $V \subseteq X$ of payoff vectors \emph{generates} a payoff vector $v \in X$ iff there exists a map $\beta : Y \to V$ and a mixed action profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ such that $\beta$ enforces $\alpha$ and
+	A set $V \subseteq X$ of payoff vectors \emph{generates} a payoff vector $v \in X$ iff there exists a map $\beta : Y \to V$ and a profile $\alpha \in \prod_{i \in I} \Delta(A_i)$ of mixed actions such that $\beta$ enforces $\alpha$ and
 	%
 	\begin{equation*}
 		(1-\delta) u(\alpha)
@@ -701,7 +707,7 @@ A set $V \subseteq X$ such that $V \subseteq B(V)$ is called \emph{self-generati
 
 	\begin{itemize}
 	
-		\item For the length-$0$ public history $\varnothing$, since $v \in V \subseteq B(V)$, there exists a map $\beta_{\varnothing} : Y \to V$ and a mixed action profile $\alpha_{\varnothing} \in \prod_{i \in I} \Delta(A_i)$ such that $\beta_{\varnothing}$ enforces $\alpha_{\varnothing}$ and
+		\item For the length-$0$ public history $\varnothing$, since $v \in V \subseteq B(V)$, there exists a map $\beta_{\varnothing} : Y \to V$ and a profile $\alpha_{\varnothing} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions such that $\beta_{\varnothing}$ enforces $\alpha_{\varnothing}$ and
 		%
 		\begin{equation*}
 			(1-\delta) u\left(\alpha_{\varnothing}\right)
@@ -711,7 +717,7 @@ A set $V \subseteq X$ such that $V \subseteq B(V)$ is called \emph{self-generati
 		%
 		let $\sigma\left( \varnothing \right) \coloneqq \alpha_{\varnothing}$.
 	
-		\item For each length-$1$ public history $h^0 \equiv \left(y^0\right) \in Y$, since $\beta_{\varnothing}\left( y^0 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^0} : Y \to V$ and a mixed action profile $\alpha_{h^0} \in \prod_{i \in I} \Delta(A_i)$ such that $\beta_{h^0}$ enforces $\alpha_{h^0}$ and
+		\item For each length-$1$ public history $h^0 \equiv \left(y^0\right) \in Y$, since $\beta_{\varnothing}\left( y^0 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^0} : Y \to V$ and a profile $\alpha_{h^0} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions such that $\beta_{h^0}$ enforces $\alpha_{h^0}$ and
 		%
 		\begin{equation*}
 			(1-\delta) u\left(\alpha_{h^0}\right)
@@ -721,7 +727,7 @@ A set $V \subseteq X$ such that $V \subseteq B(V)$ is called \emph{self-generati
 		%
 		let $\sigma\left( h^0 \right) \coloneqq \alpha_{h^0}$.
 	
-		\item For each length-$2$ public history $h^1 \equiv \left(h^0,y^1\right) \in Y^2$, since $\beta_{h^0}\left( y^1 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^1} : Y \to V$ and a mixed action profile $\alpha_{h^1} \in \prod_{i \in I} \Delta(A_i)$ such that $\beta_{h^1}$ enforces $\alpha_{h^1}$ and
+		\item For each length-$2$ public history $h^1 \equiv \left(h^0,y^1\right) \in Y^2$, since $\beta_{h^0}\left( y^1 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^1} : Y \to V$ and a profile $\alpha_{h^1} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions such that $\beta_{h^1}$ enforces $\alpha_{h^1}$ and
 		%
 		\begin{equation*}
 			(1-\delta) u\left(\alpha_{h^1}\right)
@@ -731,7 +737,7 @@ A set $V \subseteq X$ such that $V \subseteq B(V)$ is called \emph{self-generati
 		%
 		let $\sigma\left( h^1 \right) \coloneqq \alpha_{h^1}$.
 	
-		\item For each length-$3$ public history $h^2 \equiv \left(h^1,y^2\right) \in Y^3$, since $\beta_{h^1}\left( y^2 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^2} : Y \to V$ and a mixed action profile $\alpha_{h^2} \in \prod_{i \in I} \Delta(A_i)$ such that $\beta_{h^2}$ enforces $\alpha_{h^2}$ and
+		\item For each length-$3$ public history $h^2 \equiv \left(h^1,y^2\right) \in Y^3$, since $\beta_{h^1}\left( y^2 \right) \in V \subseteq B(V)$, there exists a map $\beta_{h^2} : Y \to V$ and a profile $\alpha_{h^2} \in \prod_{i \in I} \Delta(A_i)$ of mixed actions such that $\beta_{h^2}$ enforces $\alpha_{h^2}$ and
 		%
 		\begin{equation*}
 			(1-\delta) u\left(\alpha_{h^2}\right)
@@ -817,7 +823,7 @@ The equation $V = B(V)$ in an unknown set $V \subseteq X$ may be viewed as a gam
 	%
 	\label{remark:aps_randomisation}
 	%
-	Recall from \cref{aps:feasible} (\cpageref{item:X_converse:stage_pos}) the notion of a \emph{public correlating device.} Throughout this section, we have (implicitly) assumed that players do \emph{not} have access to a public correlating device, by always considering only mixed action profiles $\alpha \in \prod_{i \in I} \Delta(A_i)$ in which players mix \emph{independently} (as opposed to considering all mixed action profiles $\alpha \in \Delta(A)$, which may feature correlation between players' actions). The (only) place where this matters is in how `enforcement' is defined. In particular, when there \emph{is} a public correlating device, we say that $\beta : Y \to X$ \emph{enforces} a mixed action profile $\alpha \in \Delta(A)$ (in which mixing may be correlated across players) iff $\alpha$ is a \emph{correlated} equilibrium of the (artificial) normal-form game $\left(I,(A_i,w_i\right)_{i \in I})$ from \Cref{remark:enforc_nash} (\cpageref{remark:enforc_nash} above). With enforcement defined in this way, the three results of this section (\Cref{proposition:self-gen}, \Cref{theorem:self-gen_max_ppe} and \Cref{proposition:ppe_algo}) remain true exactly as stated.%
+	Recall from \cref{aps:feasible} (\cpageref{item:X_converse:stage_pos}) the notion of a \emph{public correlating device.} Throughout this section, we have (implicitly) assumed that players do \emph{not} have access to a public correlating device, by always considering only action profiles $\alpha \in \prod_{i \in I} \Delta(A_i)$ in which players mix \emph{independently} (as opposed to considering all mixed action profiles $\alpha \in \Delta(A)$, which may feature correlation between players' actions). The (only) place where this matters is in how `enforcement' is defined. In particular, when there \emph{is} a public correlating device, we say that $\beta : Y \to X$ \emph{enforces} a mixed action profile $\alpha \in \Delta(A)$ (in which mixing may be correlated across players) iff $\alpha$ is a \emph{correlated} equilibrium of the (artificial) normal-form game $\left(I,(A_i,w_i\right)_{i \in I})$ from \Cref{remark:enforc_nash} (\cpageref{remark:enforc_nash} above). With enforcement defined in this way, the three results of this section (\Cref{proposition:self-gen}, \Cref{theorem:self-gen_max_ppe} and \Cref{proposition:ppe_algo}) remain true exactly as stated.%
 		\footnote{An alternative way of adding a public correlating device, which you'll find in chapter~7 of \textcite{MailathSamuelson2006}, is to encode it in the monitoring structure, by expanding the set of public outcomes to $Y' \coloneqq Y \times [0,1]$ and letting $\mu' \coloneqq \mu \times \lambda$, where $\lambda$ is the Lebesgue measure; in other words, public outcomes are now $(y,z) \in Y \times [0,1]$, where $z$ is a uniformly distributed random variable that is independent of $y$. This way of modelling a public correlating device does \emph{not} require the definition of enforcement to be altered. But it seems to me that this approach is not quite equivalent, because it does not allow actions to be correlated in period $t=0$.}
 	That doesn't mean that it makes no difference whether or not there is a public correlating device: see the next exercise, and the final paragraph of the next section.
 	%
@@ -870,7 +876,7 @@ The point of the APS technique developed in the previous section is to answer qu
 
 	\item \label{item:does_S} More generally, for an arbitrary set $S \subseteq X$, does $S$ contain any PPE payoff vectors, and if yes, does it contain only PPE payoff vectors? That is, is $S \intersect E \neq \varnothing$, and if yes, is $S \subseteq E$?
 
-	\item \label{item:does_max1} For a given player $i \in I$, what are the lowest and highest payoff of player~$i$ in a PPE? That is, what are the values of $\min_{v \in E} v_i$ and $\max_{v \in E} v_i$?
+	\item \label{item:does_max1} For a given player $i \in I$, what is the lowest and highest payoff of player~$i$ in a PPE? That is, what are the values of $\min_{v \in E} v_i$ and $\max_{v \in E} v_i$?
 
 	\item \label{item:does_max2} How high can the sum of players' payoffs be in a PPE? That is, what is the value of $\max_{v \in E} \sum_{i \in I} v_i$?
 
@@ -903,7 +909,7 @@ It is straightforward to show that if a payoff vector $v \in X$ fails to be indi
 	%
 \end{exercise}
 
-\begin{exercise}[S.~Petersen]
+\begin{exercise}[Sami Petersen]
 	%
 	\label{exercise:ir_ppe_necessary_pure}
 	%

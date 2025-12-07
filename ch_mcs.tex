@@ -52,7 +52,7 @@ is increasing: that is, the higher the parameter, the higher the action chosen b
 	
 	Let the parameter be $\theta = (z,p,-r) \in \R_+^2 \times \R_- \eqqcolon \Theta$. Under what assumptions on the production function $f$ does the firm raise output whenever $\theta$ increases, i.e. when productivity $z$ increases, the price $p$ of output increases, and/or the rental rate $r$ on capital falls?
 	
-	The classical way of answering this question is to impose auxiliary differentiability and quasi-concavity assumptions, then use the first-order condition. In particular, assume additionally that $f$ is differentiable and strictly concave, and that it satisfies the Inada conditions $\lim_{a \downarrow 0} f'(a) = \infty$ and $\lim_{a \uparrow \infty} f'(a) = 0$. Then for each parameter $\theta \in \Theta$, there is a unique optimal choice $a^\star(\theta) \in \R_+$, which is interior (i.e. belongs to $(0,\infty)$) and satisfies the first-order condition
+	The classical way of answering this question is to impose auxiliary differentiability and quasi-concavity assumptions, then use the first-order condition. In particular, assume additionally that $f$ is continuously differentiable and strictly concave, and that it satisfies the Inada conditions $\lim_{a \downarrow 0} f'(a) = \infty$ and $\lim_{a \uparrow \infty} f'(a) = 0$. Then for each parameter $\theta \in \Theta$, there is a unique optimal choice $a^\star(\theta) \in \R_+$, which is interior (i.e. belongs to $(0,\infty)$) and satisfies the first-order condition
 	%
 	\begin{equation*}
 		pzf'\left(a^\star(p,z,-r)\right) = r .
@@ -60,7 +60,7 @@ is increasing: that is, the higher the parameter, the higher the action chosen b
 	%
 	Since $f'$ is strictly decreasing (as $f$ is strictly concave), it follows that $a^\star$ is increasing in each of its three arguments.
 
-	This is all well and good, but what if $f$ fails to be differentiable or concave? The answer, as we shall see below, is that it makes no difference: all that need be assumed about the production function $f$ is that it is monotone.
+	This is all well and good, but what if $f$ fails to be differentiable or concave? The answer, as we shall see below, is that it makes no difference: all that need be assumed about the production function $f$ is that it is increasing.
 	%
 \end{example}
 
@@ -81,7 +81,7 @@ is increasing: that is, the higher the parameter, the higher the action chosen b
 	The monopolist's problem is to choose a price $a \in A \coloneqq \R_{++}$ to maximise profit
 	%
 	\begin{equation*}
-		u(a,c,-\eta) \coloneqq (a-c) \cdot D(a,\eta) .
+		u(a,(c,-\eta)) \coloneqq (a-c) \cdot D(a,\eta) .
 	\end{equation*}
 	
 	In this case, the parameter is $\theta = (c,-\eta) \in \R_+ \times \R_- \eqqcolon \Theta$, and the comparative-statics question is what more must be assumed about the demand curve $D$ in order to conclude that when $(c,-\eta)$ increases (i.e. marginal cost rises or demand becomes uniformly less elastic), the monopolist optimally charges a higher price.
@@ -172,6 +172,24 @@ Our formalisation of the comparative-statics question is as follows: under what 
 	In applications, one sometimes wishes to draw the stronger conclusion that the argmax correspondence $M$ admits \emph{only} increasing selections: that is, that every function $m : \Theta \to A$ such that $m(\theta) \in M(\theta)$ for each $\theta \in \Theta$ is increasing. Occasionally, one wishes to draw the even stronger conclusion that the argmax correspondence $M$ admits only \emph{strictly} increasing selections. These two alternative formalisations of the comparative-statics question are also (briefly) considered below (on \cpageref{remark:mcs_selection_cont}).
 	%
 \end{remark}
+
+\begin{exercise}
+	%
+	\label{exercise:incr_covnex}
+	%
+	Let $A \subseteq \R$ and $\Theta \subseteq \R$ be non-empty and convex, let $u$ be a function $A \times \Theta \to \R$, and let $\phi$ be a function $\R \to \R$.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show that if $u(a,\theta) = \phi(a+\theta)$ for all $a \in A$ and $\theta \in \Theta$, then $u$ has increasing differences if and only if $\phi$ is convex.
+
+		\item Show that if $u(a,\theta) = \phi(a-\theta)$ for all $a \in A$ and $\theta \in \Theta$, then $u$ has increasing differences if and only if $\phi$ is concave.
+
+		\item Show that $(a,\theta) \mapsto -(a-\theta)^2$ has increasing differences. (This a common functional form: see e.g. \textcite{CrawfordSobel1982}.)
+	
+	\end{enumerate}
+	%
+\end{exercise}
 
 
 
@@ -457,7 +475,7 @@ There are several other extensions of the basic comparative-statics theorem, \Cr
 		\text{for all $\ell \neq m$ in $\{1,\dots,L\}$ and all $(a_1,\dots,a_\ell,\dots,a_m,\dots,a_L) \in A$.}
 	\end{multline*}
 	%
-	My own experience is that such supermodularity-type assumptions very rarely hold in economic applications, making this extension to multi-dimensional actions less useful than it sounds.
+	My own experience is that such supermodularity-type assumptions rarely hold in economic applications, making this extension to multi-dimensional actions less useful than it sounds.
 
 	Actually the action set $A$ can be more general still: all that is really required is that it be a \emph{lattice,} as defined in \cref{tar:latt} above (\cpageref{definition:lattice}). Thus $A$ can be infinite-dimensional, and indeed need not even be a subset of a vector space.
 
@@ -508,7 +526,7 @@ For further/alternative reading, look for lecture notes online, for example \tex
 	\end{equation*}
 	%
 	Under standard assumptions on $U$ and the distributions of $Y_1$ and $R_1$,%
-		\footnote{For example, assume that $(Y_t,R_t)$ take values in compact set and that $U$ is bounded and continuous, and appeal to the results in \textcite[][chapter~9]{StokeyLucasPrescott1989}.}
+		\footnote{For example, assume that $(Y_t,R_t)$ take values in a compact set and that $U$ is bounded and continuous, and appeal to the results in \textcite[][chapter~9]{StokeyLucasPrescott1989}.}
 	the value function $V : \R_+ \to \R_+$ solves the Bellman equation, and is the only solution that is bounded; furthermore, optimal saving policies $\sigma : \R_+ \to \R_+$ are precisely those that satisfy
 	%
 	\begin{equation*}
@@ -535,7 +553,7 @@ For further/alternative reading, look for lecture notes online, for example \tex
 	%
 	\label{exercise:adj}
 	%
-	Consider a model of costly adjustment. An agent chooses $a \in A$, and her gross payoff is $u(a,\theta)$, where $\theta \in \Theta \subseteq \R^K$ is a parameter and $u$ has single-crossing differences. Initially, the parameter was $\theta_0 \in \Theta$, and the agent chose $a_0 \in \argmax_{a \in A} u(a,\theta_0)$. The parameter now increases to $\theta_1 \geq \theta_0$, and the agent adjusts her action in response. Adjustment is costly: in particular, adjusting by $\Delta = a_1 - a_0$ costs $c(\Delta) \geq 0$.  The agent chooses a new action to maximise her net payoff: $a_1 \in M_1 \coloneqq \argmax_{a \in A} [u(a,\theta_1)-c(a-a_0)]$. Assume that $M_1$ is non-empty.
+	Consider a model of costly adjustment. An agent chooses $a \in A \subseteq \R$, and her gross payoff is $u(a,\theta)$, where $\theta \in \Theta \subseteq \R^K$ is a parameter and $u$ has single-crossing differences. Initially, the parameter was $\theta_0 \in \Theta$, and the agent chose $a_0 \in \argmax_{a \in A} u(a,\theta_0)$. The parameter now increases to $\theta_1 \geq \theta_0$, and the agent adjusts her action in response. Adjustment is costly: in particular, adjusting by $\Delta = a_1 - a_0$ costs $c(\Delta) \geq 0$.  The agent chooses a new action to maximise her net payoff: $a_1 \in M_1 \coloneqq \argmax_{a \in A} [u(a,\theta_1)-c(a-a_0)]$. Assume that $M_1$ is non-empty.
 
 	Say that the adjustment cost function $c : \R_+ \to \R_+$ is \emph{minimised at zero} iff $c(0) \leq c(\Delta)$ for every $\Delta \in \R_+$. This means that \emph{not} adjusting is cheaper than adjusting. Prove that if $c$ is minimised at zero, then there exists an optimal action $a_1 \in M_1$ such that $a_1 \geq a_0$.
 

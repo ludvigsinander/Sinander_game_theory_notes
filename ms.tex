@@ -16,7 +16,7 @@
 %                                   _     _
 %    _ __  _ __ ___  __ _ _ __ ___ | |__ | | ___
 %   | '_ \| '__/ _ \/ _` | '_ ` _ \| '_ \| |/ _ \
-%   | |_) | | |  __/ (_| | |  | | | | |_) | |  __/
+%   | |_) | | |  __/ (_| | | | | | | |_) | |  __/
 %   | .__/|_|  \___|\__,_|_| |_| |_|_.__/|_|\___|
 %   |_|
 
@@ -41,7 +41,7 @@
 	\newcommand{\hyperdest}[1]{\Hy@raisedlink{\hypertarget{#1}{}}}
 \makeatother
 
-% watermark on every page (for version control)
+% % watermark on every page (for version control)
 % \usepackage[anchor=ll,pos={0.1cm,0.5cm},fontsize=0.2cm,angle=0,alignment=l]{draftwatermark}
 % \SetWatermarkText{\normalfont\hspace{0.37em}version:\\\normalfont {\datestyle\today}\\\normalfont\hspace{0.37em}at {\currenttime}}
 
@@ -67,13 +67,13 @@
 \author{Ludvig Sinander \\
 University of Oxford}
 
-\date{\small This version: 16 April 2025}
+\date{\small This version: 7 December 2025}
 
 % \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
 
 \makeatletter
 	\AtBeginDocument{ \hypersetup{
-		pdftitle = {Game theory},
+		pdftitle = {Advanced game theory},
 		pdfauthor = {Ludvig Sinander}
 		} }
 \makeatother
@@ -260,29 +260,27 @@ A \emph{Bayes--Nash equilibrium} is a collection $(\sigma_i)_{i \in I}$ of strat
 
 To define an extensive-form game, begin with some concepts. For a non-empty set $\mathcal{A}$ and two (possibly infinite) sequences $h = (a_n)_{n=1}^N$ and $h' = (b_n)_{n=1}^M$ in $\mathcal{A}$, where $N,M \in \N \union \{\infty\}$, we say that $h$ is a \emph{truncation} of $h'$ iff $N \leq M$ and $a_n = b_n$ for every $n \leq N$. Given a set $H$ of sequences in $\mathcal{A}$, we call $h \in H$ \emph{terminal} iff there is no $h' \neq h$ in $H$ such that $h$ is a truncation of $h'$.
 
-An \emph{extensive-form game} is a tuple $(I,\mathcal{A},H,P,A,\mathcal{S},(u_i)_{i \in I},\pi)$, where
+An \emph{extensive-form game} is a tuple $(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{i \in I},\pi)$, where
 
 \begin{itemize}
 
 	\item $I$ and $\mathcal{A}$ are non-empty sets,
 
-	\item $H$ is a set of sequences in $\mathcal{A}$ that contains the empty sequence $\varnothing$ and is closed under truncation (that is, if $h$ is a truncation of $h' \in H$ then $h \in H$), where we write $Z$ for the set of terminal elements of $H$,
+	\item $H$ is a set of sequences in $\mathcal{A}$ that contains the empty sequence $\varnothing$, is closed under truncation (that is, if $h$ is a truncation of $h' \in H$ then $h \in H$), and features every element of $\mathcal{A}$ (that is, for each $a \in \mathcal{A}$, there exists a history $h = (a_n)_{n=1}^N \in H$ such that $a_n = a$ for some $n$), where we write $Z$ for the set of terminal elements of $H$ and $A(h) \coloneqq \left\{ a \in \mathcal{A} : (h,a) \right\}$ for the set of actions available at a non-terminal history $h \in H \setminus Z$,
 
 	\item $P$ is a map $H \setminus Z \to I \union \{\text{Nature}\}$ such that $P(H \setminus Z) \supseteq I$,%
 		\footnote{Here $P(H \setminus Z) \equiv \Union_{h \in H \setminus Z} P(h)$.}
-
-	\item $A$ is a map $H \setminus Z \to 2^\mathcal{A} \setminus \{\varnothing\}$ such that $A(H \setminus Z) = \mathcal{A}$,
 
 	\item $\mathcal{S}$ is a partition of $H \setminus Z$ (i.e. a set of subsets of $H \setminus Z$ such that $\Union_{S \in \mathcal{S}} S = H \setminus Z$ and $S \cap S' = \varnothing$ for any $S \neq S'$ in $\mathcal{S}$) which is measurable with respect to $P$ and $A$ (that is, if $h,h' \in S \in \mathcal{S}$, then $P(h)=P(h')$ and $A(h)=A(h')$),
 
 	\item for each $i \in I$, $u_i$ is a map $Z \to \R$, and
 
-	\item for each $h \in H \setminus Z$ such that $P(h) = \text{Nature}$, $\pi(h)$ is a full-support probability distribution over $A(h)$ (that is, an element of $\Delta(A(h))$).%
+	\item for each $h \in H \setminus Z$ such that $P(h) = \text{Nature}$, $\pi(h)$ is a full-support probability distribution over $A(h)$ (that is, an element of the interior of $\Delta(A(h))$).%
 		\footnote{Thus, explicitly, $\pi$ is a map $P^{-1}(\text{Nature}) \to \Union_{h \in P^{-1}(\text{Nature})} \Delta(A(h))$ such that for each $h \in P^{-1}(\text{Nature})$ and $a \in \Union_{h \in P^{-1}(\text{Nature})} A(h)$, $\pi(h)(a)>0$ iff $a \in A(h)$, where $P^{-1}(\text{Nature}) \equiv \{ h \in H \setminus Z : P(h) = \text{Nature} \}$.}
 
 \end{itemize}
 %
-The interpretation is that $I$ is the set of players, $\mathcal{A}$ is the set of all actions, $H$ is the set of histories (possible action sequences), and the functions $P$ and $A$ specify which player moves at each history and what actions are then available. The elements of the partition $\mathcal{S}$ are called \emph{information sets.} These describe what players observe: the player $P(h)$ who moves at history $h \in H \setminus Z$ observes which information set $S \in \mathcal{S}$ the history $h$ belongs to, but does not observe any more than that. The functions $(u_i)_{i \in I}$ are agents' payoff functions, defined on terminal histories (meaning that payoffs can in general depend on the entire history of play). Finally, it may be that at some histories $h \in H \setminus Z$, the move is made by $P(h) = \text{Nature}$, who chooses an action from $A(h)$ according to an exogenous commonly-known full-support probability distribution $\pi(h) \in \Delta(A(h))$. (`Nature' is not a strategic player, just a device for modelling chance moves.)
+The interpretation is that $I$ is the set of players, $\mathcal{A}$ is the set of all actions, $H$ is the set of histories (possible action sequences), and the function $P$ specifies which player moves at each history. The elements of the partition $\mathcal{S}$ are called \emph{information sets.} These describe what players observe: the player $P(h)$ who moves at history $h \in H \setminus Z$ observes which information set $S \in \mathcal{S}$ the history $h$ belongs to, but does not observe any more than that. The functions $(u_i)_{i \in I}$ are agents' payoff functions, defined on terminal histories (meaning that payoffs can in general depend on the entire history of play). Finally, it may be that at some histories $h \in H \setminus Z$, the move is made by $P(h) = \text{Nature}$, who chooses an action from $A(h)$ according to an exogenous commonly-known probability distribution $\pi(h) \in \Delta(A(h))$ with full support (on $A(h)$). (`Nature' is not a strategic player, just a device for modelling chance moves.)
 
 There are other ways of describing an extensive form. A common one uses the language of directed graphs (vertices/nodes, edges/links, etc.). 
 
@@ -308,18 +306,16 @@ One typically works with behavioural strategies.
 
 An extensive-form game has \emph{perfect information} iff all information sets are singletons (for any $h,h' \in H \setminus Z$, $\mathcal{S} \ni S \ni h \neq h' \in S' \in \mathcal{S}$ implies $S \neq S'$). In other words, each player fully observes (and remembers) all previous moves before having to make any move herself (as in, for example, chess).
 
-A \emph{subgame} is the game obtained by reaching some history $h \in H \setminus Z$ that belongs to a singleton information set ($S = \{h\}$ for some $S \in \mathcal{S}$) and looking forward. Formally, a subgame of $(I,\mathcal{A},H,P,A,\mathcal{S},(u_i)_{i \in I},\pi)$ is an extensive-form game $(I',\mathcal{A}',H',P',A',\mathcal{S}',(u_i')_{i \in I},\pi')$ such that for some $h_0 \in H \setminus Z$,
+A \emph{subgame} is the game obtained by reaching some history $h \in H \setminus Z$ that belongs to a singleton information set ($S = \{h\}$ for some $S \in \mathcal{S}$) and looking forward. Formally, a subgame of $(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{i \in I},\pi)$ is an extensive-form game $(I',\mathcal{A}',H',P',\mathcal{S}',(u_i')_{i \in I},\pi')$ such that for some $h_0 \in H \setminus Z$,
 %
 \begin{itemize}
 
-	\item $H' = \left\{ h' \in H : \text{$h_0$ is a truncation of $h'$} \right\}$, and we write $Z'$ for the set of terminal elements of $H'$,
+	\item $H' = \left\{ h' \in H : \text{$h_0$ is a truncation of $h'$} \right\}$, and we write $Z'$ for the set of terminal elements of $H'$ and $A'$ for the restriction of $A$ to $H' \setminus Z'$,
 
 	\item $I' = P'\left( H' \setminus Z' \right) \setminus \{\text{Nature}\}$ and $\mathcal{A'} = A'\left( H' \setminus Z' \right)$,%
 		\footnote{Here $P'\left( H' \setminus Z' \right) \equiv \Union_{h' \in H' \setminus Z'} P'(h')$ and $A'\left( H' \setminus Z' \right) \equiv \Union_{h' \in H' \setminus Z'} A'(h')$.}
 
 	\item $P'$ equals the restriction of $P$ to $H' \setminus Z'$,
-
-	\item $A'$ equals the restriction of $A$ to $H' \setminus Z'$,
 
 	\item $\mathcal{S}'$ is the (unique) partition of $H' \setminus Z'$ that refines $\mathcal{S}$ (i.e. $\mathcal{S}' \subseteq \mathcal{S}$),
 
