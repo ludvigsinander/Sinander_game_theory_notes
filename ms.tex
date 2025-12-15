@@ -67,7 +67,7 @@
 \author{Ludvig Sinander \\
 University of Oxford}
 
-\date{\small This version: 7 December 2025}
+\date{\small This version: 15 December 2025}
 
 % \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
 
@@ -538,100 +538,6 @@ A slightly stronger principle of induction (sometimes called `complete' or `stro
 	\item The `(strong) induction step': for any $t \in \N$, if $C_{s-1}$ is true for every $s \in \{1,2,\dots,t\}$, then $C_t$ is true.
 
 \end{itemize}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Measure and integral}
-\label{math:meas}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The theory of measure and (Lebesgue) integration are the foundation of modern real analysis, which is in turn the backbone of economic theory.
-You do not need to know it to take this course.
-But it helps to know some of the basic \emph{language} of measure theory; that's what I'll cover here.
-
-(If you'd like to pursue research in economic theory, then I would advise you to learn basic measure theory.
-I taught myself from \textcite{Rosenthal2006}; this book is very accessible, except that chapter~2 is harder than it needs to be, so don't get stuck there! I now prefer the first few chapters of \textcite{Folland1999}, a very beautiful book for first-year graduate students in maths. There are lots of other standard books. Efe Ok has a `measure and probability' manuscript on his website that is specifically aimed at economists.)
-
-
-Let $X$ be a non-empty set.
-A \emph{$\sigma$-algebra} on $X$ is a collection of subsets of $X$ satisfying certain properties.%
-	\footnote{The properties are closedness under complement and closedness under countable union.}
-If $\mathcal{X}$ is a $\sigma$-algebra, we call $(X,\mathcal{X})$ a \emph{measurable space,} and call the elements of $\mathcal{X}$ the \emph{measurable subsets} of $X$.
-Often the $\sigma$-algebra $\mathcal{X}$ is left partly or entirely implicit, by the way.
-
-A \emph{measure} on a measurable space $(X,\mathcal{X})$ is a map $\mu : \mathcal{X} \to [0,\infty]$ that is countably additive:
-for any countable collection $A_1,A_2,\dots$ of pairwise disjoint measurable subsets of $X$,
-we have $\mu\left( \Union_{n \in \N} A_n \right) = \sum_{n \in \N} \mu(A_n)$.
-The triple $(X,\mathcal{X},\mu)$ is called a \emph{measure space.}
-
-A measurable set $A \subseteq X$ is called \emph{$\mu$-null} iff $\mu(A)=0$. If a property holds at every $x \in X$, except possibly for $x$ belonging to a null set $A$, then that property is said to hold \emph{($\mu$-)almost everywhere,} or `($\mu$-)a.e.'.
-
-\begin{example}
-	%
-	\label{example:lebesgue_measure}
-	%
-	The most commonly-used measure on $X=\R$ is the \emph{Lebesgue measure,}
-	which is the unique measure $\lambda$ with the property that
-	$\lambda([a,b]) = b-a$ for all $a<b$.
-	That is, it captures the common-sense notion of \emph{length.}
-
-	Analogously, there's Lebesgue measure on $\R^2$, which captures \emph{area,} and Lebesgue measure on $\R^3$, which captures \emph{volume,} and so on.
-
-	The Lebesgue measure is conventionally defined on the \emph{Lebesgue $\sigma$-algebra} (whose elements are called \emph{Lebesgue sets}).
-	It is often easier to work with the coarser \emph{Borel $\sigma$-algebra} (or \emph{Borel sets}); this is the smallest $\sigma$-algebra containing every open subset of $\R$.
-	%
-\end{example}
-
-If $\mu$ has the further property that $\mu(X)=1$, then it is a \emph{probability measure,}
-and $(X,\mathcal{X},\mu)$ is a \emph{probability space.}
-In the probability context, `almost everywhere' is usually replaced with `almost sure(ly)' or `a.s.'.
-
-Now consider a function $f : X \to Y$, where both $X$ and $Y$ are measurable spaces. For any measurable set $B \subseteq Y$, a measure on $Y$ can tell us how `large' the set $B$ is.
-How large, then, is the set $A = \{ x \in X : f(x) \in B \}$ of points $x$ in $X$ that lead to a value $f(x)$ that lives in $B$?
-That question only has an answer if $A$ is a measurable set!
-We call a function \emph{measurable} if this question has an answer for every set $B$.
-Symbolically, $f$ is measurable iff for every measurable subset $B$ of $Y$, $\{ x \in X : f(x) \in B \}$ is a measurable subset of $X$.
-
-In modern analysis, the standard integral is the Lebesgue integral.
-This is the integral used almost exclusively in economic theory, including these notes.
-The integral of a measurable function $f : X \to \R$ on a measure space $(X,\mathcal{X},\mu)$ is written $\int_X f \dd \mu$.
-The integral over a measurable subset $A \subseteq X$ is defined
-%
-\begin{equation*}
-	\int_A f \dd \mu \coloneqq \int_X f \1_A \dd \mu ,
-\end{equation*}
-%
-where $\1_A(x) \coloneqq 1$ for $x \in A$ and $\coloneqq 0$ for $x \notin A$.
-
-On probability spaces, measurable functions are conventionally called \emph{random variables,}
-and integrals are called \emph{expectations.}
-One writes
-%
-\begin{equation*}
-	\E( f ) \coloneqq \int_X f \dd \mu .
-\end{equation*}
-
-If you have taken introductory calculus, then you may be more familiar with the \emph{Riemann integral.}%
-	\footnote{The Riemann integral of a function $\R \to \R$ is defined as the limit of the areas of increasingly fine rectangles approximating the area under the graph of the function.}
-The Riemann integral has the problem that the integral of some functions simply fail to exist.
-The Lebesgue integral extends the Riemann integral:
-it allows more functions to be integrated,
-while still giving the same result as the Riemann integral whenever the latter exists.
-
-The Lebesgue integral is defined only for functions $f : X \to \R$ that are measurable.
-That is a necessary condition, but it is not sufficient:
-the existence of the integral requires a further condition.
-(If the further condition fails, the definition of the Lebesgue integral yields the expression $\infty - \infty$, which has no meaning; therefore we agree to say that the integral does not exist in such cases.)
-The integral of a function may be infinite (equal to $\infty$ or $-\infty$).
-A function is called \emph{integrable} iff both (a) its integral exists, \emph{and} (b) its integral is finite.
-
-Whereas the Riemann integral is defined only for functions $f : \R \to \R$,
-the Lebesgue integral makes sense for functions $f : X \to \R$
-defined on any space $X$ you like, provided it has measurable structure (i.e. is equipped with a $\sigma$-algebra).
-This is very useful.
 
 
 
