@@ -1,4 +1,4 @@
-% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+% Copyright (c) 2026 Carl Martin Ludvig Sinander.
 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -229,7 +229,7 @@ What the backward-induction algorithm does is precisely to rule out one-shot dev
 
 \begin{enumerate}
 
-	\item \label{item:backward_induction:1} An action is specified at each of the final (=maximal in the sense of set inclusion $\subseteq$) non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off.
+	\item \label{item:backward_induction:1} An action is specified at each of the final (=maximal in the sense of truncation) non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off.
 
 	\item \label{item:backward_induction:2} An action is specified at each of the penultimate non-terminal histories, in such a way that at each of these histories, there is no one-shot deviation that makes the deviating player strictly better off, given play at the final non-terminal histories.
 
@@ -446,8 +446,6 @@ The proof relies on a lemma. Recall that $P^{-1}(i) \equiv \{ h \in H \setminus 
 			u_i\left( h', (\sigma_i',\sigma_{-i})|_{h'} \right)
 			> u_i\left( h', \sigma|_{h'} \right) .
 		\end{equation*}
-		%
-		(In particular, this holds for $h' = h \in H^\star$.)
 	
 	\end{itemize}
 	%

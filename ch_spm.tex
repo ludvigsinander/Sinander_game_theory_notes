@@ -1,4 +1,4 @@
-% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+% Copyright (c) 2026 Carl Martin Ludvig Sinander.
 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -143,7 +143,7 @@ The definition above is in terms of properties of best-reply correspondences, ra
 	
 		\item Show that this game satisfies part~\ref{item:spm_game:incr} of the definition of a game of strategic complements.
 
-		\item Show that this game satisfies part~\ref{item:spm_game:compact} of the definition of a game of strategic complements if we additionally assume that for each fixed $a_{-i} \in \R_+$, demand is less elastic the higher $i$'s own price, and eventually inelastic: formally, $a_i \mapsto \abs*{ \eps_i(a_i,a_{-i}) }$ is decreasing and $\lim_{a_i \uparrow +\infty} \abs*{ \eps_i(a_i,a_{-i}) } < 1$.
+		\item Show that this game satisfies part~\ref{item:spm_game:compact} of the definition of a game of strategic complements if we additionally assume that for each fixed $a_{-i} \in \R_+$, demand is more elastic the higher $i$'s own price, and eventually elastic: formally, $a_i \mapsto \abs*{ \eps_i(a_i,a_{-i}) }$ is increasing and $\lim_{a_i \uparrow +\infty} \abs*{ \eps_i(a_i,a_{-i}) } > 1$.
 
 		\item Can you think of a way of reformulating this model so that (under the additional `monotone elasticity' assumption from the previous part) it is a game of strategic complements?
 	
@@ -359,7 +359,7 @@ The following shows that if we weaken our game-theoretic solution concept from p
 	%
 	\label{proposition:spm_game_rbty}
 	%
-	Let $(I,(A_i,u_i)_{i \in I})$ be a finite game of strategic complements. Let $\underline{a} \in A$ and $\widebar{a} \in A$ be (respectively) its least and its greatest pure-strategy Nash equilibria, and let $X^\infty \subseteq A$ be the set of rationalisable action profiles. Then $\underline{a}_i = \min X^\infty_i \leq \max X^\infty_i = \widebar{a}_i$ for each player $i \in I$.
+	Let $(I,(A_i,u_i)_{i \in I})$ be a finite game of strategic complements. Let $\underline{a} \in A$ and $\widebar{a} \in A$ be (respectively) its least and its greatest pure-strategy Nash equilibria, and let $X^\infty \subseteq A$ be the set of rationalisable action profiles. Then $\underline{a}_i = \min X^\infty_i$ and $\widebar{a}_i = \max X^\infty_i$ for each player $i \in I$.
 	%
 \end{proposition}
 
@@ -378,26 +378,16 @@ Thus all rationalisable action profiles are sandwiched between the least and gre
 	Recall from \cref{dom:rbty} above (\cpageref{definition:rbty}) the definition of the sets $X^t \subseteq A$ for each $t \in \{0,1,2,\dots\}$, and that rationalisable action profiles are exactly those that belong to $X^t$ for every $t \in \N$. By \Cref{proposition:rbty_nonempty} in \cref{dom:rbty} (\cpageref{proposition:rbty_nonempty}) $X^{t-1} \supseteq X^t$ for each $t \in \N$.
 	Further recall the notation from the proof above of \Cref{theorem:spm_game_nash}.
 
-	The sequences 
-	%
-	\begin{equation*}
-		\left( \underline{\text{br}}\left(\min X^{t-1}\right) \right)_{t \in \N}
-		\quad \text{and} \quad
-		\left( \widebar{\text{br}}\left(\max X^{t-1}\right) \right)_{t \in \N}
-	\end{equation*}
-	%
-	are increasing and decreasing, respectively, since $X^{t-1} \supseteq X^t$ for each $t \in \N$ and $\underline{\text{br}}$ and $\widebar{\text{br}}$ are increasing.%
-		\footnote{For each $t \in \N$, $X^{t-1} \supseteq X^t$, so $\min X^{t-1} \leq \min X^t$ and $\max X^t \leq \max X^{t-1}$, so $\underline{\text{br}}(\min X^{t-1}) \leq \underline{\text{br}}(\min X^t)$ and $\widebar{\text{br}}(\max X^t) \leq \widebar{\text{br}}(\max X^{t-1})$.}
-	Hence both sequences converge, and since $A$ is finite, the limit $a_\star \in A$ of the former sequence is a fixed point of $\underline{\text{br}}$ and the limit $a^\star \in A$ of the latter sequence is a fixed point of $\widebar{\text{br}}$. Thus $a_\star$ and $a^\star$ are pure-strategy Nash equilibria. By definition of  $\underline{a}$ and $\widebar{a}$, it must then be that
+	Since $\underline{a}$ and $\widebar{a}$ are pure-strategy Nash equilibria, they belong to $X^\infty$, so
 	%
 	\begin{equation}
-		\underline{a} \leq a_\star
+		\underline{a} \geq \min X^\infty
 		\quad \text{and} \quad
-		\widebar{a} \geq a^\star .
-		\label{eq:spm_rbty1}
+		\widebar{a} \leq \max X^\infty  .
+		\label{eq:spm_rbty3}
 	\end{equation}
-
-	By definition of the sets $\left( X^{t-1} \right)_{t \in \N}$ and of the functions $\underline{\text{br}}$ and $\widebar{\text{br}}$, and since these functions are increasing, we have
+	%
+	On the other hand, by definition of the sets $\left( X^{t-1} \right)_{t \in \N}$ and of the functions $\underline{\text{br}}$ and $\widebar{\text{br}}$, and since these functions are increasing, we have
 	%
 	\begin{equation*}
 		\underline{\text{br}}\left(\min X^{t-1}\right)
@@ -405,41 +395,19 @@ Thus all rationalisable action profiles are sandwiched between the least and gre
 		\quad \text{and} \quad
 		\widebar{\text{br}}\left(\max X^{t-1}\right)
 		= \max X^t
+		\quad \text{for each $t \in \N$.}
 	\end{equation*}
 	%
-	for each $t \in \N$. Hence $\min X^t \to a_\star$ and $\max X^t \to a^\star$ as $t \to \infty$, or equivalently
+	Since $A$ is finite, there is a $T \in \N$ such that $X^{T-1}=X^T=X^\infty$. Hence $\min X^\infty$ is a fixed point of $\underline{\text{br}}$ and $\max X^\infty$ is a fixed point of $\widebar{\text{br}}$. It follows that $\min X^\infty$ and $\max X^\infty$ are pure-strategy Nash equilibria, which by definition of $\underline{a}$ and $\widebar{a}$ implies that
 	%
 	\begin{equation}
-		a_\star = \min X^\infty
+		\underline{a} \leq \min X^\infty
 		\quad \text{and} \quad
-		a^\star = \max X^\infty.
-		\label{eq:spm_rbty2}
-	\end{equation}
-	
-	Finally, since $\underline{a}$ and $\widebar{a}$ are pure-strategy Nash equilibria, they must belong to $X^\infty$, so
-	%
-	\begin{equation}
-		\min X^\infty \leq \underline{a}
-		\quad \text{and} \quad
-		\max X^\infty \geq \widebar{a} .
-		\label{eq:spm_rbty3}
+		\widebar{a} \geq \max X^\infty .
+		\label{eq:spm_rbty1}
 	\end{equation}
 	%
-	Combining \eqref{eq:spm_rbty1}, \eqref{eq:spm_rbty2} and \eqref{eq:spm_rbty3} yields
-	%
-	\begin{equation*}
-		\underline{a}
-		\leq a_\star
-		= \min X^\infty
-		\leq \underline{a} 
-		\quad \text{and} \quad
-		\widebar{a}
-		\geq a^\star
-		= \max X^\infty
-		\geq \widebar{a} ,
-	\end{equation*}
-	%
-	so all of the inequalities must be equalities.
+	Combining \eqref{eq:spm_rbty3} and \eqref{eq:spm_rbty1} yields $\underline{a} = \min X^\infty$ and $\widebar{a} = \max X^\infty$.
 	%
 \end{proof}
 
@@ -447,7 +415,7 @@ Thus all rationalisable action profiles are sandwiched between the least and gre
 	%
 	\label{remark:spm_game_rbty}
 	%
-	The proof incidentally shows that the least pure-strategy Nash equilibrium is equal to the limit as $t \to \infty$ of $\underline{\text{br}}^t(\min A)$, where $\underline{\text{br}}^1 \coloneqq \underline{\text{br}}$ and $\text{br}^{t+1} \coloneqq \underline{\text{br}} \circ \underline{\text{br}}^t$ for each $t \in \N$, and similarly that the greatest pure-strategy Nash equilibrium equals the limit as $t \to \infty$ of $\widebar{\text{br}}^t(\max A)$. This provides an algorithm for computing these equilibria, and also has implications for the long-run behaviour of many adaptive (`evolutionary') dynamics \parencite[see][section~3]{MilgromRoberts1990}.
+	The proof incidentally shows that the least pure-strategy Nash equilibrium is equal to the limit as $t \to \infty$ of $\underline{\text{br}}^t(\min A)$, where $\underline{\text{br}}^1 \coloneqq \underline{\text{br}}$ and $\underline{\text{br}}^{t+1} \coloneqq \underline{\text{br}} \circ \underline{\text{br}}^t$ for each $t \in \N$, and similarly that the greatest pure-strategy Nash equilibrium equals the limit as $t \to \infty$ of $\widebar{\text{br}}^t(\max A)$. This provides an algorithm for computing these equilibria, and also has implications for the long-run behaviour of many adaptive (`evolutionary') dynamics \parencite[see][section~3]{MilgromRoberts1990}.
 	%
 \end{remark}
 

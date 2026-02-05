@@ -1,4 +1,4 @@
-% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+% Copyright (c) 2026 Carl Martin Ludvig Sinander.
 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@
 \author{Ludvig Sinander \\
 University of Oxford}
 
-\date{\small This version: 15 December 2025}
+\date{\small This version: 5 February 2026}
 
 % \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
 
@@ -99,7 +99,7 @@ University of Oxford}
 \pagebreak
 \hspace{1pt}\vfill
 \noindent
-Copyright \copyright{} 2025 Carl Martin Ludvig Sinander.
+Copyright \copyright{} 2026 Carl Martin Ludvig Sinander.
 
 \begin{quotation}
 \noindent
@@ -306,7 +306,7 @@ One typically works with behavioural strategies.
 
 An extensive-form game has \emph{perfect information} iff all information sets are singletons (for any $h,h' \in H \setminus Z$, $\mathcal{S} \ni S \ni h \neq h' \in S' \in \mathcal{S}$ implies $S \neq S'$). In other words, each player fully observes (and remembers) all previous moves before having to make any move herself (as in, for example, chess).
 
-A \emph{subgame} is the game obtained by reaching some history $h \in H \setminus Z$ that belongs to a singleton information set ($S = \{h\}$ for some $S \in \mathcal{S}$) and looking forward. Formally, a subgame of $(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{i \in I},\pi)$ is an extensive-form game $(I',\mathcal{A}',H',P',\mathcal{S}',(u_i')_{i \in I},\pi')$ such that for some $h_0 \in H \setminus Z$,
+A \emph{subgame} is the game obtained by reaching some history $h \in H \setminus Z$ that belongs to a singleton information set ($S = \{h\}$ for some $S \in \mathcal{S}$) and looking forward. Formally, a subgame of $(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{i \in I},\pi)$ is an extensive-form game $(I',\mathcal{A}',H',P',\mathcal{S}',(u_i')_{i \in I'},\pi')$ such that for some $h_0 \in H \setminus Z$,
 %
 \begin{itemize}
 
@@ -319,7 +319,7 @@ A \emph{subgame} is the game obtained by reaching some history $h \in H \setminu
 
 	\item $\mathcal{S}'$ is the (unique) partition of $H' \setminus Z'$ that refines $\mathcal{S}$ (i.e. $\mathcal{S}' \subseteq \mathcal{S}$),
 
-	\item for each $i \in I$, $u_i'$ equals the restriction of $u_i$ to $Z'$, and
+	\item for each $i \in I'$, $u_i'$ equals the restriction of $u_i$ to $Z'$, and
 
 	\item $\pi'$ is the restriction of $\pi$ to $(P')^{-1}(\text{Nature}) \equiv \{ h' \in H' \setminus Z' : P'(h') = \text{Nature} \}$.
 
@@ -333,7 +333,7 @@ A \emph{(behavioural) strategy profile} is a collection $\sigma = (\sigma_i)_{i 
 
 A \emph{subgame-perfect Nash equilibrium (SPNE)} is a strategy profile such that each subgame's continuation strategy profile is a Nash equilibrium of that subgame. This definition is due to \textcite{Selten1965}. Alternative terminology (adjective rather than noun): we call a strategy profile \emph{subgame-perfect} iff it is a SPNE.
 
-In a game of perfect information that is finite ($I$ and $\mathcal{A}$ are finite, and there is a $T \in \N$ such that no sequence $h \in H$ has length exceeding $T$), the backward-induction algorithm (with some tie-breaking rule) always terminates at a SPNE, and conversely every SPNE can be found via backward induction (with some tie-breaking rule). It follows in particular that every finite perfect-information extensive-form game admits at least one SPNE, and that there is a unique (and pure) SPNE in any generic game, where `generic' means that $u_i(z) \neq u_i(z')$ for all $i \in I$ and all distinct $z,z' \in Z$.
+In a game of perfect information that is finite ($I$ and $\mathcal{A}$ are finite, and there is a $T \in \N$ such that no sequence $h \in H$ has length exceeding $T$), the backward-induction algorithm (with some tie-breaking rule) always terminates at a pure-strategy SPNE, and conversely every pure-strategy SPNE can be found via backward induction (with some tie-breaking rule). It follows in particular that every finite perfect-information extensive-form game admits at least one pure-strategy SPNE, and that there is a unique (and pure) SPNE in any generic game, where `generic' means that $u_i(z) \neq u_i(z')$ for all $i \in I$ and all distinct $z,z' \in Z$.
 
 A \emph{belief system} is a map $\mu$ that assigns to each information set $S \in \mathcal{S}$ a probability distribution $\mu(S) \in \Delta(S)$ over the histories belonging to that information set. The interpretation is that the player $P(h)=i$ who moves at $h$ has a probabilistic belief about how she ended up at this information set $S$.
 
@@ -501,7 +501,7 @@ A set $S$ that may be written as a Cartesian product, i.e. $S = \prod_{\iota \in
 If $S_\iota = R$ for every $\iota \in \mathcal{I}$ and $\mathcal{I}$ is finite or countable, then we use the simpler notation $R^{\abs*{\mathcal{I}}} \equiv \prod_{\iota \in \mathcal{I}} S_\iota$.
 (An example is $\R^n$, the set of real vectors of length $n$; it is exactly the $n$-fold Cartesian product of the real line $\R$.)
 A more general notation, which is used also when $\mathcal{I}$ is uncountable, is $R^\mathcal{I} \equiv \prod_{\iota \in \mathcal{I}} S_\iota$.%
-	\footnote{This explains why we write `$2^S$' for the set of all subsets of a set $S$. Any subset $R \subseteq S$ may be identified with the \emph{inclusion map} $f : S \to \{\text{in},\text{out}\}$ where $f(s)=\text{in}$ iff $s \in R$, for each $s \in S$. Hence the set of all subsets of $S$ may be identified with the set of all such inclusion maps, i.e. all maps $S \to \{\text{in},\text{out}\}$; this is the set $\{\text{in},\text{out}\}^S$. Of course what matters about the set $\{\text{in},\text{out}\}$ is not the labels `in' and `out', but merely the fact that the set has two elements; so we shorten `$\{\text{in},\text{out}\}^S$' to `$2^S$'.}
+	\footnote{This explains why we write `$2^S$' for the set of all subsets of a set $S$. Any subset $R \subseteq S$ may be identified with the \emph{indicator} $f : S \to \{\text{in},\text{out}\}$ where $f(s)=\text{in}$ iff $s \in R$, for each $s \in S$. Hence the set of all subsets of $S$ may be identified with the set of all such indicators, i.e. all maps $S \to \{\text{in},\text{out}\}$; this is the set $\{\text{in},\text{out}\}^S$. Of course what matters about the set $\{\text{in},\text{out}\}$ is not the labels `in' and `out', but merely the fact that the set has two elements; so we shorten `$\{\text{in},\text{out}\}^S$' to `$2^S$'.}
 
 
 

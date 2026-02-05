@@ -1,4 +1,4 @@
-% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+% Copyright (c) 2026 Carl Martin Ludvig Sinander.
 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -44,13 +44,13 @@ is increasing: that is, the higher the parameter, the higher the action chosen b
 	%
 	\label{example:prod}
 	%
-	Consider a firm that uses capital $a \in A \coloneqq \R_+$ to produce output $z f(a)$, where $z \in \R_+$ is a productivity parameter and $f : \R_+ \to \R_+$ is an increasing (production) function. The firm is a price-taker, and the prices of output and of capital are $p \in \R_+$ and $r \in \R_+$, respectively. The firm chooses its output $a \in A$ to maximise profit
+	Consider a firm that uses capital $a \in A \coloneqq \R_+$ to produce output $z f(a)$, where $z \in \R_{++}$ is a productivity parameter and $f : \R_+ \to \R_+$ is an increasing (production) function. The firm is a price-taker, and the prices of output and of capital are $p \in \R_{++}$ and $r \in \R_{++}$, respectively. The firm chooses its output $a \in A$ to maximise profit
 	%
 	\begin{equation*}
 		u(a,(z,p,-r)) \coloneqq pzf(a) - ra .
 	\end{equation*}
 	
-	Let the parameter be $\theta = (z,p,-r) \in \R_+^2 \times \R_- \eqqcolon \Theta$. Under what assumptions on the production function $f$ does the firm raise output whenever $\theta$ increases, i.e. when productivity $z$ increases, the price $p$ of output increases, and/or the rental rate $r$ on capital falls?
+	Let the parameter be $\theta = (z,p,-r) \in \R_{++}^2 \times \R_{--} \eqqcolon \Theta$. Under what assumptions on the production function $f$ does the firm raise output whenever $\theta$ increases, i.e. when productivity $z$ increases, the price $p$ of output increases, and/or the rental rate $r$ on capital falls?
 	
 	The classical way of answering this question is to impose auxiliary differentiability and quasi-concavity assumptions, then use the first-order condition. In particular, assume additionally that $f$ is continuously differentiable and strictly concave, and that it satisfies the Inada conditions $\lim_{a \downarrow 0} f'(a) = \infty$ and $\lim_{a \uparrow \infty} f'(a) = 0$. Then for each parameter $\theta \in \Theta$, there is a unique optimal choice $a^\star(\theta) \in \R_+$, which is interior (i.e. belongs to $(0,\infty)$) and satisfies the first-order condition
 	%
@@ -133,7 +133,7 @@ Equivalently, $S$ is SSO-lower than $R$ if and only if $S \ni s > r \in R$ impli
 
 		\item For any $s,r \in \R$, $\{s\}$ is WSO-lower than $\{r\}$ iff $\{s\}$ is SSO-lower than $\{r\}$ iff $s \leq r$.
 	
-		\item \label{item:wso_sso_impl} For any $S,R \subseteq \R$, if $S$ is SSO-lower than $R$, then $S$ is WSO-lower than $R$.
+		\item \label{item:wso_sso_impl} For any non-empty $S,R \subseteq \R$, if $S$ is SSO-lower than $R$, then $S$ is WSO-lower than $R$.
 
 		\item \label{item:sso_wso_nonequiv} $S = [0,1] \union [3,4]$ is WSO-lower than but not SSO-lower than $R = [2,5]$.
 

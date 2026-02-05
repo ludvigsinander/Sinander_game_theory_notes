@@ -1,4 +1,4 @@
-% Copyright (c) 2025 Carl Martin Ludvig Sinander.
+% Copyright (c) 2026 Carl Martin Ludvig Sinander.
 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -634,7 +634,7 @@ Rationalisability purported to formalise the same thing. We have thus ended up w
 	%
 	Recall from \cpageref{definition:rbty} the definition, for each $t \in \N$ and each player $i \in I$, of the set $X^t_i \subseteq A_i$. Further recall that $X^\infty_i = \bigcap_{t \in \N} X^t_i$ for each player $i \in I$ and that $X^\infty = \prod_{i \in I} X^\infty_i$. By \Cref{proposition:rbty_nonempty} (since $A$ is finite), there is a $T \in \N$ such that $X^\infty = X^t = X^T$ for all $t \geq T$.
 	
-	To show that $X^\infty$ has the best-reply property, suppose toward a contradiction that for some player $i \in I$ and some rationalisable action $a_i \in X^\infty_i = X^T_i$ of hers, there is no conjecture $\alpha_{-i} \in \Delta(X^\infty_i) = \Delta(X^T_i)$ to which $a_i$ is a best reply. Then $a_i \notin X^{T+1}_i$ (by definition of $X^{T+1}_i$), which is contradicts the fact that $X^\infty = X^t = X^T$ for all $t \geq T$.
+	To show that $X^\infty$ has the best-reply property, suppose toward a contradiction that for some player $i \in I$ and some rationalisable action $a_i \in X^\infty_i = X^T_i$ of hers, there is no conjecture $\alpha_{-i} \in \Delta(X^\infty_{-i}) = \Delta(X^T_{-i})$ to which $a_i$ is a best reply. Then $a_i \notin X^{T+1}_i$ (by definition of $X^{T+1}_i$), which is contradicts the fact that $X^\infty = X^t = X^T$ for all $t \geq T$.
 
 	It remains to show that $X^\infty$ is the largest set with the best-reply property. So fix any set $Y \subseteq \prod_{i \in I} Y_i \subseteq A$ with the best-reply property; we must show that $Y$ is contained in $X^t$ for every $t \in \{0,1,2,\dots\}$. We show this by induction on $t \in \{0,1,2,\dots\}$. The base case $t=0$ is immediate: $Y \subseteq A = X^0$. For the induction step, fix a $t \in \N$ and assume that $Y \subseteq X^{t-1}$; we must show that $Y \subseteq X^t$. By definition of $X^t = \prod_{i \in I} X^t_i$, it holds for every player $i \in I$ that $X^t_i$ contains \emph{every} best reply to any conjecture $\alpha_{-i} \in \Delta( X^{t-1}_{-i} ) \supseteq \Delta( Y_{-i} )$, where the inclusion holds by the induction hypothesis. And since $Y$ has the best-reply property, it must be (by definition) that every $a = (a_i)_{i \in I} \in Y$ is such that for each player $i \in I$, $a_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta( Y_{-i} )$. Thus $Y_i \subseteq X^t_i$ for every player $i \in I$, so $Y \subseteq X^t$.
 	%
