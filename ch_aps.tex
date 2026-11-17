@@ -76,7 +76,9 @@ The interpretation is that in each period $t \in \{0,1,2,3,\dots\}$, the public-
 
 Of course a public-monitoring repeated game is just one particular sort of extensive-form game, so can be described using the general formalism of extensive-form games; for completeness, we do this at the end of this section.
 
-The pair $(Y,\mu)$ is called the game's \emph{monitoring technology,} since it describes how players learn about the past actions taken by their opponents. The \emph{perfect monitoring structure} is the monitoring structure $(Y,\mu)$ given by $Y \coloneqq A$ and $\mu(a|a) \coloneqq 1$ for every $a \in A$.
+The pair $(Y,\mu)$ is called the game's \emph{monitoring structure,} since it describes how players learn about the past actions taken by their opponents.%
+	\footnote{Viewing the action profile as a `state of the world' to be estimated, a monitoring structure is precisely a signal structure / information structure / Blackwell experiment: $Y$ is the set of signals/messages, and $\mu$ describes the distribution of messages sent conditional on the state.}
+The \emph{perfect monitoring structure} is the monitoring structure $(Y,\mu)$ given by $Y \coloneqq A$ and $\mu(a|a) \coloneqq 1$ for every $a \in A$.
 
 \begin{example}
 	%
@@ -101,7 +103,7 @@ The pair $(Y,\mu)$ is called the game's \emph{monitoring technology,} since it d
 	\label{example:greenporter}
 	%
 	Consider the Green--Porter (\citeyear{GreenPorter1984}) model of tacit collusion in oligopoly. This is the public-monitoring repeated game whose stage game is a noisy version of the \textcite{Cournot1838} model from \Cref{example:cournot} (\cref{dom:rbty}, \cpageref{example:cournot}): each of two firms $i \in I \coloneqq \{1,2\}$ simultaneously chooses what quantity $a_i \in A_i \coloneqq \R_+$ to produce, earning profit $u_i\left(a_i,y\right) \coloneqq a_i \times (y - c)$ where $c>0$, and where $y \coloneqq \kappa - \lambda(a_1+a_2)$ for some random variables $\kappa$ and $\lambda$ that satisfy $\kappa > c > 0 < \lambda$ a.s.
-	(So the monitoring technology is $(\R,\mu)$ where for each $(a_1,a_2) = a \in A$, $\mu(\cdot|a)$ denotes the CDF of the random variable $\kappa - \lambda(a_1+a_2)$. Assume for simplicity that this CDF has full support.) The interpretation is that marginal cost is $c$ and that the market price $y$ is determined by the noisy inverse market demand curve $q \mapsto \kappa - \lambda q$.
+	(So the monitoring structure is $(\R,\mu)$ where for each $(a_1,a_2) = a \in A$, $\mu(\cdot|a)$ denotes the CDF of the random variable $\kappa - \lambda(a_1+a_2)$. Assume for simplicity that this CDF has full support.) The interpretation is that marginal cost is $c$ and that the market price $y$ is determined by the noisy inverse market demand curve $q \mapsto \kappa - \lambda q$.
 
 	Recall that in the unique rationalisable outcome of the stage game, both firms produce $\left[\E(\kappa)-c\right]/3\E(\lambda)$, earning expected profits of $\pi^\star \coloneqq \left[\E(\kappa)-c\right]^2 / 9 \E(\lambda)$. In the repeated game, are there \emph{(tacitly) collusive equilibria,} meaning equilibria in which both firms' expected discounted mean payoffs strictly exceed $\pi^\star$? (Yes if $\delta$ is large enough, as we shall see in \cref{aps:examples:greenporter_gen} below.)
 	%
@@ -393,10 +395,6 @@ Again fix a finite public-monitoring repeated game
 \begin{equation*}
 	(G,\delta) = \left( I, Y, (A_i, u_i)_{i \in I}, \mu, \delta \right) .
 \end{equation*}
-%
-A player~$i$ may sometimes strictly prefer a non-public strategy over all public strategies. In particular, if ($i$ believes that) a player $j \neq i$ is playing a non-public strategy, then player~$j$'s actions today depend on what actions she took in the past, which only she knows. To predict player~$j$'s choice of action, player~$i$ must guess player~$j$'s past actions based on past public outcomes. The distribution of these outcomes depend both on her own past actions and on those of player~$j$. Thus to draw correct inferences about what actions player~$j$ likely took in the past, player~$i$ must in general make use of her knowledge of her \emph{own} past actions. When choosing her action based on a belief formed in this way, player~$i$'s action may well depend on what actions she herself took in previous periods. In other words, she may wish to use a non-public strategy.
-
-However, if (player~$i$ believes that) the other players play \emph{public} strategies, then she always has a public best reply:
 
 \begin{observation}
 	%
@@ -419,6 +417,30 @@ However, if (player~$i$ believes that) the other players play \emph{public} stra
 \end{observation}
 
 This is (nearly) obvious upon reflection: player~$i$'s past actions are not directly payoff-relevant in the `continuation game' starting at $h^{t-1}$, so they matter for her choice of action only insofar as they are informative about something that \emph{is} payoff-relevant, viz. other players' actions; but they aren't, since the other players play public strategies.
+
+\begin{remark}
+	%
+	\label{remark:nonpublic_br}
+	%
+	A player~$i$ may sometimes strictly prefer to play a non-public strategy. In particular, if ($i$ believes that) a player $j \neq i$ is playing a non-public strategy, then player~$j$'s actions today may depend on what actions she took in the past, which only she observes. To predict player~$j$'s choice of action, player~$i$ must guess player~$j$'s past actions based on past public outcomes. The distribution of these outcomes depends both on her own past actions and on those of player~$j$. Thus, to draw correct inferences about what actions player~$j$ likely took in the past, player~$i$ must in general make use of her knowledge of her \emph{own} past actions. When choosing her action based on a belief formed in this way, player~$i$'s action may well depend on what actions she herself took in previous periods. In other words, she may wish to use a non-public strategy.
+
+	Here is a concrete example: $I \coloneqq \{1,2\}$, $A_1 \coloneqq \{\ell,r\} \eqqcolon A_2$, $Y \coloneqq \{0,1\}$, $\mu(1|a_1,a_2) = 1$ if $a_1=a_2$ and $\mu(0|a_1,a_2) = 1$ if $a_1 \neq a_2$, and $u_i(a_i,y) = y$ for each $i \in \{1,2\}$. Consider the non-public strategy $\sigma_2$ of player~2 whereby she flips a coin at the outset, and if it landed heads (tails), then she plays $\ell$ ($r$) in every period. Jointly, the public outcome $y^0$ and player~1's action $a^0_1$ are perfectly informative about the result of the coin toss: heads if $(y^0,a^0_1)=(1,\ell)$ or $(y^0,a^0_1)=(0,r)$, and tails otherwise. Obviously at any private history
+	%
+	\begin{equation*}
+		h^{t-1}_1 \equiv \left(y^0,a^0_1,y^1,a^1_1,y^2,a^2_1,\dots,y^{t-1},a^{t-1}_1\right) \in (Y \times A_1)^t
+	\end{equation*}
+	%
+	of player~1 of length $t \geq 1$, player~1's unique best reply is $a^t_1=\ell$ if $(y^0,a^0_1)=(1,\ell)$ or $(y^0,a^0_1)=(0,r)$, and $a^t_1=r$ otherwise. Hence if a strategy $\sigma_1$ of player~1 prescribes a best reply at every private history of player~1, then $\sigma_1$ cannot be public.
+
+	There is a subtlety here which is not important for our purposes. A player always has a pure best reply, and any pure strategy $\sigma$ is realisation-equivalent to a public strategy, where `realisation-equivalent' means prescribing the same play at histories which can actually be reached if $\sigma_i$ is played (i.e. we neglect histories in which player~$i$ has deviated from $\sigma_i$). This is shown e.g. in Lemma~7.1.2 in \textcite{MailathSamuelson2006}. In the above example, consider a strategy that plays $\ell$ in period~0 and in subsequent periods plays $\ell$ if $y^0=1$ and $r$ if $y^0=0$; evidently it is a public strategy, and evidently for any private history
+	%
+	\begin{equation*}
+		h^{t-1}_1 \equiv \left(y^0,a^0_1,y^1,a^1_1,y^2,a^2_1,\dots,y^{t-1},a^{t-1}_1\right) \in (Y \times A_1)^t
+	\end{equation*}
+	%
+	of player~1 of length $t \geq 1$, this public strategy prescribes a best reply at $h^{t-1}_1$ if and only if $a^0_1=\ell$.
+	%
+\end{remark}
 
 \begin{definition}
 	%
@@ -503,7 +525,7 @@ Again fix a finite public-monitoring repeated game
 	(G,\delta) = \left( I, Y, (A_i, u_i)_{i \in I}, \mu, \delta \right) .
 \end{equation*}
 %
-Let $X \subseteq \R^{\abs*{I}}$ be the the convex hull of $\left\{ u(a) : a \in A \right\}$. Equivalently,
+Let $X \subseteq \R^{\abs*{I}}$ be the convex hull of $\left\{ u(a) : a \in A \right\}$. Equivalently,
 %
 \begin{equation*}
 	X \coloneqq \left\{
@@ -549,7 +571,7 @@ Obviously $u(\alpha) \in X$ for any mixed action profile $\alpha \in \Delta(A)$.
 
 	\begin{enumerate}[label=(\alph*),resume]
 
-		\item \label{item:X_converse:stage_pos} Obviously every payoff vector in $X$ can be attained by play of the \emph{stage} game $G$ provided players can somehow correlate their action choices. This can be achieved using a \emph{public correlating device,} meaning a payoff-irrelevant random variable whose realisation becomes known before players choose their actions; by conditioning their action choices on the realisation of this random variable, players can achieve correlation between their actions. To be able to achieve \emph{every} $v \in X$, it is necessary for the public correlating device to be sufficiently rich; the usual assumption is that it has full support on a continuum (for example, a Uniformly distributed random variable).%
+		\item \label{item:X_converse:stage_pos} Obviously every payoff vector in $X$ can be attained by play of the \emph{stage} game $G$ provided players can somehow correlate their action choices. This can be achieved using a \emph{public correlating device,} meaning a payoff-irrelevant random variable whose realisation becomes known to all before players choose their actions; by conditioning their action choices on the realisation of this random variable, players can achieve correlation between their actions. To be able to achieve \emph{every} $v \in X$, it is necessary for the public correlating device to be sufficiently rich; the usual assumption is that it has full support on a continuum (for example, a Uniformly distributed random variable).%
 			\footnote{If players can communicate before choosing their actions, then correlation can be achieved without a public correlating device by using a communication scheme called a \emph{jointly controlled lottery.} See \textcite[][p.~18]{MailathSamuelson2006}.}
 
 		\item \label{item:X_converse:rep_pos} If the discount factor $\delta \in (0,1)$ is large enough, then every payoff in $X$ can be attained by play of the \emph{repeated} game $(G,\delta)$: that is, for each $v \in X$, there is a strategy profile $\sigma$ such that $U(\sigma) = v$. The idea is to replace randomisation with alternation: for any $\alpha \in \Delta(A)$, instead of drawing an action profile once and for all from $\supp \alpha$ (with probability weights $\alpha \in \Delta(A)$), we alternate over time between action profiles in $\supp \alpha$ (with time shares determined by $\alpha$ and $\delta$).
@@ -594,7 +616,7 @@ then as $\delta$ approaches $1$, the set $E$ grows very large: it eventually inc
 	\quad \text{for every player $i \in I$.}
 \end{equation*}
 %
-This the folk theorem of \textcite{FudenbergLevineMaskin1994} \parencite[see][chapter~9]{MailathSamuelson2006}.
+This is the folk theorem of \textcite{FudenbergLevineMaskin1994} \parencite[see][chapter~9]{MailathSamuelson2006}.
 
 It is important to understand that the folk theorem tells us nothing at all about the PPE payoffs (or equilibria) of a given public-monitoring repeated game $(G,\delta)$ arising in an economic application. What it tells us is, rather, that for every strictly individually rational payoff vector $v \in \interior X$, there is some \emph{other} public-monitoring repeated game $(G',\delta')$ in which $v$ is a PPE payoff, and furthermore $(G',\delta')$ may be chosen so that $G'=G$.
 
@@ -629,7 +651,7 @@ The technique developed in this section, called `APS' after \textcite{AbreuPearc
 
 \Cref{corollary:enforcement} suggests an analogy with (multi-agent) moral hazard, where agents' actions are not directly observable, but (randomly) generate a public outcome (`output') which is contractible. By designing an \emph{incentive scheme,} which specifies rewards as a function of the public outcome, agents can be incentivised to take some actions rather than others.
 
-The map $\beta : Y \to E$ in \Cref{corollary:enforcement} is an incentive scheme in this sense: the inequalities \eqref{eq:enforcement_cor} are incentive-compatibility constraints, which say that players are willing to play $\alpha$. The key difference with moral hazard is that rewards $\beta(y)$ are delivered not in cash, but rather in the form of \emph{continuation values} generated by future play.
+The map $\beta : Y \to E$ in \Cref{corollary:enforcement} is an incentive scheme in this sense: the inequalities \eqref{eq:enforcement_cor} are incentive-compatibility (or `obedience') constraints, which say that players are willing to play $\alpha$. The key difference with moral hazard is that rewards $\beta(y)$ are delivered not in cash, but rather in the form of \emph{continuation values} generated by future play.
 
 In order for players to be willing actually to follow through with this future play, it must be a PPE; this constraint is of course absent when incentives are provided using cash (assuming remuneration is agreed in a legally enforceable contract). In \Cref{corollary:enforcement}, this constraint is satisfied because of the assumption that $\beta(y) \in E$ for each $y \in Y$; this means (by definition of $E$) that for each $y \in Y$, there is a PPE $\sigma_y$ which delivers the continuation value $U(\sigma_y) = \beta(y)$.
 
@@ -850,9 +872,9 @@ The equation $V = B(V)$ in an unknown set $V \subseteq X$ may be viewed as a gam
 
 		\item (hard) As the discount factor $\delta$ increases, $E$ does not necessarily expand.
 
-		\item As the monitoring structure $\mu$ becomes more informative (in the Blackwell sense), $E^\star$ expands (in the set-inclusion sense).
+		\item As the monitoring structure $(Y,\mu)$ becomes more informative (in the Blackwell sense), $E^\star$ expands (in the set-inclusion sense).
 
-		\item (hard) As the monitoring structure $\mu$ becomes more informative (in the Blackwell sense), $E$ does not necessarily expand.
+		\item (hard) As the monitoring structure $(Y,\mu)$ becomes more informative (in the Blackwell sense), $E$ does not necessarily expand.
 	
 	\end{enumerate}
 	%

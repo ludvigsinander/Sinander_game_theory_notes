@@ -173,24 +173,6 @@ Our formalisation of the comparative-statics question is as follows: under what 
 	%
 \end{remark}
 
-\begin{exercise}
-	%
-	\label{exercise:incr_covnex}
-	%
-	Let $A \subseteq \R$ and $\Theta \subseteq \R$ be non-empty and convex, let $u$ be a function $A \times \Theta \to \R$, and let $\phi$ be a function $\R \to \R$.
-
-	\begin{enumerate}[label=(\alph*)]
-	
-		\item Show that if $u(a,\theta) = \phi(a+\theta)$ for all $a \in A$ and $\theta \in \Theta$, then $u$ has increasing differences if and only if $\phi$ is convex.
-
-		\item Show that if $u(a,\theta) = \phi(a-\theta)$ for all $a \in A$ and $\theta \in \Theta$, then $u$ has increasing differences if and only if $\phi$ is concave.
-
-		\item Show that $(a,\theta) \mapsto -(a-\theta)^2$ has increasing differences. (This a common functional form: see e.g. \textcite{CrawfordSobel1982}.)
-	
-	\end{enumerate}
-	%
-\end{exercise}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -233,7 +215,7 @@ These concepts are both formalisations of `complementarity' between the action $
 		\item \label{item:id_scd} If $u$ has increasing differences, then it has single-crossing differences.
 
 		\item \label{item:ordinal} If $u$ has single-crossing differences, then for any strictly increasing $g : \R \to \R$, the composition $g \circ u$ has single-crossing differences.%
-			\footnote{Composition, denoted by `$\circ$', is defined by $(g \circ u)(a) \coloneqq g(u(a))$ for every $a \in A$.}
+			\footnote{Composition, denoted by `$\circ$', is defined by $(g \circ u)(a,\theta) \coloneqq g(u(a))$ for every $a \in A$ and $\theta \in \Theta$.}
 		(This says that single-crossing differences is an \emph{ordinal} property: whether or not it holds is independent of the units in which utility is measured.)
 	
 		\item \label{item:id_diff} If $u$ is twice continuously differentiable, then it has increasing differences if and only if $\theta \mapsto u_1(a,\theta)$ is increasing if and only if $a \mapsto u_2(a,\theta)$ is increasing if and only if $u_{12} \geq 0$.
@@ -295,9 +277,27 @@ This is very useful in practice, since it means that we can show that $u$ has si
 	%
 \end{namedthm}
 
-There are a number of useful results which identify easy-to-check sufficient conditions for complementarity properties such as single-crossing differences. We saw a few such results in \Cref{exercise:id_scd}. Another useful one is that if $u,v : A \times \Theta \to \R$ have increasing differences, then so does $u+v$. For more, see \textcite[section~1.4]{Sarver2023}, \textcite{MilgromShannon1994} and \textcite[section~2.6.2]{Topkis1998}.
+There are a number of useful results which identify easy-to-check sufficient conditions for complementarity properties such as single-crossing differences. We saw a few such results in \Cref{exercise:id_scd}, and we shall see another below in \Cref{exercise:incr_covnex}. Another useful one is that if $u,v : A \times \Theta \to \R$ have increasing differences, then so does $u+v$. For more, see \textcite[section~1.4]{Sarver2023}, \textcite{MilgromShannon1994} and \textcite[section~2.6.2]{Topkis1998}.
 
 An especially important class of such results concerns choice under uncertainty, when $u(a,\theta) = \E_{S \sim \mu_{a,\theta}}( v(a,\theta,S) )$ for a random variable $S$ with some distribution $\mu_{a,\theta}$. Various combinations of assumptions on $v$ and $(a,\theta) \mapsto \mu^{(a,\theta)}$ are known to imply that $u$ has single-crossing differences; see \textcite[][section~5]{Sarver2023} for an introduction, and \textcite[Lemma~1]{KarlinRubin1956}, \textcite{Athey2002,QuahStrulovici2012} for more.
+
+\begin{exercise}
+	%
+	\label{exercise:incr_covnex}
+	%
+	Let $A \subseteq \R$ and $\Theta \subseteq \R$ be non-empty and convex, let $u$ be a function $A \times \Theta \to \R$, and let $\phi$ be a function $\R \to \R$.
+
+	\begin{enumerate}[label=(\alph*)]
+	
+		\item Show that if $u(a,\theta) = \phi(a+\theta)$ for all $a \in A$ and $\theta \in \Theta$, and $\phi$ is convex, then $u$ has increasing differences.
+
+		\item Show that if $u(a,\theta) = \phi(a-\theta)$ for all $a \in A$ and $\theta \in \Theta$, and $\phi$ is concave, then $u$ has increasing differences.
+
+		\item Show that $(a,\theta) \mapsto -(a-\theta)^2$ has increasing differences. (This is a common functional form: see e.g. \textcite{CrawfordSobel1982}.)
+	
+	\end{enumerate}
+	%
+\end{exercise}
 
 
 
@@ -382,6 +382,14 @@ There is a version of \Cref{theorem:topkis_ms} with a converse, showing that sin
 	%
 \end{proof}
 
+\begin{remark}
+	%
+	\label{remark:mcs_wso}
+	%
+	The above proof actually shows that if $u$ does not have single-crossing differences, then there is a non-empty $B \subseteq A$ such that $\theta \mapsto \argmax_{a \in B} u(a,\theta)$ fails to be increasing even in the \emph{weak} set order. Hence asking for comparative statics in the weak set order is equivalent to asking for comparative statics in the strong set order. This equivalence breaks down once we consider extensions, such as multi-dimensional actions $A \subseteq \R^L$ for $L \geq 2$ (see §\ref{mcs:ext}). When the two are inequivalent, the strong set order tends to yield cleaner results that are easier to interpret and apply.
+	%
+\end{remark}
+
 \begin{namedthm}[\Cref*{remark:mcs_selection} {\normalfont(continued from \cpageref{remark:mcs_selection})}.]
 	%
 	\label{remark:mcs_selection_cont}
@@ -459,7 +467,7 @@ The proof is almost exactly that of \Cref{theorem:topkis_ms}. (There are three n
 	%
 \end{namedthm}
 
-\Cref{proposition:topkis_constr} has a converse along the lines of \hyperref[theorem:topkis_ms_converse]{\Cref*{theorem:topkis_ms}$^\star$}; see Theorem~4 in \textcite{MilgromShannon1994}. (This converse result is frequently misunderstood in the literature, so read it and its proof with care!)
+\Cref{proposition:topkis_constr} has a converse along the lines of \hyperref[theorem:topkis_ms_converse]{\Cref*{theorem:topkis_ms}$^\star$}; see Theorem~4 in \textcite{MilgromShannon1994}. (This converse result is frequently misunderstood in the literature, so read it and its proof with care! Some of the confusion is cleared up in \textcite{AmirRietzke2025}.)
 
 There are several other extensions of the basic comparative-statics theorem, \Cref{theorem:topkis_ms}\hyperref[theorem:topkis_ms_converse]{($^\star$)}. The three most important, I think, are the following:
 
@@ -481,7 +489,7 @@ There are several other extensions of the basic comparative-statics theorem, \Cr
 
 	To learn about this extension, consult \textcite[sections~1.3 and 2.2]{Sarver2023} and/or \textcite{MilgromShannon1994}.
 
-	\item If we restrict attention to \emph{interval} constraint sets $B \subseteq A$, then the necessary and sufficient condition for comparative statics is a weakening of single-crossing differences called \emph{interval dominance:} see \textcite{QuahStrulovici2009}. This extension is very important, because interval constraint sets are ubiquitous in economics and because interval dominance (being weaker) is much more widely applicable than single-crossing dominance \parencite[see e.g.][]{QuahStrulovici2013,SmithSorensenTian2021,Tian2022,Valenzuelastookey2022,csp}.
+	\item If we restrict attention to \emph{interval} constraint sets $B \subseteq A$, then the necessary and sufficient condition for comparative statics is a weakening of single-crossing differences called \emph{interval dominance:} see \textcite{QuahStrulovici2009}. This extension is very important, because interval constraint sets are ubiquitous in economics and because interval dominance (being weaker) is much more widely applicable than single-crossing differences \parencite[see e.g.][]{QuahStrulovici2013,SmithSorensenTian2021,Tian2022,Valenzuelastookey2022,csp}.
 
 
 \end{enumerate}
@@ -555,7 +563,7 @@ For further/alternative reading, look for lecture notes online, for example \tex
 	%
 	Consider a model of costly adjustment. An agent chooses $a \in A \subseteq \R$, and her gross payoff is $u(a,\theta)$, where $\theta \in \Theta \subseteq \R^K$ is a parameter and $u$ has single-crossing differences. Initially, the parameter was $\theta_0 \in \Theta$, and the agent chose $a_0 \in \argmax_{a \in A} u(a,\theta_0)$. The parameter now increases to $\theta_1 \geq \theta_0$, and the agent adjusts her action in response. Adjustment is costly: in particular, adjusting by $\Delta = a_1 - a_0$ costs $c(\Delta) \geq 0$.  The agent chooses a new action to maximise her net payoff: $a_1 \in M_1 \coloneqq \argmax_{a \in A} [u(a,\theta_1)-c(a-a_0)]$. Assume that $M_1$ is non-empty.
 
-	Say that the adjustment cost function $c : \R_+ \to \R_+$ is \emph{minimised at zero} iff $c(0) \leq c(\Delta)$ for every $\Delta \in \R_+$. This means that \emph{not} adjusting is cheaper than adjusting. Prove that if $c$ is minimised at zero, then there exists an optimal action $a_1 \in M_1$ such that $a_1 \geq a_0$.
+	Say that the adjustment cost function $c : \R \to \R_+$ is \emph{minimised at zero} iff $c(0) \leq c(\Delta)$ for every $\Delta \in \R_+$. This means that \emph{not} adjusting is cheaper than adjusting. Prove that if $c$ is minimised at zero, then there exists an optimal action $a_1 \in M_1$ such that $a_1 \geq a_0$.
 
 	Interpretation: the lesson (from \Cref{theorem:topkis_ms}) that single-crossing differences implies comparative statics is robust to the introduction of adjustment costs. In particular, very little needs to be assumed about the adjustment cost function $c$; it need not even be quasi-convex.
 	%

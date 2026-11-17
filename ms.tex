@@ -67,7 +67,7 @@
 \author{Ludvig Sinander \\
 University of Oxford}
 
-\date{\small This version: 5 February 2026}
+\date{\small This version: 17 November 2026}
 
 % \date{\emph{version:} {\datestyle\today} at {\currenttime} \\ \hspace{0pt} \\ \hspace{0pt} \\ \bfseries please report typos!}
 
@@ -123,7 +123,7 @@ Visit \href{https://www.gnu.org/licenses/copyleft}{gnu.org/licenses/copyleft} to
 %%%%%%%%%%%%%%%%%%%%%%
 
 These are the notes for the game theory component of the first-year graduate microeconomics sequence at Oxford, which I first taught in winter 2025.
-Thanks to Sami Petersen for exceptionally perceptive proofreading, and to Matteo Escudé, Alexis Ghersengorin, Vishnu Gorthi, Sanjari Kalantri, Malayvardhan Prajapati, Augustus Smith, Alex Teytelboym, Runhuan Wang and Sally Yang for comments.
+Thanks to Sami Petersen for exceptionally perceptive proofreading, and to Fabian Dopf, Matteo Escudé, Alexis Ghersengorin, Vishnu Gorthi, Sanjari Kalantri, Malayvardhan Prajapati, Lucy Ritter, Augustus Smith, Mukund Soni, Alex Teytelboym, Runhuan Wang and Sally Yang for comments.
 
 
 
@@ -174,10 +174,10 @@ The interpretation is that $I$ is the set of players, that each player $j \in I$
 
 In case the game is finite and has only $\abs*{I}=2$ players, it may be represented by a \emph{payoff matrix:} enumerate player~1's actions as $A_1 \equiv \{a_1,\dots,a_{\abs*{A_1}}\}$ and player~2's as $A_2 \equiv \{b_1,\dots,b_{\abs*{A_2}}\}$, and summarise $u_1$ and $u_2$ by the $\abs*{A_1} \times \abs*{A_2}$ matrix whose $(k,\ell)$ entry is $\left( u_1\left( a_k, b_\ell \right), u_2\left( a_k, b_\ell \right) \right)$.
 
-We write $A \coloneqq \prod_{i \in I} A_i$ for the set of \emph{action profiles.} For any action profile $a = (a_i)_{i \in I}$ and player $j \in I$, we write $a_{-j} = (a_i)_{i \in I \setminus \{j\}} \in \prod_{i \in I \setminus \{j\}} A_i \eqqcolon A_{-j}$ for the actions of all players but $j$, and and interpret $(a_j,a_{-j}) \equiv a \in A \equiv A_j \times A_{-j}$. In particular, we frequently write a player~$j$'s payoff from action profile $a = (a_i)_{i \in I} \in A$ as $u_j(a_j,a_{-j})$.
+We write $A \coloneqq \prod_{i \in I} A_i$ for the set of \emph{action profiles.} For any action profile $a = (a_i)_{i \in I}$ and player $j \in I$, we write $a_{-j} = (a_i)_{i \in I \setminus \{j\}} \in \prod_{i \in I \setminus \{j\}} A_i \eqqcolon A_{-j}$ for the actions of all players but $j$, and interpret $(a_j,a_{-j}) \equiv a \in A \equiv A_j \times A_{-j}$. In particular, we frequently write a player~$j$'s payoff from action profile $a = (a_i)_{i \in I} \in A$ as $u_j(a_j,a_{-j})$.
 
 A \emph{mixed action} by player $i \in I$ is a probability distribution $\alpha_i \in \Delta(A_i)$ over $i$'s actions $A_i$, capturing random choice by player~$i$.%
-	\footnote{Here `$\Delta(A_i)$' denotes all probability distributions over $A_i$. In case $A_i$ is finite or countably infinite, this simply means all those vectors $(p_a)_{a \in A}$ such that $p_a \in [0,1]$ for every $a \in A$ and $\sum_{a \in A} p_a = 1$. In case $A_i$ is uncountable, a $\sigma$-algebra $\mathcal{A}_i$ must be specified, and `$\Delta(A_i)$' denotes all probability measures on $(A_i,\mathcal{A}_i)$.}
+	\footnote{Here `$\Delta(A_i)$' denotes all probability distributions over $A_i$. In case $A_i$ is finite or countably infinite, this simply means all those vectors $(p_{a_i})_{a_i \in A_i}$ such that $p_{a_i} \in [0,1]$ for every $a_i \in A_i$ and $\sum_{a_i \in A_i} p_{a_i} = 1$. In case $A_i$ is uncountable, a $\sigma$-algebra $\mathcal{A}_i$ must be specified, and `$\Delta(A_i)$' denotes all probability measures on $(A_i,\mathcal{A}_i)$.}
 We sometimes call actions `pure actions' when we wish clearly to distinguish them from mixed actions. Pure actions can be thought of as special mixed actions, namely those that assign probability 1 to a single (pure) action.
 
 We may similarly consider mixed action profiles $\alpha \in \Delta(A)$ and mixed profiles $\alpha_{-i} \in \Delta(A_{-i})$ of actions of all players but $i$. Note that the concept of a mixed action profile (of the other players) allows for the possibility that different players' actions are correlated. The term \emph{pure action profile} refers to an action profile that is not mixed, i.e. is deterministic.
@@ -223,7 +223,7 @@ A \emph{pure strategy} of player $i \in I$ is a map $s_i : T_i \to A_i$, specify
 
 Since player~$i$ only has one type at the interim stage, she does not really choose a strategy: rather, she chooses an \emph{action,} informed by her knowledge of type $t_i$ (and nothing else). A strategy thus describes not only what action player~$i$ chooses, but also what she \emph{would have} chosen if her type had been different. (Hence we may, and will, treat each type of $i$ as effectively a different player, with beliefs and preferences of her own.) The main reason why $i$'s entire strategy (not just her chosen action) matters is because for other players $j \neq i$ to reason about what action to take, they need to consider what action $i$ might take without knowing $i$'s type, which requires them to predict $i$'s choice of action as a function of her type $t_i$---in other words, other players must reason about what \emph{strategy} $i$ might be using.
 
-The significance of the belief $\mu_i(t_i) \in \Delta(T_{-i})$ of type $t_i \in T_i$ of player $i \in I$ in the description of a Bayesian game is, of course, that player~$i$ uses it compute her payoffs. In particular, if (type $t_i$ of player~$i$ conjectures that) the other players play strategy profile $s_{-i} : T_{-i} \to A_{-i}$, then $i$'s payoff from action $a_i \in A_i$ is $\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(a_i,s_{-i}(t_{-i}),t_i,t_{-i}) \right)$.
+The significance of the belief $\mu_i(t_i) \in \Delta(T_{-i})$ of type $t_i \in T_i$ of player $i \in I$ in the description of a Bayesian game is, of course, that player~$i$ uses it to compute her payoffs. In particular, if (type $t_i$ of player~$i$ conjectures that) the other players play strategy profile $s_{-i} : T_{-i} \to A_{-i}$, then $i$'s payoff from action $a_i \in A_i$ is $\E_{t_{-i} \sim \mu_i(t_i)} \left( u_i(a_i,s_{-i}(t_{-i}),t_i,t_{-i}) \right)$.
 
 For a type $t_i \in T_i$ of a player $i \in I$, an action $a_i \in A_i$ is a \emph{best reply} to a profile $s_{-i} = (s_j)_{j \in I \setminus \{i\}}$ of pure strategies $s_j : T_j \to A_j$ of the other players iff
 %
@@ -266,7 +266,7 @@ An \emph{extensive-form game} is a tuple $(I,\mathcal{A},H,P,\mathcal{S},(u_i)_{
 
 	\item $I$ and $\mathcal{A}$ are non-empty sets,
 
-	\item $H$ is a set of sequences in $\mathcal{A}$ that contains the empty sequence $\varnothing$, is closed under truncation (that is, if $h$ is a truncation of $h' \in H$ then $h \in H$), and features every element of $\mathcal{A}$ (that is, for each $a \in \mathcal{A}$, there exists a history $h = (a_n)_{n=1}^N \in H$ such that $a_n = a$ for some $n$), where we write $Z$ for the set of terminal elements of $H$ and $A(h) \coloneqq \left\{ a \in \mathcal{A} : (h,a) \right\}$ for the set of actions available at a non-terminal history $h \in H \setminus Z$,
+	\item $H$ is a set of sequences in $\mathcal{A}$ that contains the empty sequence $\varnothing$, is closed under truncation (that is, if $h$ is a truncation of $h' \in H$ then $h \in H$), and features every element of $\mathcal{A}$ (that is, for each $a \in \mathcal{A}$, there exists a history $h = (a_n)_{n=1}^N \in H$ such that $a_n = a$ for some $n$), where we write $Z$ for the set of terminal elements of $H$ and $A(h) \coloneqq \left\{ a \in \mathcal{A} : (h,a) \in H \right\}$ for the set of actions available at a non-terminal history $h \in H \setminus Z$,
 
 	\item $P$ is a map $H \setminus Z \to I \union \{\text{Nature}\}$ such that $P(H \setminus Z) \supseteq I$,%
 		\footnote{Here $P(H \setminus Z) \equiv \Union_{h \in H \setminus Z} P(h)$.}
@@ -349,7 +349,7 @@ A \emph{perfect Bayesian equilibrium (PBE)} is a weak PBE that satisfies natural
 Secondly, for games with three or more players, a requirement called \emph{no signalling what you don't know} is added, which requires that a deviation (taking us off the path) by player~$i$ should not change the belief of player~$j$ about player~$k$ if $i \neq j \neq k \neq i$.
 Formally defining PBE is a little thorny; the original definition \parencite{FudenbergTirole1991} is for a particular class of games. A practical and more generally applicable definition may be found in \textcite{Watson2025}.
 
-A closely related solution concept is Kreps and Wilson's (\citeyear{KrepsWilson1982}) \emph{sequential equilibrium.} It is defined only for \emph{finite} extensive-form games, but the definition is simple. Say that a strategy profile $\sigma$ is \emph{fully mixed} iff at every information set, every available action is played with strictly positive probability (that is, $[\sigma(S)](h) > 0$ for all $h \in S \in \mathcal{S}$). If $\sigma$ is fully mixed, then \emph{every} information set is on the path, so Bayes's rule on the path has bite at every information set. We call an assessment $(\sigma,\mu)$ \emph{(Kreps--Wilson) consistent} iff there exists a sequence $(\sigma^n)_{n \in \N}$ of fully mixed strategy profiles converging to $\sigma$ such that the (unique) sequence $(\mu^n)_{n \in \N}$ of belief systems such that $(\sigma^n,\mu^n)$ satisfies Bayes's rule on the path for each $n \in \N$ converges to $\mu$. A \emph{sequential equilibrium} is an assessment that is both sequentially rational and consistent.
+A closely related solution concept is Kreps and Wilson's (\citeyear{KrepsWilson1982}) \emph{sequential equilibrium.} It is defined only for \emph{finite} extensive-form games, but the definition is simple. Say that a strategy profile $\sigma$ is \emph{fully mixed} iff at every information set, every available action is played with strictly positive probability (that is, $[\sigma(S)](a) > 0$ for all $a \in A(h)$). If $\sigma$ is fully mixed, then \emph{every} information set is on the path, so Bayes's rule on the path has bite at every information set. We call an assessment $(\sigma,\mu)$ \emph{(Kreps--Wilson) consistent} iff there exists a sequence $(\sigma^n)_{n \in \N}$ of fully mixed strategy profiles converging to $\sigma$ such that the (unique) sequence $(\mu^n)_{n \in \N}$ of belief systems such that $(\sigma^n,\mu^n)$ satisfies Bayes's rule on the path for each $n \in \N$ converges to $\mu$. A \emph{sequential equilibrium} is an assessment that is both sequentially rational and consistent.
 
 Every sequential equilibrium is a PBE, and there is a sense in which the converse is generically true, at least on some natural (and fairly large) domains of games. Thus in finite games, the difference is mainly one of perspective (though many people do feel strongly in favour of the one or the other). However, PBE is much more frequently used in practice because unlike sequential equilibrium, it applies straightforwardly in infinite games. (In particular, although defining PBE in general is thorny, it is typically straightforward to define PBE in a given game of interest.)
 

@@ -256,8 +256,9 @@ The proof relies on the separating hyperplane theorem.%
 		\mathcal{U} \coloneqq \left\{ v \in \R^N : \text{$v = U^{a_i} - U^{\alpha_i}$ for some $\alpha_i \in \Delta(A_i)$} \right\} .
 	\end{equation*}
 	%
-	Observe that $\mathcal{U}$ is a convex subset of $\R^N$, and that $\boldsymbol{0} \coloneqq (0,0,\dots,0)$ is a member.%
+	Observe that $\mathcal{U}$ is a convex subset of $\R^N$,%
 		\footnote{For any $v,w \in \mathcal{U}$, we have $v = U^{a_i} - U^{\alpha_i}$ and $w = U^{a_i} - U^{\beta_i}$ for some $\alpha_i,\beta_i \in \Delta(A_i)$, which since $u_i(\cdot,n)$ is linear for each $n \in \{1,\dots,N\}$ implies that for any $\lambda \in (0,1)$, $\lambda v + (1-\lambda) w = U^{a_i} - U^{\lambda \alpha_i + (1-\lambda) \beta_i} \in \mathcal{U}$.}
+	and that $\boldsymbol{0} \coloneqq (0,0,\dots,0)$ is a member.
 	Since (by hypothesis) $a_i$ is not strictly dominated, it holds that for each $\alpha_i \in \Delta(A_i)$, there is an $n \in \{1,\dots,N\}$ such that $u_i(a_i,n) \geq u_i(\alpha_i,n)$; in other words, the $n$th entry of $U^{a_i}-U^{\alpha_i}$ is non-negative. Hence every element of $\mathcal{U}$ has at least one non-negative entry, which is to say that $\mathcal{U}$ is disjoint from the negative orthant
 	%
 	\begin{equation*}
@@ -333,7 +334,7 @@ We have seen that the (only) implication of rationality and comprehension of the
 	%
 	\label{example:rbty_neverbest_rbty}
 	%
-	If player~2 is rational, then she will not play the never-best action $M$. Hence if player~1 knows that player~2 is rational, then she can rule out the possibility that player~2 will play $M$. Once the possibility of $M$ has been ruled out, rationality requires player~1 to choose action $D$, since it is strictly better than $U$ (payoff $1>0$) against player~2's remaining actions $\{L,R\}$. To summarise, rationality does \emph{not} require player~1 to chose $D$ (her other action $U$ is not never-best), but rationality plus knowledge of player~2's rationality does require player~1 to choose $D$.
+	If player~2 is rational, then she will not play the never-best action $M$. Hence if player~1 knows that player~2 is rational, then she can rule out the possibility that player~2 will play $M$. Once the possibility of $M$ has been ruled out, rationality requires player~1 to choose action $D$, since it is strictly better than $U$ (payoff $1>0$) against player~2's remaining actions $\{L,R\}$. To summarise, rationality does \emph{not} require player~1 to choose $D$ (her other action $U$ is not never-best), but rationality plus knowledge of player~2's rationality does require player~1 to choose $D$.
 	%
 \end{example}
 \addtocounter{example}{1}
@@ -345,7 +346,7 @@ Going further, it may be that each player $i \in I$ knows not only that players 
 	%
 	\label{example:rbty_neverbest_rbty1}
 	%
-	We saw that if player~1 is rational and knows that player~2 is rational, then she must play $D$. If in addition player~2 knows that player~1 knows than player~2 is rational, then player~2 understands that player~1 must play $D$. So if in addition player~2 is herself rational, she must play a best reply to $D$: in other words, she must play $L$. Thus rationality, knowledge of rationality and knowledge of knowledge of rationality together yield a unique prediction of play in this game.
+	We saw that if player~1 is rational and knows that player~2 is rational, then she must play $D$. If in addition player~2 knows that player~1 knows that player~2 is rational, then player~2 understands that player~1 must play $D$. So if in addition player~2 is herself rational, she must play a best reply to $D$: in other words, she must play $L$. Thus rationality, knowledge of rationality and knowledge of knowledge of rationality together yield a unique prediction of play in this game.
 	%
 \end{example}
 \addtocounter{example}{1}
@@ -597,7 +598,7 @@ In this section, we explore another formalisation (alternative to rationalisabil
 	%
 	\label{definition:br_set}
 	%
-	A product set $Y = \prod_{i \in I} Y_i \subseteq A$ of action profiles has the \emph{best-reply property} iff for each player $i \in I$, every action $a_i \in Y_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta(Y_{-i})$ supported on $Y_{-i}$.
+	A product set $Y = \prod_{i \in I} Y_i \subseteq A$ of action profiles has the \emph{best-reply property} iff for each player $i \in I$, every action $a_i \in Y_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta(Y_{-i})$.
 	%
 \end{definition}
 
@@ -620,7 +621,7 @@ A pure action profile $(a_i)_{i \in I} \in A$ is a Nash equilibrium if and only 
 
 The largest set with the best-reply property is the most permissive prediction of play which remains consistent with rationality and common knowledge thereof. It therefore intuitively captures the implications for play of rationality and common knowledge of rationality.
 
-Rationalisability purported to formalise the same thing. We have thus ended up with two answers to the same question. The following result show that the two answers are, in fact, equivalent.
+Rationalisability purported to formalise the same thing. We have thus ended up with two answers to the same question. The following result shows that the two answers are, in fact, equivalent.
 
 \begin{proposition}
 	%
@@ -634,9 +635,9 @@ Rationalisability purported to formalise the same thing. We have thus ended up w
 	%
 	Recall from \cpageref{definition:rbty} the definition, for each $t \in \N$ and each player $i \in I$, of the set $X^t_i \subseteq A_i$. Further recall that $X^\infty_i = \bigcap_{t \in \N} X^t_i$ for each player $i \in I$ and that $X^\infty = \prod_{i \in I} X^\infty_i$. By \Cref{proposition:rbty_nonempty} (since $A$ is finite), there is a $T \in \N$ such that $X^\infty = X^t = X^T$ for all $t \geq T$.
 	
-	To show that $X^\infty$ has the best-reply property, suppose toward a contradiction that for some player $i \in I$ and some rationalisable action $a_i \in X^\infty_i = X^T_i$ of hers, there is no conjecture $\alpha_{-i} \in \Delta(X^\infty_{-i}) = \Delta(X^T_{-i})$ to which $a_i$ is a best reply. Then $a_i \notin X^{T+1}_i$ (by definition of $X^{T+1}_i$), which is contradicts the fact that $X^\infty = X^t = X^T$ for all $t \geq T$.
+	To show that $X^\infty$ has the best-reply property, suppose toward a contradiction that for some player $i \in I$ and some rationalisable action $a_i \in X^\infty_i = X^T_i$ of hers, there is no conjecture $\alpha_{-i} \in \Delta(X^\infty_{-i}) = \Delta(X^T_{-i})$ to which $a_i$ is a best reply. Then $a_i \notin X^{T+1}_i$ (by definition of $X^{T+1}_i$), which contradicts the fact that $X^\infty = X^t = X^T$ for all $t \geq T$.
 
-	It remains to show that $X^\infty$ is the largest set with the best-reply property. So fix any set $Y \subseteq \prod_{i \in I} Y_i \subseteq A$ with the best-reply property; we must show that $Y$ is contained in $X^t$ for every $t \in \{0,1,2,\dots\}$. We show this by induction on $t \in \{0,1,2,\dots\}$. The base case $t=0$ is immediate: $Y \subseteq A = X^0$. For the induction step, fix a $t \in \N$ and assume that $Y \subseteq X^{t-1}$; we must show that $Y \subseteq X^t$. By definition of $X^t = \prod_{i \in I} X^t_i$, it holds for every player $i \in I$ that $X^t_i$ contains \emph{every} best reply to any conjecture $\alpha_{-i} \in \Delta( X^{t-1}_{-i} ) \supseteq \Delta( Y_{-i} )$, where the inclusion holds by the induction hypothesis. And since $Y$ has the best-reply property, it must be (by definition) that every $a = (a_i)_{i \in I} \in Y$ is such that for each player $i \in I$, $a_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta( Y_{-i} )$. Thus $Y_i \subseteq X^t_i$ for every player $i \in I$, so $Y \subseteq X^t$.
+	It remains to show that $X^\infty$ is the largest set with the best-reply property. So fix any set $Y = \prod_{i \in I} Y_i \subseteq A$ with the best-reply property; we must show that $Y$ is contained in $X^t$ for every $t \in \{0,1,2,\dots\}$. We show this by induction on $t \in \{0,1,2,\dots\}$. The base case $t=0$ is immediate: $Y \subseteq A = X^0$. For the induction step, fix a $t \in \N$ and assume that $Y \subseteq X^{t-1}$; we must show that $Y \subseteq X^t$. By definition of $X^t = \prod_{i \in I} X^t_i$, it holds for every player $i \in I$ that $X^t_i$ contains \emph{every} best reply to any conjecture $\alpha_{-i} \in \Delta( X^{t-1}_{-i} ) \supseteq \Delta( Y_{-i} )$, where the inclusion holds by the induction hypothesis. And since $Y$ has the best-reply property, it must be (by definition) that every $a = (a_i)_{i \in I} \in Y$ is such that for each player $i \in I$, $a_i$ is a best reply to some conjecture $\alpha_{-i} \in \Delta( Y_{-i} )$. Thus $Y_i \subseteq X^t_i$ for every player $i \in I$, so $Y \subseteq X^t$.
 	%
 \end{proof}
 
@@ -718,9 +719,9 @@ When there are three or more players, $\times$-never-best actions need not be ne
 	\end{equation*}
 	%
 	Player~3's action $B$ is sometimes-best (i.e. not never-best): in particular, it is a best reply to the `correlated' conjecture according to which players $1$ and $2$ play either $(a_1,a_2) = (U,L)$ or $(a_1,a_2) = (D,R)$, each with equal probability.%
-		\footnote{In symbols, $\alpha_{-3} \in \Delta(\{U,D\} \times \{L,R\})$ given by $\alpha_{-3}(U,L) = \alpha_{-3}(D,R) = 1/2$ and $\alpha_{-3}(D,L) = \alpha_{-3}(U,R) = 0$. Against this conjecture, action $B$ yields an expected payoff of $4$, the same as actions $A$ and $B$ and strictly better than the payoff $3$ of action $D$.}
+		\footnote{In symbols, $\alpha_{-3} \in \Delta(\{U,D\} \times \{L,R\})$ given by $\alpha_{-3}(U,L) = \alpha_{-3}(D,R) = 1/2$ and $\alpha_{-3}(D,L) = \alpha_{-3}(U,R) = 0$. Against this conjecture, action $B$ yields an expected payoff of $4$, the same as actions $A$ and $C$ and strictly better than the payoff $3$ of action $D$.}
 	(It follows by \hyperref[lemma:pearce]{Pearce's lemma} that $B$ is not strictly dominated; this can also be checked directly.)
-	However, $B$ is \emph{not} $\times$-sometimes-best: there is no `independent' conjecture $\alpha_{-3} \in \Delta^\times (\{U,D\} \times \{L,R\})$ to which $B$ is a best reply. That is because for any such `independent' conjecture, letting $p \in [0,1]$ denote the probability with which player~1 plays $U$ and $q \in [0,1]$ the probability with she plays $L$,
+	However, $B$ is \emph{not} $\times$-sometimes-best: there is no `independent' conjecture $\alpha_{-3} \in \Delta^\times (\{U,D\} \times \{L,R\})$ to which $B$ is a best reply. That is because for any such `independent' conjecture, letting $p \in [0,1]$ denote the probability with which player~1 plays $U$ and $q \in [0,1]$ the probability with which she plays $L$,
 	the payoff of action $B$ is $4pq + 4(1-p)(1-q)$, which is
 	strictly lower than the payoff $8pq$ of action $A$ if $p+q>1$,
 	strictly lower than the payoff $8(1-p)(1-q)$ of action $C$ if $p+q<1$,

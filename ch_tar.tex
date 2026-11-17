@@ -30,7 +30,7 @@ Three classic fixed-point theorems see extensive use in economics.
 
 	\item \label{item:fpt_banach} Banach's (\citeyear{Banach1922}) asserts that if $(X,d)$ is a non-empty complete metric space and $f : X \to X$ is a contraction (there exists a $k \in [0,1)$ such that $d(f(x),f(y)) \leq k d(x,y)$ for all $x,y \in X$), then $f$ has exactly one fixed point, which may be found by iterating on $f$.%
 		\footnote{`May be found by iterating on $f$' formally means that for any $x \in X$, $f^n(x)$ converges to the fixed point as $n \to \infty$, where $f^1 \coloneqq f$ and $f^{n+1} \coloneqq f \circ f^n$ for each $n \in \N$.}
-	One famous application is the proof of the `principle of optimality' (the necessity and sufficiency of the Bellman equation) for infinite-horizon discounted dynamic programming \parencite{Blackwell1965}.
+	One famous application is the proof of the `principle of optimality' (the necessity and sufficiency of the Bellman equation) for infinite-horizon discounted dynamic programming \parencite{Blackwell1965}. Another application is the proof of the Picard--Lindelöf existence-and-uniqueness theorem for ordinary differential equations.
 
 	\item \label{item:fpt_tarski} Tarski's (\citeyear{Tarski1955}) asserts that if $(X,\mathord{\lesssim})$ is a non-empty complete lattice and $f : X \to X$ is increasing, then the fixed-point set $\{ x \in X : f(x) = x \}$ is a non-empty complete lattice. This one is the subject of this chapter. It is perhaps less familiar than the other two, but it is just as useful; we shall see several applications in \cref{tar:app,ch_spm,ch_aps} below.
 
@@ -87,7 +87,7 @@ Recall that given a set $X$, a \emph{binary relation} $\lesssim$ on $X$ is forma
 
 		\item For $X \subseteq \R^n$ where $n \in \N$, the ordinary vector inequality $\leq$ is a partial order on $X$.
 
-		\item When $X$ is a set of functions $\R \to \R$, pointwise inequality $\leq$ (i.e. $f \leq g$ iff $f(y) \leq g(y))$ for every $y \in \R$) is a partial order on $X$.
+		\item When $X$ is a set of functions $\R \to \R$, pointwise inequality $\leq$ (i.e. $f \leq g$ iff $f(y) \leq g(y)$) for every $y \in \R$) is a partial order on $X$.
 
 		\item For any non-empty set $S$, the containment relation $\subseteq$ is a partial order on the set $X \coloneqq 2^S$ of all subsets of $S$.
 
@@ -99,7 +99,7 @@ Recall that given a set $X$, a \emph{binary relation} $\lesssim$ on $X$ is forma
 
 		\item Let $X$ be a non-empty set of alternatives, let $I$ be a non-empty set of agents, and let each agent $i \in I$ have a preference relation $\preceq_i$ over $X$. For $x,y \in X$, say that $x$ is \emph{weakly Pareto-dominated} by $y$ iff $x \preceq_i y$ for every $i \in I$. Show that `weakly Pareto-dominated by' is transitive and reflexive. What is the necessary and sufficient condition on the preference relations $(\mathord{\preceq}_i)_{i \in I}$ for `weakly Pareto-dominated by' to be a partial order?
 
-		\item Fix a normal-form game $(I,(A_i,u_i)_{i \in I})$, and further fix a player $i \in I$. let $\lesssim_i$ be the binary relation on $A_i$ such that for any $a_i, b_i \in A_i$, it holds that $a_i \lesssim_i b_i$ iff either (1)~$a_i$ is weakly dominated by $b_i$ or (2)~$a_i$ and $b_i$ are payoff-equivalent, i.e. $u_i(a_i,a_{-i}) = u_i(b_i,a_{-i})$ for every $a_{-i} \in A_{-i}$. Show that $\lesssim_i$ is transitive and reflexive. What is the necessary and sufficient condition for $\lesssim_i$ to be a partial order?
+		\item Fix a normal-form game $(I,(A_i,u_i)_{i \in I})$, and further fix a player $i \in I$. Let $\lesssim_i$ be the binary relation on $A_i$ such that for any $a_i, b_i \in A_i$, it holds that $a_i \lesssim_i b_i$ iff either (1)~$a_i$ is weakly dominated by $b_i$ or (2)~$a_i$ and $b_i$ are payoff-equivalent, i.e. $u_i(a_i,a_{-i}) = u_i(b_i,a_{-i})$ for every $a_{-i} \in A_{-i}$. Show that $\lesssim_i$ is transitive and reflexive. What is the necessary and sufficient condition for $\lesssim_i$ to be a partial order?
 	
 	\end{enumerate}
 	%
@@ -109,7 +109,7 @@ Recall that given a set $X$, a \emph{binary relation} $\lesssim$ on $X$ is forma
 	%
 	\label{exercise:arrow-pratt}
 	%
-	Let $X$ be the set of all twice continuously differentiable functions $u : \R \to \R$ with strictly positive first derivative ($u'>0$). We interpret these as Bernoulli utility functions of expected-utility decision makers à la \textcite{VonneumannMorgenstern1947}. Recall that for $u,v \in X$, $u$ is called \emph{less risk-seeking than (or more risk-averse than) $v$} iff for any $x \in \R$ and any CDF $F$ on $\R$, $u(x) \leq \mathrel{(<)} \int u \dd F$ implies $v(x) \leq \mathrel{(<)} \int v \dd F$. (That is, whenever $u$ prefers a lottery $F$ to a sure thing $x$, so does $v$. This definition is due to \textcite{Yaari1969}.) Further recall that by the Arrow--Pratt theorem \parencite{Arrow1965,Pratt1964}, $u \in X$ is less risk-seeking than $v \in X$ iff $u'' / u' \leq v''/v'$.
+	Let $X$ be the set of all twice continuously differentiable functions $u : \R \to \R$ with strictly positive first derivative ($u'>0$). We interpret these as Bernoulli utility functions of expected-utility decision makers à la \textcite{VonneumannMorgenstern1947}. Recall that for $u,v \in X$, $u$ is called \emph{less risk-seeking than (or more risk-averse than) $v$} iff for any $x \in \R$ and any CDF $F$ on $\R$, $u(x) \leq \mathrel{(<)} \int u \dd F$ implies $v(x) \leq \mathrel{(<)} \int v \dd F$. (That is, whenever $u$ prefers a lottery $F$ to a sure thing $x$, so does $v$, and strict for strict. This definition is due to \textcite{Yaari1969}.) Further recall that by Pratt's (\citeyear{Pratt1964}) theorem, $u \in X$ is less risk-seeking than $v \in X$ iff $u'' / u' \leq v''/v'$.
 	
 	\begin{enumerate}[label=(\alph*)]
 	
@@ -286,9 +286,9 @@ We say `the' infimum for a reason:
 		\item `Infimum in $(\R,\mathord{\leq})$' as defined by \Cref{definition:glb} above is equivalent to the familiar notion of `infimum' from real analysis: that is, $\inf_{(\R,\mathord{\leq})} S = \inf S$ for every non-empty $S \subseteq \R$ that is bounded below.%
 			\footnote{`Bounded below' means that there is an $x \in \R$ such that $x \leq y$ for every $y \in S$.}
 
-		\item \label{item:lb_R_sublatt:ineq} For any $X \subseteq \R$,
+		\item \label{item:lb_R_sublatt:ineq} For any $X \subseteq \R$, if $\inf_{(X,\mathord{\leq})} S$ exists, then
 		$\inf_{(X,\mathord{\leq})} S 
-		\leq \inf_{(\R,\mathord{\leq})} S
+		\geq \inf_{(\R,\mathord{\leq})} S
 		= \inf S$ for every non-empty $S \subseteq X$ that is bounded below.
 
 		\item \label{item:lb_R_sublatt:subcompl} For any compact $X \subseteq \R$,
@@ -298,7 +298,7 @@ We say `the' infimum for a reason:
 
 		\item There exist $S \subseteq X \subseteq \R$ such that $S$ is bounded below and
 		$\inf_{(X,\mathord{\leq})} S 
-		< \inf_{(\R,\mathord{\leq})} S
+		> \inf_{(\R,\mathord{\leq})} S
 		= \inf S$.
 		(Hint: take inspiration from \Cref{exercise:lb-R}\ref{item:lb_R_notsub} on \cpageref{item:lb_R_notsub}.)
 	
@@ -463,7 +463,7 @@ If $X_i$ is compact for each $i \in \mathcal{I}$, then by \Cref{exercise:lb-R_su
 	%
 	\label{exercise:product_compl_lattice}
 	%
-	Consider the product lattice $(X,\mathord{\leq})$, where $X \coloneqq \prod_{i \in \mathcal{I}} X_i$, the set $\mathcal{I}$ is non-empty, and $X_i \subseteq \R$ for each $i \in \mathcal{I}$. Prove that if $X_i$ is compact for each $i \in \mathcal{I}$, then $(X,\mathord{\leq})$ is a complete lattice.
+	Consider the product lattice $(X,\mathord{\leq})$, where $X \coloneqq \prod_{i \in \mathcal{I}} X_i$, the set $\mathcal{I}$ is non-empty, and $X_i \subseteq \R$ is non-empty for each $i \in \mathcal{I}$. Prove that if $X_i$ is compact for each $i \in \mathcal{I}$, then $(X,\mathord{\leq})$ is a complete lattice.
 	%
 \end{exercise}
 
@@ -526,7 +526,7 @@ If $X_i$ is compact for each $i \in \mathcal{I}$, then by \Cref{exercise:lb-R_su
 	%
 	\label{exercise:latt_compl_finite}
 	%
-	Let $(X,\mathord{\lesssim})$ be a poset, and assume that $X$ is finite. Prove that $(X,\mathord{\lesssim})$ is a complete lattice iff it is a lattice. (Bonus question: show by example that this equivalence can fail if $X$ is not assumed finite.)
+	Let $(X,\mathord{\lesssim})$ be a poset, and assume that $X$ is non-empty and finite. Prove that $(X,\mathord{\lesssim})$ is a complete lattice iff it is a lattice. (Bonus question 1: show by example that this equivalence can fail if $X$ is not assumed finite.) (Bonus question 2: show that the equivalence fails if $X$ is empty. Thanks to Lucy Ritter for this one.)
 	%
 \end{exercise}
 

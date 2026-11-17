@@ -682,3 +682,41 @@ For further/alternative reading, look for lecture notes online, for example \tex
 	\end{enumerate}
 	%
 \end{exercise}
+
+\begin{exercise}
+	%
+	\label{exercise:bank_run}
+	%
+	There are $n$ savers who have each deposited £1 in a certain bank. The bank has in turn lent its £$x$ worth of deposits to a business venture at interest rate $R>0$, where $x \in (0,n]$. We assume that there is no default risk, i.e. the borrower's venture will certainly succeed and generate a return in excess of $R$. However, the bank could recall the loan prematurely; in this case the bank earns a negative return $-\ell$, where $0<\ell<1$. (This is because the borrower cannot repay in full at short notice, so must default. Possibly some collateral changes hands.) Hence the bank's total assets are worth $x(1+R)+(n-x)$ if the loan is not recalled, and $x(1-\ell)+(n-x)$ if the loan is recalled. Obviously the bank will recall the loan only if forced to.
+
+	Now, the $n$ depositors simultaneously choose whether or not to withdraw their deposits early. A depositor who does not withdraw early is entitled to earn interest at rate $r \in (0,R)$, making her deposit worth $1+r$, while an early withdrawer earns no interest, so is entitled to £1. We assume that $Rx \geq rn$, so that the bank is solvent if it does not (need to) recall the loan prematurely.
+
+	Note that if the total amount withdrawn early exceeds the bank's cash reserves $n-x$, then the bank will be forced to recall the loan. If the bank's assets are insufficient to meet all depositors' entitlements even after the loan has been recalled, then early withdrawers have priority: if assets suffice to pay each early withdrawer her entitlement, then each early withdrawer is paid her full entitlement and the latecomers equally split whatever assets the bank has left afterwards, while if assets do \emph{not} suffice to pay each early withdrawer her entitlement, then the early withdrawers equally split the bank's assets and the latecomers get nothing.
+
+	Answer the following.
+
+	\begin{enumerate}[label=(\arabic*)]
+
+		\item Formalise this as a game of strategic complements. Write down the payoff matrix for the special case $n=2$.
+
+		\item Describe how the least and greatest pure-strategy Nash equilibria depend on the parameters.
+
+		\item Suppose that the government introduces a deposit-insurance scheme, which promises that each depositor will get her entitlement (£1 for early withdrawers and $1+r$ for the rest) regardless of bank solvency, with any shortfall (due to bank insolvency) made up by taxpayer money.
+
+		\begin{enumerate}[label=(\roman*)]
+		
+			\item What is the set of pure-strategy Nash equilibria now?
+
+			\item In these equilibria, how much taxpayer money is spent on compensating depositors?
+
+			\item Is this still a game of strategic complements?
+
+			\item Suppose that players are rational and are commonly known to be rational, but not necessarily able to coordinate on a Nash equilibrium. How does this affect the impact of deposit insurance?
+		
+		\end{enumerate}
+
+		\item Compare the relative merits of this model of bank runs and deposit insurance and that of \textcite{DiamondDybvig1983}.
+
+	\end{enumerate}
+	%
+\end{exercise}

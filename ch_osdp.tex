@@ -521,7 +521,7 @@ The proof relies on a lemma. Recall that $P^{-1}(i) \equiv \{ h \in H \setminus 
 		(I,\mathcal{A},H,P,(u_i)_{i \in I}) 
 	\end{equation*}
 	%
-	that is continuous at infinity, and write $Z \subseteq H$ for its terminal histories. We shall prove the contra-positive: namely, that any strategy profile which fails to be subgame-perfect must also fail to be one-shot unimprovable. So fix a strategy profile $\sigma$ that is not subgame-perfect, meaning that that there is a non-terminal history $h \in H \setminus Z$ and an alternative strategy $\sigma_i'$ of the player $i \coloneqq P(h)$ who moves at $h$ such that $u_i(h,(\sigma'_i,\sigma_{-i})|_h) > u_i(h,\sigma|_h)$; we must show that there exists a \emph{one-shot} deviation $\sigma^\star$ from $\sigma$ such that $u_i(h^\star,(\sigma^\star_i,\sigma_{-i})|_{h^\star}) > u_i(h^\star,\sigma|_{h^\star})$ for some non-terminal history $h^\star \in H \setminus Z$ at which $i$ moves, i.e. $P(h^\star)=i$. (In particular, we shall choose $h^\star$ to be a successor of $h$, i.e. a non-terminal history of which $h$ is a truncation).
+	that is continuous at infinity, and write $Z \subseteq H$ for its terminal histories. We shall prove the contra-positive: namely, that any strategy profile which fails to be subgame-perfect must also fail to be one-shot unimprovable. So fix a strategy profile $\sigma$ that is not subgame-perfect, meaning that there is a non-terminal history $h \in H \setminus Z$ and an alternative strategy $\sigma_i'$ of the player $i \coloneqq P(h)$ who moves at $h$ such that $u_i(h,(\sigma'_i,\sigma_{-i})|_h) > u_i(h,\sigma|_h)$; we must show that there exists a \emph{one-shot} deviation $\sigma^\star$ from $\sigma$ such that $u_i(h^\star,(\sigma^\star_i,\sigma_{-i})|_{h^\star}) > u_i(h^\star,\sigma|_{h^\star})$ for some non-terminal history $h^\star \in H \setminus Z$ at which $i$ moves, i.e. $P(h^\star)=i$. (In particular, we shall choose $h^\star$ to be a successor of $h$, i.e. a non-terminal history of which $h$ is a truncation).
 
 	Define
 	%
@@ -552,7 +552,7 @@ The proof relies on a lemma. Recall that $P^{-1}(i) \equiv \{ h \in H \setminus 
 	By construction, $\sigma^T$ differs from $\sigma$ only at histories of length $\leq T$. Hence \Cref{lemma:osdp_one_finite} is applicable, so there exists a one-shot deviation $\sigma^\star$ from $\sigma$ in which $i$ is the deviator and is strictly better off: that is,
 	%
 	\begin{equation*}
-		u_i\left(h^\star,\left.\left(\sigma^T_i,\sigma_{-i}\right)\right|_{h^\star}\right)
+		u_i\left(h^\star,\left.\left(\sigma^\star_i,\sigma_{-i}\right)\right|_{h^\star}\right)
 		> u_i(h^\star,\sigma|_{h^\star})
 		\quad \text{and} \quad
 		P(h^\star)=i
@@ -611,8 +611,8 @@ the (total, lifetime) payoff $u_i(z)$ of each player $i \in I$ depends in an arb
 
 \begin{proof}
 	%
-	This could have been an exercise, really, but it would have more of a real-analysis exercise than a game-theory one. Fix a player $i \in I$ and an $\eps > 0$; we seek a $T \in \N$ such that $\abs*{ u_i(a_1,a_2,a_3,\dots) - u_i(a_1',a_2',a_3',\dots) } < \eps$ whenever $a_t = a_t'$ for every $t \in \{1,\dots,T\}$. By hypothesis, there is a constant $K \geq 0$ such that $\abs*{v_i} \leq K$. Choose a $T \in \N$ large enough that $2K \delta_i^T / (1-\delta_i) < \eps$.
-	Then for any terminal histories $z=(a_1,a_2,a_3,\dots) \in Z$ and $z'=(a_1',a_2',a_3',\dots) \in Z$ such that $a_t = a_t'$ for every $t \in \{1,\dots,T\}$, writing $v_i(a_t) \coloneqq 0$ if $t > \text{length}(z)$ if $v_i(a_t') \coloneqq 0$ for $t > \text{length}(z')$, we have
+	This could have been an exercise, really, but it would have been more of a real-analysis exercise than a game-theory one. Fix a player $i \in I$ and an $\eps > 0$; we seek a $T \in \N$ such that $\abs*{ u_i(a_1,a_2,a_3,\dots) - u_i(a_1',a_2',a_3',\dots) } < \eps$ whenever $a_t = a_t'$ for every $t \in \{1,\dots,T\}$. By hypothesis, there is a constant $K \geq 0$ such that $\abs*{v_i} \leq K$. Choose a $T \in \N$ large enough that $2K \delta_i^T / (1-\delta_i) < \eps$.
+	Then for any terminal histories $z=(a_1,a_2,a_3,\dots) \in Z$ and $z'=(a_1',a_2',a_3',\dots) \in Z$ such that $a_t = a_t'$ for every $t \in \{1,\dots,T\}$, writing $v_i(a_t) \coloneqq 0$ if $t > \text{length}(z)$ and $v_i(a_t') \coloneqq 0$ for $t > \text{length}(z')$, we have
 	%
 	\begin{equation*}
 		\abs*{ u_i(z)
@@ -671,7 +671,7 @@ For further/alternative reading, consider \textcite[section~4.2]{FudenbergTirole
 	%
 	\label{exercise:joint_venutre}
 	%
-	Two players $I=\{1,2\}$ players are engaged in a joint venture which yields a gross return of $R > 1/2$ per period for as long as it continues. Each player's stake is initially worth $1/2$. Player~1 (player~2) is in charge of the project in odd (even) periods.
+	Two players $I=\{1,2\}$ are engaged in a joint venture which yields a gross return of $R > 1/2$ per period for as long as it continues. Each player's stake is initially worth $1/2$. Player~1 (player~2) is in charge of the project in odd (even) periods.
 
 	At the start of period $t \in \mathbf{N}$, the joint venture is worth $R^{t-1}$, so each player's stake is $R^{t-1}/2$. By the end of the period, the joint venture's total worth is $R^t$. At this point, the player in charge can either \emph{continue} with the joint venture, in which case the next period dawns and the other player takes charge, or she can \emph{abscond.} Absconding means permanently ending the joint venture, appropriating the full period-$t$ net return $R^t - R^{t-1}$, and also taking home her own start-of-period stake $R^{t-1}/2$; this leaves the other player with only \emph{her} start-of-period stake, $R^{t-1}/2$.
 
